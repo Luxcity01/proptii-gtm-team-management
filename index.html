@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proptii — 30-day landlord motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=Nunito+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F5F8; --surface:#FFFFFF; --surface-2:#E9EEF4;
+  --ink:#0F2740; --ink-2:#4A5E73; --ink-3:#7D8EA0;
+  --line:#D8E1EA; --line-2:#C2CFDB;
+  --action:#D9551A; --action-soft:#FBEDE6;
+  --blue:#1B6CB0; --blue-soft:#E6F0F9;
+  --teal:#0E8277; --teal-soft:#E0F1EF;
+  --lilac:#5F51B5; --lilac-soft:#ECEAF8;
+  --amber:#A96B07; --amber-soft:#F8EEDB;
+  --green:#12876A; --green-soft:#E2F2ED;
+  --red:#B8402F; --red-soft:#F8E6E3;
+  --radius:10px;
+  color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B1724; --surface:#132334; --surface-2:#1B2F43;
+    --ink:#E6EDF4; --ink-2:#A8BACB; --ink-3:#7A8EA1;
+    --line:#24394F; --line-2:#32506C;
+    --action:#F07B45; --action-soft:#331A0E;
+    --blue:#6FB2EA; --blue-soft:#11293F;
+    --teal:#3FBCAC; --teal-soft:#0C2A28;
+    --lilac:#9B91E8; --lilac-soft:#1D1A3A;
+    --amber:#E0A94A; --amber-soft:#2E2210;
+    --green:#4FC3A1; --green-soft:#0D2C25;
+    --red:#EE7A68; --red-soft:#331511;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B1724; --surface:#132334; --surface-2:#1B2F43;
+  --ink:#E6EDF4; --ink-2:#A8BACB; --ink-3:#7A8EA1;
+  --line:#24394F; --line-2:#32506C;
+  --action:#F07B45; --action-soft:#331A0E;
+  --blue:#6FB2EA; --blue-soft:#11293F;
+  --teal:#3FBCAC; --teal-soft:#0C2A28;
+  --lilac:#9B91E8; --lilac-soft:#1D1A3A;
+  --amber:#E0A94A; --amber-soft:#2E2210;
+  --green:#4FC3A1; --green-soft:#0D2C25;
+  --red:#EE7A68; --red-soft:#331511;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 20px);height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif;font-weight:600;line-height:1.2;margin:0}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--action);outline-offset:2px;border-radius:3px}
+
+.shell{display:grid;grid-template-columns:238px minmax(0,1fr);gap:40px;max-width:1200px;margin:0 auto;padding:0 24px 120px}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 20px);align-self:start;max-height:calc(100vh - 40px);overflow-y:auto;padding:24px 0}
+.brand{display:flex;align-items:baseline;gap:8px;margin-bottom:16px}
+.brand b{font-family:"Archivo";font-size:19px;font-weight:600;color:var(--action);letter-spacing:-.01em}
+.brand span{font-size:12px;color:var(--ink-3)}
+.ver{display:inline-block;font-size:11px;font-weight:600;color:var(--teal);background:var(--teal-soft);padding:1px 7px;border-radius:20px;margin-left:2px}
+.viewsw{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:4px;margin-bottom:14px}
+.viewsw a{flex:1;text-align:center;font-size:12.5px;padding:6px 3px;border-radius:7px;text-decoration:none;color:var(--ink-2);font-weight:600}
+.viewsw a.on{background:var(--ink);color:var(--paper)}
+.ring{display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:14px}
+.ring svg{flex:none}
+.ring .pct{font-family:"Archivo";font-size:21px;font-weight:600;line-height:1}
+.ring .cap{font-size:12px;color:var(--ink-2);line-height:1.35}
+.who{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 10px 8px;margin-bottom:14px}
+.who h4{font-size:12px;font-weight:500;color:var(--ink-3);margin:0 0 6px}
+.who .fb,.filt{display:flex;flex-wrap:wrap;gap:5px}
+.who button,.filt button{font:inherit;font-size:12.5px;padding:3px 10px;border-radius:20px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);cursor:pointer}
+.who button.on,.filt button.on{background:var(--ink);border-color:var(--ink);color:var(--paper);font-weight:600}
+nav ol{list-style:none;margin:0;padding:0}
+nav a{display:flex;justify-content:space-between;gap:8px;padding:5px 10px;border-radius:7px;
+  color:var(--ink-2);text-decoration:none;font-size:14px;border-left:2px solid transparent}
+nav a:hover{background:var(--surface);color:var(--ink)}
+nav a.on{background:var(--surface);color:var(--ink);border-left-color:var(--action);font-weight:600}
+nav .mini{font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums;padding-top:2px}
+nav .grp{font-size:11px;color:var(--ink-3);padding:14px 10px 4px;letter-spacing:.04em}
+.railbtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+
+main{padding:28px 0 0;min-width:0}
+.hero{padding:34px 0 28px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(27px,3.8vw,40px);letter-spacing:-.02em;max-width:22ch}
+.hero p{max-width:64ch;color:var(--ink-2);margin:14px 0 0;font-size:17px}
+.obj{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+.objcard{background:var(--surface);border:1px solid var(--line-2);border-radius:var(--radius);padding:14px 15px}
+.objcard h4{font-size:13px;font-weight:500;color:var(--ink-2);margin-bottom:8px}
+.objcard .row{display:flex;align-items:baseline;gap:6px}
+.objcard input{width:58px;font-family:"Archivo";font-size:27px;font-weight:600;padding:0 4px;
+  border:0;border-bottom:1px solid var(--line-2);background:transparent;color:var(--ink);font-variant-numeric:tabular-nums}
+.objcard .of{font-size:15px;color:var(--ink-3)}
+.objcard .track{margin-top:10px}
+.weeks{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
+.wkcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 11px;text-decoration:none;color:inherit;display:block}
+.wkcard h4{font-size:12px;font-weight:500;color:var(--ink-2)}
+.wkcard .big{font-family:"Archivo";font-size:21px;font-weight:600;margin:3px 0 6px;font-variant-numeric:tabular-nums}
+.wkcard.zero{border-color:var(--teal)}
+.track{height:5px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--action);border-radius:3px;transition:width .25s}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px}
+.stat .v{font-family:"Archivo";font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat .l{font-size:12.5px;color:var(--ink-2)}
+
+section{padding:46px 0;border-bottom:1px solid var(--line)}
+section>h2{font-size:26px;letter-spacing:-.015em}
+section>.lede{color:var(--ink-2);max-width:66ch;margin:12px 0 0}
+section p,section li{max-width:70ch}
+h3{font-size:18px;margin:30px 0 10px}
+h4.sub{font-size:15px;font-weight:600;margin:22px 0 4px}
+.hint{font-size:13.5px;color:var(--ink-3);margin:0}
+.note{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--blue);padding:13px 15px;margin:20px 0;font-size:15px;color:var(--ink-2)}
+.note strong{color:var(--ink)}
+.warn{border-left-color:var(--amber)}
+.new{border-left-color:var(--teal)}
+
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:"Archivo";font-weight:500;font-size:13px;color:var(--ink-2)}
+td:first-child{font-weight:600}
+.scroll{overflow-x:auto}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+
+.tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:20px;white-space:nowrap;font-weight:600}
+.t-ai{background:var(--teal-soft);color:var(--teal)}
+.t-send{background:var(--lilac-soft);color:var(--lilac)}
+.t-assist{background:var(--blue-soft);color:var(--blue)}
+.t-build{background:var(--amber-soft);color:var(--amber)}
+.t-human{background:var(--surface-2);color:var(--ink-2)}
+.own{display:inline-block;font-size:11.5px;padding:0 8px;border-radius:20px;white-space:nowrap;border:1px solid var(--line-2);color:var(--ink-2);font-weight:600}
+.tags{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+
+.q{font-family:"Archivo";font-size:17px;font-weight:500;color:var(--ink);margin:14px 0 4px}
+.goal{font-size:15.5px;color:var(--ink-2);max-width:62ch;margin:0 0 16px}
+.grp-h{display:flex;align-items:center;gap:10px;margin:22px 0 6px}
+.grp-h h4{font-family:"Archivo";font-size:14px;font-weight:600;margin:0}
+.grp-h .ct{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+ul.tasks{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+ul.tasks li{display:flex;gap:11px;align-items:flex-start;padding:10px 2px;border-bottom:1px solid var(--line)}
+ul.tasks li.done .txt{color:var(--ink-3);text-decoration:line-through;text-decoration-thickness:1px}
+ul.tasks li.hid{display:none}
+input[type=checkbox]{appearance:none;flex:none;width:17px;height:17px;margin:4px 0 0;border:1.5px solid var(--line-2);
+  border-radius:4px;background:var(--surface);cursor:pointer;position:relative}
+input[type=checkbox]:checked{background:var(--action);border-color:var(--action)}
+input[type=checkbox]:checked::after{content:"";position:absolute;left:5px;top:1px;width:4px;height:9px;
+  border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.txt{flex:1;font-size:15px;line-height:1.5}
+.txt .why{display:block;font-size:13px;color:var(--ink-3);margin-top:2px}
+
+.gate{margin-top:22px;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--radius);padding:15px 17px}
+.gate h4{font-family:"Archivo";font-size:14px;margin:0 0 8px}
+.gate ul{list-style:none;margin:0;padding:0}
+.gate li{display:flex;gap:10px;padding:5px 0;font-size:15px}
+.gate .rule{font-size:14px;color:var(--ink-2);margin:10px 0 0;padding-top:10px;border-top:1px solid var(--line)}
+.gate .rule b{color:var(--ink)}
+.verdict{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.verdict button{font:inherit;font-size:13px;padding:5px 14px;border-radius:20px;border:1px solid var(--line-2);
+  background:transparent;color:var(--ink-2);cursor:pointer}
+.verdict button.on{background:var(--action);border-color:var(--action);color:#fff;font-weight:600}
+.verdict button.met.on{background:var(--green);border-color:var(--green)}
+.verdict button.miss.on{background:var(--red);border-color:var(--red)}
+textarea{width:100%;margin-top:8px;padding:11px 13px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--surface);color:var(--ink);font:inherit;font-size:14.5px;resize:vertical;min-height:66px}
+input[type=text],input[type=number],select{padding:7px 10px;border:1px solid var(--line);border-radius:7px;
+  background:var(--surface);color:var(--ink);font:inherit;font-size:14px}
+input[type=text]{width:100%}
+
+button.b{font:inherit;font-size:13px;padding:6px 13px;border-radius:7px;border:1px solid var(--line-2);
+  background:var(--surface);color:var(--ink-2);cursor:pointer}
+button.b:hover{border-color:var(--ink-3);color:var(--ink)}
+button.p{background:var(--action);border-color:var(--action);color:#fff;font-weight:600}
+button.p:hover{color:#fff}
+
+.people{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0}
+.person{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px}
+.person h4{font-size:16px;margin-bottom:2px}
+.person .role{font-size:13px;color:var(--ink-3);margin-bottom:10px}
+.person p{font-size:14.5px;color:var(--ink-2);margin:6px 0}
+.person p b{color:var(--ink)}
+.person .prog{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:12.5px;color:var(--ink-3)}
+.person .prog .track{flex:1}
+
+.thr{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:15px 17px;margin:12px 0}
+.thr .when{font-size:12.5px;color:var(--ink-3);font-weight:600}
+.thr .if{font-size:15.5px;margin:4px 0 2px}
+.thr .then{font-size:14.5px;color:var(--ink-2)}
+.thr .actual{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;font-size:14px;color:var(--ink-2)}
+.thr .actual input{width:110px}
+
+.mini-table td{padding:6px 8px;font-weight:400}
+.mini-table td:first-child{font-weight:400}
+.mini-table input[type=text]{font-size:13.5px;padding:5px 8px}
+.mini-table input[type=number]{font-size:13.5px;padding:5px 8px;width:64px}
+.mini-table select{font-size:13.5px;padding:5px 6px}
+.del{border:0;background:transparent;color:var(--ink-3);cursor:pointer;font-size:17px;line-height:1;padding:2px 6px}
+.del:hover{color:var(--action)}
+.srcsum{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:14px;color:var(--ink-2)}
+.srcsum b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+.metrics td:first-child{font-weight:400}
+.metrics td.key{font-weight:700}
+.metrics tr.keyrow td{background:var(--action-soft)}
+.status-live{color:var(--green);font-weight:600}
+.status-building{color:var(--amber);font-weight:600}
+.cmp td{font-weight:400;font-size:14px}
+.cmp td:first-child{font-weight:600;width:22%}
+.cmp td:nth-child(2){color:var(--ink-3)}
+.rhythm{display:grid;grid-template-columns:120px 1fr;margin:16px 0;border-top:1px solid var(--line)}
+.rhythm div{padding:11px 4px;border-bottom:1px solid var(--line);font-size:15px}
+.rhythm div:nth-child(odd){font-family:"Archivo";font-weight:600;font-size:14px}
+
+.lad{display:grid;grid-template-columns:28px 150px minmax(0,1fr) 44px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.lad .n{font-family:"Archivo";font-weight:600;color:var(--ink-3);font-size:14px}
+.lad .nm{font-weight:600;font-size:15px;line-height:1.3}
+.lad .nm span{display:block;font-weight:400;font-size:12.5px;color:var(--ink-3)}
+.lad .bar{height:16px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.lad .bar i{display:block;height:100%;background:var(--teal);transition:width .25s}
+.lad.key{background:var(--action-soft)}
+.lad.key .bar i{background:var(--action)}
+.lad .c{text-align:right;font-family:"Archivo";font-weight:600;font-variant-numeric:tabular-nums}
+
+.rec{display:grid;gap:8px 10px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.rec label{display:block;font-size:11.5px;color:var(--ink-3);font-weight:600;margin-bottom:2px}
+.rec textarea{margin-top:0;min-height:72px;font-size:14px}
+.rec input[type=text],.rec input[type=number],.rec select{width:100%;font-size:13.5px;padding:6px 8px}
+.recact{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding-top:16px}
+.recact.full{grid-column:1/-1;justify-content:space-between;padding-top:0}
+.flag{font-size:13px;color:var(--red);font-weight:600}
+.plus{font:inherit;font-size:12.5px;padding:2px 9px;border-radius:20px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{display:inline-flex;gap:4px;align-items:center;background:var(--red-soft);color:var(--red);padding:3px 4px 3px 11px;border-radius:20px;font-size:13px;font-weight:600}
+.chip button{border:0;background:transparent;color:inherit;cursor:pointer;font-size:16px;line-height:1;padding:0 4px}
+.addrow{display:flex;gap:8px;max-width:420px}
+.guide ol{padding-left:22px;margin:8px 0}
+.guide li{margin:5px 0}
+.avoid{font-size:14px;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 14px;margin:10px 0}
+
+
+.wkdates{font-size:14px;color:var(--ink-3);font-weight:600;margin:8px 0 0}
+.wkcard .wkd{font-size:11.5px;color:var(--ink-3)}
+button.b:disabled{opacity:.45;cursor:default}
+
+.deckbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-top:6px}
+.deckbar .meta{font-size:13.5px;color:var(--ink-3)}
+.slides{container-type:inline-size;margin-top:14px}
+.slide{display:none;flex-direction:column;aspect-ratio:16/9;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4cqw 4.6cqw 2.4cqw}
+.slide.on{display:flex}
+.slide.cover{justify-content:space-between}
+.slide .kicker{font-size:clamp(11px,1.15cqw,16px);color:var(--action);font-weight:600;letter-spacing:.02em}
+.slide h2{font-size:clamp(21px,3.1cqw,46px);letter-spacing:-.02em;margin:.5cqw 0 2cqw;line-height:1.15}
+.slide h2.title{font-size:clamp(30px,5.8cqw,88px);margin:0 0 1.4cqw;max-width:14ch}
+.slide h3{font-size:clamp(14px,1.7cqw,25px);margin:0 0 .8cqw}
+.slide p,.slide li{font-size:clamp(13px,1.5cqw,22px);line-height:1.45;max-width:none}
+.slide p{margin:0 0 1cqw}
+.slide .lead{font-size:clamp(15px,2cqw,30px);color:var(--ink-2);max-width:56ch}
+.slide ul{margin:0;padding-left:1.15em}
+.slide li{margin:0 0 .7cqw}
+.sgrid{display:grid;gap:1.5cqw}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+.scard{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:1.6cqw 1.8cqw}
+.scard p,.scard li{font-size:clamp(12px,1.35cqw,20px);color:var(--ink-2)}
+.scard p{margin:0}
+.scard.hot{border-color:var(--action)}
+.scard .role{color:var(--ink-3);margin:-.4cqw 0 .9cqw}
+.tcols{display:grid;grid-template-columns:1fr 1fr;gap:1.4cqw}
+.scard .tl{font-family:"Archivo";font-weight:600;font-size:clamp(11px,1.15cqw,16px);color:var(--ink);margin:0 0 .3cqw}
+.scard .tcols li{margin:0 0 .25cqw}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6cqw}
+.facts div{border-top:2px solid var(--action);padding-top:.9cqw}
+.facts b{display:block;font-family:"Archivo";font-size:clamp(13px,1.6cqw,24px)}
+.facts span{font-size:clamp(12px,1.3cqw,19px);color:var(--ink-2)}
+.sfoot{margin-top:auto;padding-top:1.4cqw;display:flex;justify-content:space-between;font-size:clamp(10.5px,1cqw,14px);color:var(--ink-3)}
+.objrow{display:flex;gap:3cqw;align-items:center}
+.bignum{font-family:"Archivo";font-weight:600;font-size:clamp(64px,14cqw,210px);line-height:.85;color:var(--action);letter-spacing:-.04em}
+.steps{display:flex;gap:1cqw;align-items:center;flex-wrap:wrap;margin:1.6cqw 0}
+.steps span{background:var(--paper);border:1px solid var(--line-2);border-radius:999px;padding:.6cqw 1.6cqw;font-weight:600;font-size:clamp(13px,1.55cqw,23px)}
+.steps i{font-style:normal;color:var(--ink-3);font-size:clamp(13px,1.55cqw,23px)}
+.stair{display:grid;grid-template-columns:repeat(7,1fr);gap:.8cqw;align-items:end;margin-top:.6cqw}
+.stair div{background:var(--teal-soft);border-top:3px solid var(--teal);border-radius:6px 6px 0 0;padding:1cqw;display:flex;flex-direction:column;gap:.3cqw}
+.stair div.key{background:var(--action-soft);border-top-color:var(--action)}
+.stair .n{font-family:"Archivo";font-size:clamp(16px,2.3cqw,34px);color:var(--ink-3);font-weight:600;line-height:1}
+.stair b{font-family:"Archivo";font-size:clamp(12px,1.4cqw,21px);line-height:1.2}
+.stair span{font-size:clamp(11px,1.1cqw,16px);color:var(--ink-2);line-height:1.35}
+.terms{display:grid;grid-template-columns:1fr 1fr;gap:1.5cqw 3.2cqw}
+.terms b{display:block;font-family:"Archivo";font-size:clamp(13px,1.55cqw,23px);margin-bottom:.2cqw}
+.terms span{display:block;font-size:clamp(12px,1.3cqw,19px);color:var(--ink-2);line-height:1.4}
+.stable{width:100%;border-collapse:collapse;margin:0;font-size:inherit}
+.stable th,.stable td{font-size:clamp(11px,1.25cqw,18px);padding:.75cqw .9cqw;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.35}
+.stable th{font-size:clamp(11px,1.15cqw,16px)}
+.stable tbody th{font-family:"Archivo";font-weight:600;color:var(--ink-2);white-space:nowrap}
+.week td{text-align:center}
+.week td.all{background:var(--paper)}
+.week td.hot{background:var(--action-soft);color:var(--action);font-weight:600}
+.rules{columns:2;column-gap:3.4cqw;list-style:none;padding:0!important}
+.rules li{break-inside:avoid;margin:0 0 1.5cqw;padding-left:1.2cqw;border-left:3px solid var(--action)}
+.rules li b{display:block;font-family:"Archivo"}
+.w0nums{display:grid;grid-template-columns:1fr 1fr;gap:1.4cqw;margin-bottom:1.6cqw}
+.w0nums div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1cqw 1.2cqw}
+.w0nums b{display:block;font-family:"Archivo";font-size:clamp(18px,2.6cqw,38px);line-height:1.1}
+.w0nums span{font-size:clamp(11px,1.15cqw,17px);color:var(--ink-2)}
+.w0gate{list-style:none;padding:0!important;margin:0}
+.w0gate li{display:flex;gap:.8cqw;align-items:baseline;font-size:clamp(12px,1.35cqw,20px)}
+.st{display:inline-block;font-size:.78em;font-weight:700;padding:.1em .65em;border-radius:20px;flex:none}
+.st.done{background:var(--green-soft);color:var(--green)}
+.st.open{background:var(--surface-2);color:var(--ink-2)}
+.gwrap{overflow-x:auto}
+.gantt{display:grid;grid-template-columns:minmax(150px,19cqw) repeat(25,minmax(20px,1fr));font-size:clamp(10.5px,1.08cqw,16px);min-width:640px}
+.gantt>div{position:relative;z-index:1}
+.gantt .gshade{z-index:0;background:var(--surface-2);opacity:.6}
+.gantt .gwk{font-family:"Archivo";font-weight:600;padding:.2cqw .4cqw;border-bottom:1px solid var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+.gantt .gwk span{display:block;font-family:"Nunito Sans",sans-serif;font-weight:400;color:var(--ink-3);font-size:.92em}
+.gantt .gday{text-align:center;color:var(--ink-3);padding:.25cqw 0;border-bottom:1px solid var(--line);white-space:nowrap;font-size:.9em}
+.gantt .gday.today{color:var(--action);font-weight:700}
+.gantt .glab{padding:.32cqw .8cqw .32cqw 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;align-self:center}
+.gantt .ggrp{font-size:.82em;font-weight:700;color:var(--ink-3);padding-top:.8cqw;letter-spacing:.03em}
+.gantt .gbar{height:60%;align-self:center;border-radius:4px;margin:0 2px}
+.gantt .gdot{width:.75cqw;height:.75cqw;min-width:7px;min-height:7px;border-radius:50%;justify-self:center;align-self:center}
+.gantt .ggate{width:.9cqw;height:.9cqw;min-width:9px;min-height:9px;transform:rotate(45deg);background:var(--ink);justify-self:center;align-self:center}
+.gantt .gtoday{z-index:2;border-left:2px solid var(--action);margin-left:50%;pointer-events:none}
+.o-ceo{background:var(--action)}.o-eng{background:var(--teal)}.o-pm{background:var(--blue)}.o-ux{background:var(--lilac)}
+.o-shared{background:repeating-linear-gradient(135deg,var(--blue) 0 6px,var(--lilac) 6px 12px)}
+.glegend{display:flex;gap:1.8cqw;flex-wrap:wrap;font-size:clamp(11px,1.08cqw,16px);color:var(--ink-2);margin-top:1.2cqw}
+.glegend i{display:inline-block;width:1.3em;height:.65em;border-radius:3px;margin-right:.45em;vertical-align:middle}
+.glegend i.lg-gate{width:.65em;height:.65em;border-radius:0;transform:rotate(45deg);background:var(--ink)}
+.glegend i.lg-today{width:2px;height:1.05em;border-radius:0;background:var(--action)}
+.deckctl{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.deckctl #slideCount{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.deckctl .ctlr{display:flex;gap:8px}
+#exitBtn{display:none}
+body.presenting #exitBtn{display:inline-block}
+body.presenting .rail,body.presenting footer,body.presenting .deckbar,body.presenting .deckhint{display:none!important}
+body.presenting .shell{display:block;max-width:none;padding:0;margin:0}
+body.presenting main{padding:0}
+body.presenting #view-deck{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px}
+body.presenting .slides,body.presenting .deckctl{width:min(100%,calc((100vh - 72px) * 16 / 9));margin-top:0}
+body.presenting .deckctl{margin-top:10px}
+@media (max-width:960px){
+  .slide{aspect-ratio:auto;padding:22px 20px 16px}
+  .g2,.g3,.facts,.terms{grid-template-columns:1fr}
+  .stair{grid-template-columns:1fr}
+  .stair div{min-height:0!important;border-radius:6px}
+  .rules{columns:1}
+  .tcols{grid-template-columns:1fr}
+  .objrow{flex-direction:column;align-items:flex-start}
+}
+
+footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);font-size:13px}
+@media (max-width:960px){
+  .shell{grid-template-columns:1fr;gap:0;padding:0 18px 90px}
+  .rail{position:static;max-height:none;border-bottom:1px solid var(--line);padding-bottom:16px}
+  nav ol{display:flex;flex-wrap:wrap;gap:4px}
+  nav a{border-left:0;border:1px solid var(--line);font-size:13px;padding:4px 9px}
+  nav .grp,nav .mini{display:none}
+  .weeks{grid-template-columns:repeat(3,1fr)}
+  .obj,.people{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .rhythm{grid-template-columns:100px 1fr}
+  .rec{grid-template-columns:1fr!important}
+  .rec>div{grid-column:auto!important}
+  .lad{grid-template-columns:24px 1fr 40px}
+  .lad .bar{grid-column:2/4}
+}
+@media print{.rail,.railbtns,.verdict{display:none}body{background:#fff}ul.tasks li.hid{display:flex}[hidden]{display:block!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<aside class="rail">
+  <div class="brand"><b>proptii</b><span>30-day plan <span class="ver">v2</span></span></div>
+  <div class="viewsw" role="tablist" aria-label="Pages">
+    <a href="#briefing" data-view="deck" role="tab">Briefing</a>
+    <a href="#objective" data-view="plan" role="tab">Plan</a>
+    <a href="#essentials" data-view="ess" role="tab">Essentials</a>
+  </div>
+  <div class="ring">
+    <svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true">
+      <circle cx="23" cy="23" r="19" fill="none" stroke="var(--surface-2)" stroke-width="5"/>
+      <circle id="ringArc" cx="23" cy="23" r="19" fill="none" stroke="var(--action)" stroke-width="5"
+        stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="119.4" transform="rotate(-90 23 23)"/>
+    </svg>
+    <div><div class="pct" id="ringPct">0%</div><div class="cap" id="ringCap">0 of 0 done</div></div>
+  </div>
+  <div class="who" id="whoBox">
+    <h4>Show tasks for</h4>
+    <div class="fb" id="ownerFilter"></div>
+  </div>
+  <nav aria-label="Sections"><ol id="nav"></ol></nav>
+  <div class="railbtns">
+    <button class="b" id="themeBtn">Dark</button>
+    <button class="b" id="copyBtn">Copy status</button>
+    <button class="b" id="resetBtn">Reset</button>
+  </div>
+</aside>
+
+<main>
+<div id="view-deck" hidden>
+  <div class="deckbar">
+    <span class="meta">Team briefing. Week 0, week commencing Monday 9 November 2026.</span>
+    <button class="b p" id="presentBtn">Present</button>
+  </div>
+  <div class="slides" id="slides">
+
+    <article class="slide cover" data-title="The 30-day landlord motion">
+      <div class="kicker">Proptii · Team briefing</div>
+      <div>
+        <h2 class="title">The 30-day landlord motion</h2>
+        <p class="lead">Twenty self-managing landlords in South East London and North Kent using Proptii for real tenancies, by Friday 11 December.</p>
+      </div>
+      <div class="facts">
+        <div><b>Week 0</b><span>Mon 9 to Fri 13 Nov</span></div>
+        <div><b>Weeks 1 to 4</b><span>Mon 16 Nov to Fri 11 Dec</span></div>
+        <div><b>25 working days</b><span>Monday to Friday only</span></div>
+        <div><b>Four of us</b><span>CEO, Head of Engineering, PM, UI/UX</span></div>
+      </div>
+    </article>
+
+    <article class="slide" data-title="The problem">
+      <div class="kicker">Why we are doing this</div>
+      <h2>The problem, on both sides</h2>
+      <div class="sgrid g2">
+        <div class="scard">
+          <h3>For landlords</h3>
+          <ul>
+            <li>Letting one property means a spreadsheet, a listing site, a referencing provider and a contract template, none of them connected.</li>
+            <li>Referencing and contracts are the slowest steps, and the ones where a mistake costs most.</li>
+            <li>When something goes wrong, the records are in four places.</li>
+          </ul>
+        </div>
+        <div class="scard hot">
+          <h3>For us</h3>
+          <ul>
+            <li>We’ve built viewings, referencing and contracts in one place. We don’t yet have landlords using it week to week.</li>
+            <li>We don’t know which route brings landlords who stay.</li>
+            <li>Our planning is ahead of our customer evidence. This month is about closing that gap.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="slide" data-title="One customer, one area">
+      <div class="kicker">Focus</div>
+      <h2>One customer, one area</h2>
+      <div class="sgrid g2">
+        <div class="scard hot">
+          <h3>Who and where</h3>
+          <ul>
+            <li><b>Self-managing landlords</b> with 1 to 10 properties, who handle letting, referencing and contracts themselves.</li>
+            <li><b>South East London and North Kent</b>, where we already hold property and know the market.</li>
+            <li><b>Reached through</b> buy-to-let brokers, landlord accountants, local landlord groups and introductions from other landlords.</li>
+          </ul>
+        </div>
+        <div class="scard">
+          <h3>Why not agents first</h3>
+          <ul>
+            <li>Agents decide slowly, already run established software, and switching costs them more.</li>
+            <li>Landlords decide in one call, switch cheaply, and feel the pain of referencing and contracts directly.</li>
+            <li>We can’t cold email individual landlords, so partners become our main channel. Agents come back into view in month 2.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="slide" data-title="The objective">
+      <div class="kicker">The objective</div>
+      <h2>One number for the month</h2>
+      <div class="objrow">
+        <div class="bignum">20</div>
+        <div>
+          <p class="lead" style="margin:0">self-managing landlords in South East London and North Kent, by Friday 11 December, who have each:</p>
+          <div class="steps"><span>Created an account</span><i>then</i><span>Added a property</span><i>then</i><span>Sent an invite</span></div>
+        </div>
+      </div>
+      <p style="margin-top:1.6cqw">Creating an account proves little on its own. Adding a property means they engaged. Sending an invite means the loop turned, and that’s the part that grows by itself.</p>
+      <p>This is rung 3 of the traction ladder. It is the target, and the rungs above it are the evidence.</p>
+    </article>
+
+    <article class="slide" data-title="Desired outcomes">
+      <div class="kicker">Outcomes</div>
+      <h2>What we want to know by 11 December</h2>
+      <div class="sgrid g3">
+        <div class="scard"><h3>A channel we can name</h3><p>One route that produced most of the landlords, with a rough cost in money and hours.</p></div>
+        <div class="scard hot"><h3>Landlords who come back</h3><p>Landlords using Proptii again without being prompted.</p></div>
+        <div class="scard hot"><h3>Landlords who bring landlords</h3><p>Introductions we didn’t ask for.</p></div>
+        <div class="scard"><h3>A price signal</h3><p>What design partners pay today, and what they would pay us.</p></div>
+        <div class="scard"><h3>Self-serve onboarding</h3><p>A landlord can sign up and send an invite with nobody on a call.</p></div>
+        <div class="scard"><h3>A written answer</h3><p>What we know now that we didn’t on 9 November, and what month 2 is for.</p></div>
+      </div>
+    </article>
+
+    <article class="slide" data-title="The traction ladder">
+      <div class="kicker">Measuring traction</div>
+      <h2>The traction ladder</h2>
+      <p>Each landlord sits at the highest rung they’ve reached. Each rung is harder to fake than the one below. Five landlords at rung 5 would tell us more than twenty at rung 3.</p>
+      <div class="stair" id="stair"></div>
+    </article>
+
+    <article class="slide" data-title="Terms: people and channels">
+      <div class="kicker">Definitions</div>
+      <h2>Terms we use: people and channels</h2>
+      <div class="terms">
+        <div><b>Self-managing landlord</b><span>Owns 1 to 10 rental properties and handles letting, referencing and contracts without a managing agent. Our customer this month.</span></div>
+        <div><b>Design partner</b><span>One of our first five landlords. Gets Proptii free for six months and a direct line to us. Gives 15 minutes of feedback a week in the first month, then one feedback session a month for the next five months. Runs at least one real tenancy through Proptii, and agrees to be a case study.</span></div>
+        <div><b>Partner</b><span>A buy-to-let mortgage broker or landlord accountant who introduces their clients to us. Our main way to reach landlords.</span></div>
+        <div><b>Channel</b><span>The route a landlord arrived by: a partner, a landlord group, another landlord, or our own network.</span></div>
+        <div><b>Link code</b><span>A sign-up link unique to each channel or partner, so we know where every landlord came from without asking.</span></div>
+        <div><b>Invite</b><span>A link a landlord sends a tenant for a viewing, referencing or a contract.</span></div>
+        <div><b>The loop</b><span>Landlords bring tenants onto Proptii through invites, so each new landlord brings more users at no cost to us.</span></div>
+      </div>
+    </article>
+
+    <article class="slide" data-title="Terms: progress and process">
+      <div class="kicker">Definitions</div>
+      <h2>Terms we use: progress and process</h2>
+      <div class="terms">
+        <div><b>Activated</b><span>A landlord who has added at least one property. Rung 3 on the ladder.</span></div>
+        <div><b>Traction ladder</b><span>Seven rungs, from interested to would pay. Each landlord sits at the highest rung they’ve reached.</span></div>
+        <div><b>Stalled</b><span>A landlord who has done nothing for three working days. The CEO gets an alert.</span></div>
+        <div><b>Friction</b><span>Anything that slows a landlord down or confuses them. Logged from every onboarding call, reviewed on Tuesdays and Thursdays.</span></div>
+        <div><b>Threshold</b><span>A rule written in week 0 that says what we do if a number falls short. Written before the results, so we don’t argue about it afterwards.</span></div>
+        <div><b>Gate</b><span>The Friday review. We check the week against its threshold and decide go, fix or pivot.</span></div>
+        <div><b>Week 0</b><span>This week. Preparation before the four working weeks begin on Monday 16 November.</span></div>
+      </div>
+    </article>
+
+    <article class="slide" data-title="Team tasks">
+      <div class="kicker">Who does what</div>
+      <h2>Team tasks, outlined clearly</h2>
+      <div class="sgrid g2">
+        <div class="scard hot"><h3>CEO</h3><p class="role">Owns the objective and every conversation</p>
+          <div class="tcols"><div><p class="tl">Week 0</p><ul><li>30 conversations</li><li>5 design partners</li><li>Offer and thresholds</li></ul></div>
+          <div><p class="tl">Weeks 1 to 4</p><ul><li>Onboarding calls</li><li>Partner meetings</li><li>Stalled landlord interviews</li><li>Friday gate decisions</li></ul></div></div></div>
+        <div class="scard"><h3>Head of Engineering</h3><p class="role">Owns the machine, plus feedback and operations automation</p>
+          <div class="tcols"><div><p class="tl">Week 0</p><ul><li>One journey working end to end</li><li>Sign-up link per channel</li><li>Call recording</li></ul></div>
+          <div><p class="tl">Weeks 1 to 4</p><ul><li>Invites without an account</li><li>Stall and failure alerts</li><li>Design partner feedback reminders</li><li>Referral codes, contract invites</li></ul></div></div></div>
+        <div class="scard"><h3>PM / Frontend</h3><p class="role">Owns activation, plus CRM and content automation</p>
+          <div class="tcols"><div><p class="tl">Week 0</p><ul><li>Booking link</li><li>Metric definitions</li><li>Messaging and comms log, with UI/UX</li></ul></div>
+          <div><p class="tl">Weeks 1 to 4</p><ul><li>Dashboard and 09:30 digest</li><li>CRM pipeline and partner referrals</li><li>Content drafts for posts</li><li>GTM comms, shared with UI/UX</li><li>Self-serve sign-up</li></ul></div></div></div>
+        <div class="scard"><h3>UI/UX</h3><p class="role">Owns onboarding friction, plus creative and communications automation</p>
+          <div class="tcols"><div><p class="tl">Week 0</p><ul><li>Design partner one-pager</li><li>Onboarding checklist</li><li>Messaging and comms log, with PM</li></ul></div>
+          <div><p class="tl">Weeks 1 to 4</p><ul><li>Sits in on onboarding calls</li><li>Fixes friction in two working days</li><li>Post templates and scheduling</li><li>GTM comms, shared with PM</li></ul></div></div></div>
+      </div>
+      <p style="margin-top:1.6cqw">GTM comms is shared by the PM and the UI/UX engineer: the messaging, the comms log, the posting calendar, landlord group posts and partner materials.</p>
+    </article>
+
+    <article class="slide" data-title="The working week">
+      <div class="kicker">Cadence</div>
+      <h2>The working week, Monday to Friday</h2>
+      <table class="stable week">
+        <thead><tr><th></th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr></thead>
+        <tbody>
+          <tr><th>09:30</th><td class="all" colspan="5">Digest lands in Google Chat: the three numbers, movement, new friction, stalled landlords. Monday’s covers the weekend.</td></tr>
+          <tr><th>11:00</th><td class="all" colspan="5">Fifteen-minute stand-up on the digest</td></tr>
+          <tr><th>After stand-up</th><td class="hot">Kick-off: the week’s question and three priorities</td><td class="hot">Friction review</td><td>Calls and building</td><td class="hot">Friction review</td><td class="hot">Ladder snapshot</td></tr>
+          <tr><th>Day</th><td colspan="4">CEO on calls. Engineers ship fixes from the last review.</td><td class="hot">Gate review, then write up the week</td></tr>
+          <tr><th>Evening</th><td colspan="4">17:30 to 19:00: call slots for landlords who work in the day</td><td>No calls</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1.6cqw"><b>Weekends are off.</b> Alerts and stall checks count working days only. Nothing that needs a person fires on Saturday or Sunday.</p>
+    </article>
+
+    <article class="slide" data-title="Five weeks at a glance" data-live="gantt">
+      <div class="kicker">Timeline</div>
+      <h2>Five weeks, Monday to Friday</h2>
+      <div class="gwrap"><div class="gantt" id="gantt"></div></div>
+      <div class="glegend">
+        <span><i class="o-ceo"></i>CEO</span><span><i class="o-eng"></i>Head of Engineering</span><span><i class="o-pm"></i>PM / Frontend</span><span><i class="o-ux"></i>UI/UX</span><span><i class="o-shared"></i>PM and UI/UX</span><span><i class="lg-gate"></i>Friday gate</span><span><i class="lg-today"></i>Today</span>
+      </div>
+    </article>
+
+    <article class="slide" data-title="What each week asks">
+      <div class="kicker">Timeline</div>
+      <h2>What each week asks</h2>
+      <div id="glance"></div>
+    </article>
+
+    <article class="slide" data-title="Ground rules">
+      <div class="kicker">How we work</div>
+      <h2>Ground rules</h2>
+      <ul class="rules">
+        <li><b>Conversations first.</b>Talk to landlords before building for them.</li>
+        <li><b>No cold email to individual landlords.</b>They reach us through partners, landlord groups and introductions.</li>
+        <li><b>AI drafts, a person sends.</b>Every post in a group and every first message to a new contact.</li>
+        <li><b>Only claims we can prove.</b>The 41% and £2,700 figures stay off everything until they’re sourced.</li>
+        <li><b>Ask before recording.</b>Every call, every time.</li>
+        <li><b>Thresholds decide.</b>If one is missed, the action next to it happens, unless we write down why not.</li>
+        <li><b>Automate admin, not learning.</b>Notes, scheduling and reminders run themselves. Onboarding stays live until we understand it.</li>
+        <li><b>Weekends are off.</b>The plan fits five days a week.</li>
+      </ul>
+    </article>
+
+    <article class="slide" data-title="This week" data-live="w0">
+      <div class="kicker">Now</div>
+      <h2>This week, and what comes next</h2>
+      <div class="sgrid g2">
+        <div class="scard"><h3>Week 0 so far</h3><div id="w0live"></div></div>
+        <div class="scard hot">
+          <h3>Next</h3>
+          <ul>
+            <li><b>Friday 13 November:</b> week 0 gate. If fewer than three design partners have committed, we rework the offer before Monday.</li>
+            <li><b>Before Friday:</b> the PM and UI/UX engineer write the messaging section and set up the comms log on the Essentials page.</li>
+            <li><b>Monday 16 November, 11:00:</b> first stand-up and the week 1 kick-off.</li>
+            <li><b>Everyone:</b> open the Plan page and filter by your name to see your tasks.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+  </div>
+  <div class="deckctl">
+    <button class="b" id="prevSlide">Previous</button>
+    <span id="slideCount">1 / 14</span>
+    <span class="ctlr"><button class="b" id="exitBtn">Exit</button><button class="b p" id="nextSlide">Next</button></span>
+  </div>
+  <p class="hint deckhint" style="margin-top:10px">Arrow keys move between slides. Present hides the sidebar and fills the screen. Escape leaves.</p>
+</div>
+
+<div id="view-plan" hidden>
+  <header class="hero">
+    <h1>Twenty self-managing landlords in South East London and North Kent.</h1>
+    <p>Week 0 runs Monday 9 to Friday 13 November. Four working weeks follow, ending Friday 11 December, Monday to Friday only. One customer, one area, an owner on every task, and decision rules written down before the results arrive. Everything you enter is saved in this browser.</p>
+    <div class="obj" id="objCards"></div>
+    <div class="weeks" id="weekCards"></div>
+  </header>
+
+
+  <section id="objective">
+    <h2>The objective</h2>
+    <p class="lede">One customer, one area, one number.</p>
+    <p><strong>By the end of day 30, twenty self-managing landlords in South East London and North Kent have created an account, added at least one property, and sent at least one invite.</strong></p>
+    <p>That sits at rung 3 of the traction ladder on the GTM essentials page. It is the target. The rungs above it are the evidence. Five landlords who come back unprompted would say more about the product than twenty who stopped at rung 3.</p>
+
+    <h3>Why landlords rather than agents</h3>
+    <div class="scroll"><table>
+      <thead><tr><th></th><th>Independent agents</th><th>Self-managing landlords</th></tr></thead>
+      <tbody>
+        <tr><td>Who decides</td><td>Branch owner, usually slowly</td><td>The landlord, often in one call</td></tr>
+        <tr><td>What they use now</td><td>Established agency software</td><td>Spreadsheets, listing sites, email</td></tr>
+        <tr><td>Cost of switching</td><td>High</td><td>Low</td></tr>
+        <tr><td>Cold email</td><td>Allowed for limited companies, with opt-out</td><td>Needs consent, as they are individuals</td></tr>
+        <tr><td>Best way in</td><td>Direct outreach</td><td>Brokers, accountants, landlord groups, referrals</td></tr>
+      </tbody>
+    </table></div>
+    <p>Landlords decide quickly, switch cheaply, and referencing and contracts are exactly where it hurts for them. One area means referrals can build on each other, and you already hold property and know the market there.</p>
+    <p>You cannot cold email individual landlords, which pushes the plan towards partners. A buy-to-let broker’s client list is full of your target customers. In that direction the broker sends landlords to you, which should carry much lighter regulatory weight than Proptii routing borrowers to brokers. Confirm that with whoever advises you on FCA questions before relying on it.</p>
+
+    <h3>The offer</h3>
+    <p>What a landlord gets, what it replaces, and what it costs. The setup most of them have today is a spreadsheet, a listing site and a separate referencing provider. The offer is about removing that. The same text appears on the messaging section of GTM essentials.</p>
+    <textarea data-note="offer" placeholder="Write the offer in two or three sentences: what they get, what it replaces, what it costs."></textarea>
+
+    <div class="note"><strong>If the objective changes, write down the date.</strong> The week 4 review is the place to change it, not mid-month.</div>
+    <textarea data-note="objective" placeholder="Record the objective you actually chose, with the number, the area and the date."></textarea>
+  </section>
+
+  <section id="team">
+    <h2>The team</h2>
+    <p class="lede">Four people, each owning one part of the motion. GTM comms is shared by the PM and the UI/UX engineer.</p>
+    <p>Each person also owns an area of automation: feedback and operations for the Head of Engineering, CRM and content for the PM, and creative and communications for the UI/UX engineer. Use the filter in the sidebar to see one person’s tasks across every week. Shared tasks show for both people.</p>
+    <div class="people" id="people"></div>
+    <div class="note new"><strong>The most valuable allocation here.</strong> The UI/UX engineer sits in on the first ten onboarding calls. Friction seen first-hand gets fixed the same week. Friction reported second-hand gets debated.</div>
+  </section>
+
+  <section id="rhythm">
+    <h2>The working week</h2>
+    <p class="lede">Monday to Friday. Weekends are off, so the cadence fits five days and nothing that needs a person fires on Saturday or Sunday.</p>
+    <div class="rhythm">
+      <div>09:30 daily</div><div>Digest lands in Google Chat: the three numbers, yesterday’s movement, new friction, stalled landlords. Monday’s covers the weekend.</div>
+      <div>11:00 daily</div><div>Fifteen-minute stand-up on the digest. Then the CEO is on calls and the engineers ship.</div>
+      <div>Monday</div><div>Thirty-minute kick-off after the stand-up: the week’s question, its gate, and three priorities.</div>
+      <div>Tue and Thu</div><div>Thirty-minute friction review with the CEO, the PM and the UX engineer. Pick the top issue and ship the fix before the next review.</div>
+      <div>Mon to Thu</div><div>CEO call blocks during the day, plus 17:30 to 19:00 slots for landlords who work in the day.</div>
+      <div>Friday</div><div>Morning: save the ladder snapshot on Essentials. Afternoon: the gate, checked against the thresholds. Then write up the week.</div>
+      <div>Weekends</div><div>Off. Alerts and stall checks count working days only. Anything that arrives lands in Monday’s digest.</div>
+    </div>
+    <div class="note warn"><strong>Self-managing landlords often have day jobs.</strong> If daytime calls are hard to book, the evening slots are where most onboarding will happen. Check this at the end of week 1 and move call blocks if needed.</div>
+  </section>
+
+  <section id="thresholds">
+    <h2>Decision thresholds</h2>
+    <p class="lede">Written before the results arrive, so nobody has to argue about them afterwards. Record the actual figure and whether the rule was met.</p>
+    <p>A go, fix or pivot call made at the time tends to find reasons to keep going. A rule written in week 0 does not. If a threshold is missed, the action next to it happens, unless you write down why it should not.</p>
+    <div id="thrList"></div>
+  </section>
+
+  <section id="dashboard">
+    <h2>Daily dashboard</h2>
+    <p class="lede">Five minutes in the morning. The three orange rows are the objective. The rest are instruments.</p>
+    <div class="scroll" id="metricTable"></div>
+    <div class="note warn"><strong>Once the live dashboard is running,</strong> these numbers should come from the event store rather than being typed in. Until then, enter them here each morning.</div>
+  </section>
+
+  <section id="partners">
+    <h2>Design partners</h2>
+    <p class="lede">Five landlords who commit in week 0. They give the month a warm start and a reason to say yes now rather than later.</p>
+    <p><strong>Suggested terms.</strong> They get the product free for six months, a direct line to the team, and real influence on what gets built. In return they give fifteen minutes of feedback a week in the first month, then one feedback session a month for the next five months. They run at least one real tenancy through Proptii and agree to be a case study.</p>
+    <p>Ask each one what they pay today for referencing, listings and contracts, and what they would pay Proptii. Free users tell you about usability. Willingness to pay tells you about value.</p>
+    <div class="scroll"><table class="mini-table" id="dpTable"></table></div>
+    <div style="margin-top:10px"><button class="b p" id="addDp">Add design partner</button></div>
+    <div class="srcsum" id="dpSum"></div>
+  </section>
+
+  <section id="accounts">
+    <h2>Account log</h2>
+    <p class="lede">Every landlord and how they arrived. The ladder stage is the highest rung they have reached, and it feeds the ladder and channel scorecard on GTM essentials.</p>
+    <p>If more than half of the twenty came through people you already know, the number is real and the channel is not.</p>
+    <div class="scroll"><table class="mini-table" id="logTable"></table></div>
+    <div style="margin-top:10px"><button class="b p" id="addRow">Add landlord</button></div>
+    <div class="srcsum" id="srcSum"></div>
+  </section>
+
+  <section id="week-0" data-week="0"></section>
+  <section id="week-1" data-week="1"></section>
+  <section id="week-2" data-week="2"></section>
+  <section id="week-3" data-week="3"></section>
+  <section id="week-4" data-week="4"></section>
+
+  <section id="automation">
+    <h2>Automation build list</h2>
+    <p class="lede">Automations by owner. The Head of Engineering builds feedback and operations automation, the PM builds CRM and content automation, and the UI/UX engineer builds creative and communications automation. Mark each one as it goes live.</p>
+    <div class="scroll"><table class="mini-table" id="autoTable"></table></div>
+    <h3>What stays human</h3>
+    <p>Every conversation. Every first message to a new contact. Every partner agreement. Every gate decision. The call on what to fix next. Call recording needs permission at the start of each call, every time.</p>
+  </section>
+
+  <section id="deferred">
+    <h2>Deferred to month 2</h2>
+    <p class="lede">Cutting raises the odds as much as adding. Four people can run two tracks well or four badly.</p>
+    <ul class="tasks">
+      <li><span class="txt">Postcode pages<span class="why">Demand-side, will not rank within 30 days, and a large engineering job</span></span></li>
+      <li><span class="txt">Paid test<span class="why">Unless one channel is clearly working and worth testing at more volume</span></span></li>
+      <li><span class="txt">Broad content programme<span class="why">Replaced by a handful of posts aimed at landlords, logged on GTM essentials</span></span></li>
+      <li><span class="txt">Conveyancers and insurers<span class="why">Partners narrowed to the brokers and accountants who serve landlords</span></span></li>
+      <li><span class="txt">Independent agents as a segment<span class="why">A different customer with a different sales process. Revisit once landlords are working</span></span></li>
+    </ul>
+  </section>
+
+  <section id="repeatable">
+    <h2>The repeatable test</h2>
+    <p class="lede">The question at day 30. Mark a condition only when you can point at the evidence.</p>
+    <div id="repeatList"></div>
+    <h3>The day 30 question</h3>
+    <p>What do you now know that you did not know thirty days ago, and what does it tell you to do next? A month that misses its number and gives a clear answer is a good month.</p>
+    <textarea data-note="day30" placeholder="Answer it here before the next plan starts."></textarea>
+  </section>
+
+  <section id="risks">
+    <h2>Risks and guardrails</h2>
+    <p class="lede">Mark a guardrail when it is actually in place.</p>
+    <div id="riskList"></div>
+  </section>
+
+  <section id="decisions" style="border-bottom:0">
+    <h2>Decisions</h2>
+    <p class="lede">Settle these in week 0. Write the answer and the date.</p>
+    <div id="decisionList"></div>
+  </section>
+</div>
+
+<div id="view-ess" hidden>
+  <header class="hero" id="essentials">
+    <h1>Everything that goes out, and what comes back.</h1>
+    <p>The working material for the month: where each landlord has got to, which channels produce landlords who get somewhere, every message that goes out, and what the conversations are teaching you. The ladder and scorecard read from the account log on the plan page, so each landlord is entered once.</p>
+    <div class="stats" id="essStats"></div>
+  </header>
+
+  <section id="e-ladder">
+    <h2>Traction ladder</h2>
+    <p class="lede">Each landlord sits at the highest rung they have reached. Set it in the account log on the plan page.</p>
+    <p>Each rung is harder to fake than the one below it. The objective sits at rung 3. The two orange rows matter most this month: using Proptii again without a prompt, and bringing someone else in. A landlord who does either is telling you more than any survey would.</p>
+    <div id="ladder"></div>
+    <h3>Weekly snapshots</h3>
+    <p>Save one every Friday before the gate. The movement between snapshots is the traction. A count that stays flat at rung 3 while sign-ups rise means acquisition is working and the product is not yet holding people.</p>
+    <button class="b p" id="snapBtn">Save this week’s snapshot</button>
+    <div class="scroll" id="snaps"></div>
+  </section>
+
+  <section id="e-score">
+    <h2>Channel scorecard</h2>
+    <p class="lede">Which routes produce landlords who get somewhere, not just landlords who sign up.</p>
+    <p>Landlords and rungs are counted from the account log by how each one arrived. Enter contacted and replied by hand. A channel whose landlords stall at rung 3 is worth less than a smaller one whose landlords come back.</p>
+    <div class="scroll" id="scorecard"></div>
+  </section>
+
+  <section id="e-comms">
+    <h2>Comms log</h2>
+    <p class="lede">Every post, message and explainer that goes out on social, in landlord groups or to partners. One place, so nothing goes out twice or off-message.</p>
+    <h3>Before anything is posted</h3>
+    <ul>
+      <li>No blocked claim appears in the copy. The log checks this and flags a match.</li>
+      <li>The group or platform allows this kind of post. Read the rules once and note them in the copy field if they are unusual.</li>
+      <li>In landlord groups and forums, a person posts it by hand. Scheduling is fine for your own LinkedIn and company pages.</li>
+      <li>The link carries a code, so any sign-up it produces shows up in the scorecard.</li>
+    </ul>
+    <p class="hint">Tick the pre-post check on each item once these are done. Anything marked posted without it is flagged.</p>
+    <div class="filt" id="commsFilter" style="margin-top:18px"></div>
+    <div id="comms"></div>
+    <div style="margin-top:12px"><button class="b p" id="addComms">Add a post or message</button></div>
+  </section>
+
+  <section id="e-messaging">
+    <h2>Messaging</h2>
+    <p class="lede">The words everyone uses. Change them here first, then everywhere else.</p>
+    <h4 class="sub">Who we are for</h4>
+    <textarea data-note="msg_for" placeholder="Self-managing landlords with 1 to 10 properties in South East London and North Kent, who handle their own referencing and contracts."></textarea>
+    <h4 class="sub">Who we are not for, yet</h4>
+    <textarea data-note="msg_notfor" placeholder="Agents, portfolio landlords with a managing agent, landlords outside the area."></textarea>
+    <h4 class="sub">One line for landlords</h4>
+    <textarea data-note="msg_landlord" placeholder="What a landlord hears first. One sentence, in their words where possible."></textarea>
+    <h4 class="sub">One line for partners</h4>
+    <textarea data-note="msg_partner" placeholder="Why a broker or accountant should introduce their clients."></textarea>
+    <h4 class="sub">One line for tenants</h4>
+    <textarea data-note="msg_tenant" placeholder="What a tenant reads in the invite email."></textarea>
+    <h4 class="sub">The offer</h4>
+    <p class="hint">The same text as on the objective section of the plan page. Edit it in either place.</p>
+    <textarea data-note="offer" placeholder="What they get, what it replaces, what it costs."></textarea>
+    <h4 class="sub">Proof we can stand behind</h4>
+    <textarea data-note="msg_proof" placeholder="Only things you can show. A design partner quote with permission. A time saving you measured. A count you can check."></textarea>
+    <h4 class="sub">Blocked claims</h4>
+    <p class="hint">Anything here is flagged in the comms log if it appears in the copy. The unverified figures from the early pitch are on it by default.</p>
+    <div class="chips" id="banned"></div>
+    <div class="addrow"><input type="text" id="banInput" placeholder="Add a phrase or figure"><button class="b" id="banAdd">Add</button></div>
+  </section>
+
+  <section id="e-language">
+    <h2>Language bank</h2>
+    <p class="lede">What landlords said, word for word. The best copy is usually something a customer said first.</p>
+    <p>Add phrases from calls and transcripts as they come up. Mark one as used once it appears in a post, the landing page or an email, so you can see which words are already doing work.</p>
+    <div id="lang"></div>
+    <div style="margin-top:12px"><button class="b p" id="addLang">Add a phrase</button></div>
+  </section>
+
+  <section id="e-objections">
+    <h2>Objections</h2>
+    <p class="lede">What makes landlords hesitate, how often you hear it, and the best answer so far. Sorted by how often it comes up.</p>
+    <p>When an objection has been heard five times, it belongs in the messaging or the product, not only in one person’s head.</p>
+    <div id="objs"></div>
+    <div style="margin-top:12px"><button class="b p" id="addObj">Add an objection</button></div>
+  </section>
+
+  <section id="e-calls" class="guide">
+    <h2>Call guide</h2>
+    <p class="lede">Questions that get honest answers. Ask about what people have done, not what they say they would do.</p>
+    <h3>Landlord discovery</h3>
+    <ol>
+      <li>Talk me through the last time you let a property. What took the longest?</li>
+      <li>How do you handle referencing today, and what does it cost you?</li>
+      <li>Where do your tenancy agreements live right now?</li>
+      <li>Tell me about the last tenancy that started badly. What happened?</li>
+      <li>What have you tried to make this easier? Why did you stop using it?</li>
+      <li>How many properties do you have, and how often do they change tenants?</li>
+      <li>Who else do you know who lets their own properties?</li>
+    </ol>
+    <div class="avoid">Avoid “Would you use this?” and “Do you like the idea?” People say yes to be polite, and the answer tells you nothing.</div>
+    <h3>Partner call</h3>
+    <ol>
+      <li>How many of your clients manage their own properties?</li>
+      <li>What do they complain to you about, apart from finance?</li>
+      <li>What would you need to see before recommending a tool to them?</li>
+      <li>How would you like to hear back about people you introduce?</li>
+    </ol>
+    <h3>Onboarding call</h3>
+    <ol>
+      <li>Ask permission to record the call.</li>
+      <li>Add their property first, live, on their screen.</li>
+      <li>Book or log one real viewing.</li>
+      <li>Send the first invite while you are still on the call.</li>
+      <li>Ask what nearly stopped them.</li>
+      <li>Agree the date of the next check-in.</li>
+    </ol>
+    <h4 class="sub">Notes on the guide</h4>
+    <textarea data-note="callnotes" placeholder="Which questions work, which fall flat, and what to change."></textarea>
+  </section>
+
+  <section id="e-learning" style="border-bottom:0">
+    <h2>Learning log</h2>
+    <p class="lede">What you believed, what you did, what happened, and what changes as a result. This is the record of progress that the numbers miss.</p>
+    <p>Add one entry whenever something you expected turned out differently. At the day 30 review, this is where the answer to “what do we know now” comes from.</p>
+    <div id="learn"></div>
+    <div style="margin-top:12px"><button class="b p" id="addLearn">Add a learning</button></div>
+  </section>
+</div>
+</main>
+</div>
+
+<footer>Proptii 30-day landlord motion. Everything you enter is stored in this browser only.</footer>
+
+<script>
+var OWNERS={ceo:"CEO",eng:"Head of Eng",pm:"PM / FE",ux:"UI/UX"};
+var TAGS={ai:["AI-led","t-ai"],send:["AI-drafted, you send","t-send"],assist:["AI-assisted","t-assist"],
+  build:["Build once","t-build"],human:["You do it","t-human"]};
+
+var LADDER=[
+ ["Interested","Agreed to a call"],
+ ["Committed","Agreed to onboard, or became a design partner"],
+ ["Activated","Added a property"],
+ ["Got value","Ran a viewing, reference or contract end to end with a real tenant"],
+ ["Came back","Used it again without being prompted"],
+ ["Brought someone","Invited a tenant or introduced another landlord"],
+ ["Would pay","Named a price, or paid"]
+];
+
+var WEEKS=[
+{n:0,name:"Ready",dates:"Monday 9 to Friday 13 November",short:"9 to 13 Nov",q:"Does the product work end to end, and will anyone commit?",
+ goal:"The week before day one. Prove one full landlord journey works, and line up five landlords who have said yes.",
+ gate:["One landlord journey works end to end","Five design partners committed","Thresholds for weeks 1 to 4 written down","A unique sign-up link live for each channel"],
+ rule:"If fewer than three design partners commit from thirty conversations, stop and rework the offer before day one.",
+ groups:[
+ {t:"Product",items:[
+  {k:"w0a",t:"Run one real landlord journey: add a property, book a viewing, reference a tenant, send a contract",o:"eng",m:"build"},
+  {k:"w0b",t:"Fix whatever breaks in that journey",o:"eng",m:"build"},
+  {k:"w0c",t:"Confirm referencing runs through a live provider",w:"If it is partly mocked, find out now rather than on a call with a landlord",o:"eng",m:"human"}]},
+ {t:"Supply",items:[
+  {k:"w0d",t:"Write the design partner offer in one paragraph",o:"ceo",m:"human"},
+  {k:"w0e",t:"Hold thirty conversations with landlords, brokers and landlord accountants",o:"ceo",m:"human"},
+  {k:"w0f",t:"Get five design partners to commit",o:"ceo",m:"human"},
+  {k:"w0g",t:"Design partner one-pager and onboarding checklist",o:"ux",m:"build"}]},
+ {t:"Machine",items:[
+  {k:"w0h",t:"Set up a unique sign-up link or code for each channel and partner",o:"eng",m:"build"},
+  {k:"w0i",t:"Call recording, transcription and summary, with the consent line written",o:"eng",m:"build"},
+  {k:"w0j",t:"Booking link ready to drop into outreach",o:"pm",m:"build"}]},
+ {t:"Decisions",items:[
+  {k:"w0k",t:"Write the decision thresholds for weeks 1 to 4",o:"ceo",m:"human"},
+  {k:"w0l",t:"Agree metric definitions so week 1 numbers mean something",o:"pm",m:"human"}]},
+ {t:"Comms",items:[
+  {k:"w0m",t:"Write the messaging section on GTM essentials",o:"pm ux",m:"assist"},
+  {k:"w0n",t:"Set up the comms log, posting calendar and link codes for posts",o:"pm ux",m:"build"}]}]},
+
+{n:1,name:"Foundation",dates:"Monday 16 to Friday 20 November",short:"16 to 20 Nov",q:"Do the design partners get going, and can we see it happening?",
+ goal:"Onboard the five design partners, watch what they struggle with, and get the dashboard and alerts running.",
+ gate:["Five design partners onboarded","Three of them have added a property","Dashboard live with the three numbers","Eight partner calls booked"],
+ rule:"If fewer than three of the five add a property within three working days of onboarding, pause recruiting and fix onboarding.",
+ groups:[
+ {t:"Supply",items:[
+  {k:"w1a",t:"Onboard the five design partners, live on a call",o:"ceo",m:"human"},
+  {k:"w1b",t:"Sit in on every onboarding call and log what goes wrong",o:"ux",m:"human"},
+  {k:"w1c",t:"Fix the top friction item within two working days",o:"ux",m:"build"},
+  {k:"w1d",t:"Ask each design partner what they pay today and what they would pay",o:"ceo",m:"human"},
+  {k:"w1n",t:"Add phrases from the calls to the language bank",o:"ux",m:"assist"}]},
+ {t:"Partners",items:[
+  {k:"w1e",t:"Research buy-to-let brokers and landlord accountants in the area",o:"ceo",m:"assist"},
+  {k:"w1f",t:"Contact them and book eight calls",o:"ceo",m:"send"},
+  {k:"w1g",t:"Join three local landlord groups and introduce yourself",w:"Posted by hand, and logged in the comms log",o:"ceo",m:"send"}]},
+ {t:"Loop",items:[
+  {k:"w1h",t:"Invite links in viewing and referencing emails",o:"eng",m:"build"},
+  {k:"w1i",t:"An invited tenant can act before creating an account",w:"If the link demands an account first, the loop will not turn",o:"eng",m:"build"}]},
+ {t:"Machine",items:[
+  {k:"w1j",t:"Live dashboard from the event store, three numbers at the top",o:"pm",m:"build"},
+  {k:"w1k",t:"09:30 Google Chat digest, Monday to Friday",o:"pm",m:"build"},
+  {k:"w1l",t:"Stall alerts: a landlord idle for three working days alerts the CEO with context",o:"eng",m:"build"},
+  {k:"w1o",t:"Design partner feedback reminders: weekly in the first month, then monthly",o:"eng",m:"build"}]},
+ {t:"Comms",items:[
+  {k:"w1p",t:"Post and graphic templates built from approved copy",o:"ux",m:"build"},
+  {k:"w1q",t:"Draft and schedule company posts, each logged with a link code",o:"pm ux",m:"assist"}]}]},
+
+{n:2,name:"Acquisition",dates:"Monday 23 to Friday 27 November",short:"23 to 27 Nov",q:"Will landlords say yes through partners, and how hard is a yes?",
+ goal:"Turn partner calls into referral arrangements, and onboard every landlord they send.",
+ gate:["Ten landlord accounts","Three partners referring","Friction log ranked","Every onboarding followed up within one working day"],
+ rule:"If fewer than two partners have referred anyone, switch effort to landlord groups and direct referrals from design partners.",
+ groups:[
+ {t:"Partners",items:[
+  {k:"w2a",t:"Agree a simple referral arrangement with at least three brokers or accountants",o:"ceo",m:"human"},
+  {k:"w2b",t:"Give each partner their own link and a one-page explainer",o:"ux",m:"build"}]},
+ {t:"Supply",items:[
+  {k:"w2c",t:"Onboard every referred landlord live on a call",o:"ceo",m:"human"},
+  {k:"w2d",t:"Send follow-up emails drafted from each call transcript",o:"ceo",m:"send"},
+  {k:"w2f",t:"Ask design partners to introduce one other landlord each",o:"ceo",m:"human"},
+  {k:"w2l",t:"Log every objection heard this week",o:"pm",m:"assist"}]},
+ {t:"Loop",items:[
+  {k:"w2g",t:"Onboarding nudges: add a property, send a first invite",o:"eng",m:"ai"},
+  {k:"w2h",t:"Referral codes on every landlord’s invites",o:"eng",m:"build"}]},
+ {t:"Machine",items:[
+  {k:"w2i",t:"Tuesday and Thursday friction reviews, top fix shipped each time",o:"ux",m:"build"},
+  {k:"w2j",t:"Weekly synthesis across all call transcripts",o:"eng",m:"ai"},
+  {k:"w2m",t:"Failure alerts for sends, invites and the digest, in Google Chat",o:"eng",m:"build"},
+  {k:"w2k",t:"CRM: product events move each landlord through the pipeline",o:"pm",m:"build"},
+  {k:"w2n",t:"CRM: each partner referral credited to its partner, with status",o:"pm",m:"build"}]},
+ {t:"Comms",items:[
+  {k:"w2e",t:"A handful of posts in landlord groups",w:"Drafted by AI, posted by hand from a team member’s account, logged in the comms log",o:"pm ux",m:"send"},
+  {k:"w2o",t:"Comms scheduling: approved posts go out with link codes added",o:"ux",m:"build"}]}]},
+
+{n:3,name:"Activation",dates:"Monday 30 November to Friday 4 December",short:"30 Nov to 4 Dec",q:"Does an account become a user?",
+ goal:"Find out what the accounts actually do, talk to the ones who stalled, and fix the biggest drop-off.",
+ gate:["Twenty landlord accounts","Property rate and invite rate known as numbers","Every stalled landlord interviewed","Gate pack generating automatically"],
+ rule:"If fewer than half of the accounts have sent an invite, stop recruiting and fix the invite flow first.",
+ groups:[
+ {t:"Supply",items:[
+  {k:"w3a",t:"Interview every landlord who stalled",o:"ceo",m:"human"},
+  {k:"w3b",t:"Keep onboarding towards twenty",o:"ceo",m:"human"}]},
+ {t:"Activation",items:[
+  {k:"w3c",t:"Own the activation funnel and fix the biggest drop-off",o:"pm",m:"build"},
+  {k:"w3d",t:"Improve unlock paths and empty states from what was seen on calls",o:"ux",m:"build"},
+  {k:"w3e",t:"Draft the first case study from a design partner",w:"Cleared with the design partner before it goes anywhere",o:"pm",m:"assist"}]},
+ {t:"Loop",items:[
+  {k:"w3f",t:"Contract invites carry a join link and file to the tenant’s account",o:"eng",m:"build"},
+  {k:"w3g",t:"Invite reminders after two and five working days",o:"eng",m:"ai"}]},
+ {t:"Machine",items:[
+  {k:"w3h",t:"Friday gate pack generated automatically",o:"pm",m:"build"}]},
+ {t:"Comms",items:[
+  {k:"w3i",t:"Content drafts: posts from the language bank, objections and call synthesis",o:"pm",m:"ai"},
+  {k:"w3j",t:"Turn the case study into posts and a partner update",o:"pm ux",m:"assist"},
+  {k:"w3k",t:"Comms log updates itself: replies and sign-ups pulled in from link codes",o:"ux",m:"build"}]}]},
+
+{n:4,name:"Optimisation",dates:"Monday 7 to Friday 11 December",short:"7 to 11 Dec",q:"Which part of this would survive being repeated?",
+ goal:"Work out which channel produced landlords who activate, open self-serve, and decide what month 2 is for.",
+ gate:["Channel named, costed and written up","Self-serve sign-up working with nobody on a call","Price signal summarised","Go, fix or pivot decided"],
+ rule:"If more than half of the accounts came through personal connections, month 2 is about finding a channel, not scaling one.",
+ groups:[
+ {t:"Supply",items:[
+  {k:"w4a",t:"Design self-serve onboarding from the friction log",o:"ux",m:"build"},
+  {k:"w4b",t:"Build and open self-serve sign-up for landlords",o:"pm",m:"build"}]},
+ {t:"Analysis",items:[
+  {k:"w4c",t:"Compare channels on the scorecard: which produced landlords who climbed the ladder",o:"pm",m:"assist"},
+  {k:"w4d",t:"Measure how many tenants each landlord’s invites brought in",o:"eng",m:"ai"},
+  {k:"w4e",t:"Summarise the price signal from design partners",o:"ceo",m:"human"}]},
+ {t:"Decisions",items:[
+  {k:"w4f",t:"Write up the channel: name, cost, steps, evidence",o:"ceo",m:"human"},
+  {k:"w4g",t:"Hold the gate review",o:"ceo",m:"human"},
+  {k:"w4h",t:"Decide month 2: postcode pages, paid test, agents, or none of them",o:"ceo",m:"human"}]},
+ {t:"Comms",items:[
+  {k:"w4i",t:"Review comms results on the scorecard and keep what produced landlords",o:"pm ux",m:"assist"}]}]}
+];
+
+var OBJ=[["Landlord accounts","obj_accounts",20],["Added a property","obj_property",20],["Sent an invite","obj_invite",20]];
+
+var THRESH=[
+ {k:"t0",when:"End of week 0",if:"Fewer than 3 design partners commit from 30 conversations",then:"Stop and rework the offer before day one.",target:"3"},
+ {k:"t1",when:"End of week 1",if:"Fewer than 3 of the 5 design partners add a property within three working days",then:"Pause recruiting. Fix onboarding first.",target:"3"},
+ {k:"t2",when:"End of week 2",if:"Fewer than 2 partners have referred a landlord",then:"Switch effort to landlord groups and design partner introductions.",target:"2"},
+ {k:"t3",when:"End of week 3",if:"Fewer than half of accounts have sent an invite",then:"Stop recruiting. Fix the invite flow.",target:"50%"},
+ {k:"t4",when:"End of week 4",if:"More than half of accounts came through personal connections",then:"Month 2 is about finding a channel, not scaling one.",target:"under 50%"}
+];
+
+var METRICS=[
+ ["Landlord accounts","Self-managing landlords in the area","Daily","20",1],
+ ["Accounts with a property","Added at least one property","Daily","20",1],
+ ["Accounts that invited","Sent at least one invite","Daily","20",1],
+ ["Design partners active","Gave feedback this week","Daily","5",0],
+ ["Partner calls held","Brokers and accountants","Daily","8",0],
+ ["Partners referring","Sent at least one landlord","Daily","3",0],
+ ["Hours in conversation","CEO, this week","Daily","60% of week",0],
+ ["Stalled landlords","Idle three working days or more","Daily","0",0],
+ ["Friction items open","From onboarding calls","Daily","falling",0],
+ ["Invites sent","From landlords","Daily","60",0],
+ ["Invite conversion","Tenant accounts from invites, 7 days","Weekly","35%",0],
+ ["Return rate","Landlords back within 14 days","Weekly","60%",0]
+];
+
+var AUTO=[
+ {k:"au1",t:"Call recording, transcript, AI summary, friction log entry and follow-up draft",o:"eng",area:"Feedback",why:"No notes to write, and every follow-up is drafted within minutes"},
+ {k:"au11",t:"Weekly synthesis across all call transcripts",o:"eng",area:"Feedback",why:"Patterns across thirty conversations without rereading notes"},
+ {k:"au12",t:"Design partner feedback reminders: weekly in the first month, then monthly",o:"eng",area:"Feedback",why:"Every feedback session is booked without chasing"},
+ {k:"au2",t:"A unique sign-up link or code per channel and partner",o:"eng",area:"Operations",why:"The account log fills itself and the personal network check is exact"},
+ {k:"au4",t:"Stall alerts with context",o:"eng",area:"Operations",why:"The right landlord gets a call at the right moment"},
+ {k:"au5",t:"Referral codes on every landlord’s invites",o:"eng",area:"Operations",why:"The invite loop measures itself"},
+ {k:"au13",t:"Failure alerts for sends, invites and the digest, in Google Chat",o:"eng",area:"Operations",why:"Breakages are seen the same morning, not by a landlord"},
+ {k:"au3",t:"Product events update the CRM pipeline",o:"pm",area:"CRM",why:"Nobody updates a landlord’s stage by hand"},
+ {k:"au14",t:"Partner referral tracking: each referral credited to its partner, with status",o:"pm",area:"CRM",why:"Partners can be told how their introductions are doing"},
+ {k:"au8",t:"Booking link in all outreach",o:"pm",area:"CRM",why:"No back and forth to schedule calls"},
+ {k:"au10",t:"Outreach drafts from research on each contact",o:"pm",area:"Content",why:"Drafted for review. Never sent automatically"},
+ {k:"au15",t:"Post drafts from the language bank, objections and call synthesis",o:"pm",area:"Content",why:"A steady supply of posts in landlords’ own words"},
+ {k:"au6",t:"Live dashboard from the event store",o:"pm",area:"Measurement",why:"The three numbers are always current"},
+ {k:"au7",t:"09:30 Google Chat digest, Monday to Friday",o:"pm",area:"Measurement",why:"The stand-up starts with the data already in front of everyone"},
+ {k:"au9",t:"Friday gate pack generated automatically",o:"pm",area:"Measurement",why:"The gate decides instead of gathering data"},
+ {k:"au16",t:"Post and graphic templates generated from approved copy",o:"ux",area:"Creative",why:"Every post looks like Proptii without being designed from scratch"},
+ {k:"au17",t:"Partner one-pagers generated with each partner’s own link",o:"ux",area:"Creative",why:"A new partner gets their materials the day they agree"},
+ {k:"au18",t:"Comms scheduling: approved company posts go out with link codes; group posts are queued for a person to post",o:"ux",area:"Communications",why:"Posts go out on time and every sign-up is attributed"},
+ {k:"au19",t:"Comms log updates itself: posted status, replies and sign-ups pulled in from link codes",o:"ux",area:"Communications",why:"Results per post without anyone counting"}
+];
+
+var PEOPLE=[
+ {o:"ceo",name:"CEO",role:"Owns the objective and every conversation",now:"Thirty conversations and five design partners in week 0",then:"Calls, onboarding sessions, partner meetings and gate decisions."},
+ {o:"eng",name:"Head of Engineering",role:"Owns the machine, plus feedback and operations automation",now:"One landlord journey working end to end, sign-up links and call recording",then:"The invite loop, referencing and contract reliability, feedback automation from calls and design partners, and operations automation: links, alerts and referral codes."},
+ {o:"pm",name:"PM / Frontend Engineer",role:"Owns activation, plus CRM and content automation",now:"Booking link, metric definitions, and the messaging and comms log with UI/UX",then:"The activation funnel, self-serve sign-up, the CRM pipeline and partner referrals, content drafts, the daily review and gate pack, and GTM comms shared with UI/UX."},
+ {o:"ux",name:"UI/UX Engineer",role:"Owns onboarding friction, plus creative and communications automation",now:"Design partner materials, and the messaging and comms log with the PM",then:"Fixes what they see on calls within two working days, post templates and comms scheduling, the language bank, and GTM comms shared with the PM."}
+];
+
+var REPEAT=[
+ ["rp1","You can name the channel","One route produced most of the landlords"],
+ ["rp2","You know roughly what it costs","In money, in hours, or both"],
+ ["rp3","Someone else could follow the steps","If it only exists in one person’s head, it is not repeatable yet"],
+ ["rp4","It worked twice","The twenty-first landlord arrived the same way as the fifteenth"]
+];
+
+var RISKS=[
+ ["r1","Design partners do not commit","Threshold t0 stops the month before it starts, which is cheaper than finding out in week 3"],
+ ["r3","The UX engineer cannot attend onboarding calls","Book their attendance with the call, not separately"],
+ ["r4","Partners agree but do not refer","Threshold t2, and design partner introductions as the fallback"],
+ ["r5","Twenty landlords all come from your own network","Unique links per channel, checked in week 4"],
+ ["r6","Calls are recorded without permission","Consent line read at the start of every call, logged with the recording"],
+ ["r7","Cold email reaches individual landlords","Landlords are reached through partners and groups only"],
+ ["r8","Unverified figures reach the public","On the blocked claims list, which the comms log checks every post against"],
+ ["r9","Referencing data handled without a proper basis","Lawful basis, processor agreement and retention policy before marketing it"],
+ ["r10","Broker referrals carry regulatory weight you did not expect","Confirm the direction of referral with your FCA adviser before relying on it"],
+ ["r11","Landlords with day jobs cannot take daytime calls","Evening slots Monday to Thursday, 17:30 to 19:00, reviewed at the end of week 1"]
+];
+
+var DECISIONS=[
+ ["d1","Landlords, in this area?","Version 2 assumes self-managing landlords with 1 to 10 properties in South East London and North Kent. If you choose agents instead, the channel becomes direct outreach and the sales cycle lengthens."],
+ ["d2","Design partner terms","Six months free is suggested, with weekly feedback in the first month and a monthly session after that. Decide the length, what they commit to, and whether there is a paid tier after."],
+ ["d3","The thresholds","The figures on the thresholds page are a starting point. Change them in week 0, not later."],
+ ["d4","Call recording","Which tool, where recordings are stored, how long they are kept, and the exact consent line."],
+ ["d5","Is the naming question settled?","Less urgent now that postcode pages are deferred, but it still affects partner materials and every post."]
+];
+
+var SOURCES=["Design partner","Broker referral","Accountant referral","Landlord group","Landlord referral","Personal network","Inbound","Other"];
+var CHANNELS=["LinkedIn","Facebook landlord group","Reddit","Landlord forum","X","Instagram","Email","Partner explainer","Other"];
+var AUDIENCES=["Landlords","Partners","Tenants","General"];
+var DEFAULT_BANNED=["41%","£2,700","2,700","2700"];
+
+var KEY="proptii-gtm-v3",S={};
+try{var raw=localStorage.getItem(KEY);if(raw)S=JSON.parse(raw)||{}}catch(e){S={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function getArr(k){return (S[k]&&S[k].length)?S[k]:[]}
+function rung(r){var n=parseInt(r&&r.ladder,10);return isNaN(n)?0:n}
+
+/* ---------- plan page ---------- */
+function ownLabel(o){return o.split(" ").map(function(x){return OWNERS[x]}).join(" + ")}
+function buildWeek(sec){
+ var w=WEEKS[+sec.dataset.week],h="";
+ h+='<h2>Week '+w.n+' — '+w.name+'</h2><p class="wkdates">'+esc(w.dates)+'</p>';
+ h+='<p class="q">'+esc(w.q)+'</p><p class="goal">'+esc(w.goal)+'</p>';
+ w.groups.forEach(function(g){
+  var gid=w.n+'-'+g.t;
+  h+='<div class="grp-h"><h4>'+esc(g.t)+'</h4><span class="ct" data-ct="'+esc(gid)+'"></span></div><ul class="tasks">';
+  g.items.forEach(function(it){
+   h+='<li data-grp="'+esc(gid)+'" data-owner="'+it.o+'"><input type="checkbox" data-k="'+it.k+'" aria-label="'+esc(it.t)+'">'
+    +'<span class="txt">'+esc(it.t)+(it.w?'<span class="why">'+esc(it.w)+'</span>':'')+'</span>'
+    +'<span class="tags"><span class="own">'+ownLabel(it.o)+'</span><span class="tag '+TAGS[it.m][1]+'">'+TAGS[it.m][0]+'</span></span></li>';
+  });
+  h+='</ul>';
+ });
+ h+='<div class="gate"><h4>Gate at the end of week '+w.n+'</h4><ul>';
+ w.gate.forEach(function(g,i){
+  h+='<li><input type="checkbox" data-k="g'+w.n+'-'+i+'" aria-label="'+esc(g)+'"><span class="txt">'+esc(g)+'</span></li>';
+ });
+ h+='</ul><p class="rule"><b>Threshold.</b> '+esc(w.rule)+'</p>'
+  +'<div class="verdict" data-verdict="'+w.n+'"><button data-v="go">Go</button><button data-v="fix">Fix</button><button data-v="pivot">Pivot</button></div>'
+  +'<textarea data-note="w'+w.n+'" placeholder="What happened in week '+w.n+', and what you decided"></textarea></div>';
+ sec.innerHTML=h;
+}
+function buildObj(){
+ var h="";
+ OBJ.forEach(function(o){
+  h+='<div class="objcard"><h4>'+esc(o[0])+'</h4><div class="row">'
+   +'<input type="number" min="0" data-obj="'+o[1]+'" aria-label="'+esc(o[0])+'" placeholder="0">'
+   +'<span class="of">of '+o[2]+'</span></div><div class="track"><i data-objbar="'+o[1]+'" style="width:0%"></i></div></div>';
+ });
+ document.getElementById("objCards").innerHTML=h;
+}
+function buildPeople(){
+ var h="";
+ PEOPLE.forEach(function(p){
+  h+='<div class="person"><h4>'+esc(p.name)+'</h4><div class="role">'+esc(p.role)+'</div>'
+   +'<p><b>Week 0.</b> '+esc(p.now)+'</p><p><b>During the month.</b> '+esc(p.then)+'</p>'
+   +'<div class="prog"><span data-pcount="'+p.o+'">0 of 0</span><div class="track"><i data-pbar="'+p.o+'" style="width:0%"></i></div></div></div>';
+ });
+ document.getElementById("people").innerHTML=h;
+}
+function buildThresh(){
+ var h="";
+ THRESH.forEach(function(t){
+  h+='<div class="thr"><div class="when">'+esc(t.when)+'</div><div class="if">If '+esc(t.if.charAt(0).toLowerCase()+t.if.slice(1))+'</div>'
+   +'<div class="then">then: '+esc(t.then)+'</div>'
+   +'<div class="actual"><span>Line: '+esc(t.target)+'</span><span>Actual</span><input type="text" data-note="'+t.k+'_actual" placeholder="figure">'
+   +'<div class="verdict" data-verdict="'+t.k+'" style="margin:0"><button class="met" data-v="met">Met</button><button class="miss" data-v="missed">Missed</button></div></div>'
+   +'<textarea data-note="'+t.k+'_action" placeholder="If missed: what you did, or why you chose not to act"></textarea></div>';
+ });
+ document.getElementById("thrList").innerHTML=h;
+}
+function buildMetrics(){
+ var h='<table class="metrics"><thead><tr><th>Measure</th><th>What it means</th><th>Check</th><th>Target</th><th>Now</th></tr></thead><tbody>';
+ METRICS.forEach(function(m,i){
+  h+='<tr'+(m[4]?' class="keyrow"':'')+'><td'+(m[4]?' class="key"':'')+'>'+esc(m[0])+'</td><td>'+esc(m[1])+'</td><td>'+m[2]+'</td><td>'+esc(m[3])+'</td>'
+   +'<td><input type="text" data-note="m'+i+'" aria-label="Current value for '+esc(m[0])+'" style="width:92px"></td></tr>';
+ });
+ document.getElementById("metricTable").innerHTML=h+'</tbody></table>';
+}
+function buildList(elId,rows){
+ var h='<ul class="tasks">';
+ rows.forEach(function(r){
+  h+='<li><input type="checkbox" data-k="'+r[0]+'" aria-label="'+esc(r[1])+'"><span class="txt">'
+   +esc(r[1])+'<span class="why">'+esc(r[2])+'</span></span></li>';
+ });
+ document.getElementById(elId).innerHTML=h+'</ul>';
+}
+function buildRepeat(){
+ buildList("repeatList",REPEAT);
+ document.getElementById("repeatList").insertAdjacentHTML("beforeend",
+  '<textarea data-note="repeat_evidence" placeholder="The evidence behind each condition you marked."></textarea>');
+}
+function buildDecisions(){
+ var h="";
+ DECISIONS.forEach(function(d){
+  h+='<h4 class="sub">'+esc(d[1])+'</h4><p style="color:var(--ink-2);margin:0">'+esc(d[2])+'</p>'
+   +'<textarea data-note="'+d[0]+'" placeholder="Decision and date"></textarea>';
+ });
+ document.getElementById("decisionList").innerHTML=h;
+}
+function buildAuto(){
+ var st=S.auto||{},h='<thead><tr><th style="width:44%">Automation</th><th style="width:14%">Owner</th><th style="width:28%">What it frees up</th><th>Status</th></tr></thead><tbody>';
+ AUTO.forEach(function(a){
+  var v=st[a.k]||"";
+  h+='<tr><td>'+esc(a.t)+'<span style="display:block;font-size:12.5px;color:var(--ink-3)">'+esc(a.area)+'</span></td><td><span class="own">'+OWNERS[a.o]+'</span></td><td style="color:var(--ink-2)">'+esc(a.why)+'</td>'
+   +'<td><select data-auto="'+a.k+'" class="'+(v==="Live"?"status-live":(v==="Building"?"status-building":""))+'">'
+   +["Not started","Building","Live"].map(function(s){return '<option'+(v===s?' selected':'')+'>'+s+'</option>'}).join("")
+   +'</select></td></tr>';
+ });
+ document.getElementById("autoTable").innerHTML=h+'</tbody>';
+ document.querySelectorAll("[data-auto]").forEach(function(el){
+  el.addEventListener("change",function(){
+   S.auto=S.auto||{};S.auto[el.dataset.auto]=el.value;save();
+   el.className=el.value==="Live"?"status-live":(el.value==="Building"?"status-building":"");
+   refresh();
+  });
+ });
+}
+function buildDp(){
+ var rows=getArr("dp"),h='<thead><tr><th>Name</th><th>Committed</th><th>Property</th><th>Tenancy run</th><th>Feedback calls</th><th>Pays now</th><th>Would pay</th><th></th></tr></thead><tbody>';
+ if(!rows.length)h+='<tr><td colspan="8" style="color:var(--ink-3)">No design partners yet. Add each one as they commit.</td></tr>';
+ rows.forEach(function(r,i){
+  h+='<tr><td><input type="text" data-dp="'+i+'-name" value="'+esc(r.name)+'" placeholder="Name"></td>'
+   +'<td><input type="text" data-dp="'+i+'-committed" value="'+esc(r.committed)+'" placeholder="Date" style="width:96px"></td>'
+   +'<td style="text-align:center"><input type="checkbox" data-dp="'+i+'-prop"'+(r.prop?' checked':'')+' aria-label="Added a property"></td>'
+   +'<td style="text-align:center"><input type="checkbox" data-dp="'+i+'-tenancy"'+(r.tenancy?' checked':'')+' aria-label="Ran a tenancy"></td>'
+   +'<td><input type="number" min="0" data-dp="'+i+'-fb" value="'+esc(r.fb)+'"></td>'
+   +'<td><input type="text" data-dp="'+i+'-paynow" value="'+esc(r.paynow)+'" placeholder="£ and for what"></td>'
+   +'<td><input type="text" data-dp="'+i+'-wouldpay" value="'+esc(r.wouldpay)+'" placeholder="£ a month"></td>'
+   +'<td><button class="del" data-dpdel="'+i+'" aria-label="Remove row">&times;</button></td></tr>';
+ });
+ document.getElementById("dpTable").innerHTML=h+'</tbody>';
+ document.querySelectorAll("[data-dp]").forEach(function(el){
+  var p=el.dataset.dp.split("-"),i=+p[0],f=p[1],ev=el.type==="checkbox"?"change":"input";
+  el.addEventListener(ev,function(){
+   var rows=getArr("dp");if(!rows[i])return;
+   rows[i][f]=el.type==="checkbox"?(el.checked?1:0):el.value;S.dp=rows;save();sumDp();
+  });
+ });
+ document.querySelectorAll("[data-dpdel]").forEach(function(b){
+  b.addEventListener("click",function(){var rows=getArr("dp");rows.splice(+b.dataset.dpdel,1);S.dp=rows;save();buildDp()});
+ });
+ sumDp();
+}
+function sumDp(){
+ var rows=getArr("dp"),p=0,t=0,pr=0;
+ rows.forEach(function(r){if(r.prop)p++;if(r.tenancy)t++;if(r.wouldpay)pr++});
+ document.getElementById("dpSum").innerHTML='<span><b>'+rows.length+'</b> of 5 committed</span><span><b>'+p+'</b> added a property</span>'
+  +'<span><b>'+t+'</b> ran a tenancy</span><span><b>'+pr+'</b> gave a price</span>';
+}
+document.getElementById("addDp").addEventListener("click",function(){
+ var rows=getArr("dp");rows.push({name:"",committed:"",prop:0,tenancy:0,fb:"",paynow:"",wouldpay:""});S.dp=rows;save();buildDp();
+});
+
+function buildLog(){
+ var rows=getArr("log"),h='<thead><tr><th style="width:22%">Name</th><th style="width:20%">How they arrived</th><th style="width:14%">Link or code</th><th style="width:20%">Ladder stage</th><th>Property</th><th>Invite</th><th></th></tr></thead><tbody>';
+ if(!rows.length)h+='<tr><td colspan="7" style="color:var(--ink-3)">Nothing logged yet. Add a row as each landlord lands.</td></tr>';
+ rows.forEach(function(r,i){
+  h+='<tr><td><input type="text" data-log="'+i+'-name" value="'+esc(r.name)+'" placeholder="Name"></td>'
+   +'<td><select data-log="'+i+'-src" aria-label="How they arrived"><option value="">--</option>'
+   +SOURCES.map(function(s){return '<option'+(r.src===s?' selected':'')+'>'+s+'</option>'}).join("")+'</select></td>'
+   +'<td><input type="text" data-log="'+i+'-code" value="'+esc(r.code)+'" placeholder="e.g. broker-03"></td>'
+   +'<td><select data-log="'+i+'-ladder" aria-label="Ladder stage"><option value="">--</option>'
+   +LADDER.map(function(l,k){var v=String(k+1);return '<option value="'+v+'"'+(String(r.ladder)===v?' selected':'')+'>'+v+'. '+l[0]+'</option>'}).join("")+'</select></td>'
+   +'<td style="text-align:center"><input type="checkbox" data-log="'+i+'-prop"'+(r.prop?' checked':'')+' aria-label="Added a property"></td>'
+   +'<td style="text-align:center"><input type="checkbox" data-log="'+i+'-inv"'+(r.inv?' checked':'')+' aria-label="Sent an invite"></td>'
+   +'<td><button class="del" data-logdel="'+i+'" aria-label="Remove row">&times;</button></td></tr>';
+ });
+ document.getElementById("logTable").innerHTML=h+'</tbody>';
+ document.querySelectorAll("[data-log]").forEach(function(el){
+  var p=el.dataset.log.split("-"),i=+p[0],f=p[1];
+  var ev=(el.type==="checkbox"||el.tagName==="SELECT")?"change":"input";
+  el.addEventListener(ev,function(){
+   var rows=getArr("log");if(!rows[i])return;
+   rows[i][f]=el.type==="checkbox"?(el.checked?1:0):el.value;S.log=rows;save();sumLog();
+  });
+ });
+ document.querySelectorAll("[data-logdel]").forEach(function(b){
+  b.addEventListener("click",function(){var rows=getArr("log");rows.splice(+b.dataset.logdel,1);S.log=rows;save();buildLog()});
+ });
+ sumLog();
+}
+function sumLog(){
+ var rows=getArr("log"),n=rows.length,prop=0,inv=0,net=0,part=0,r5=0;
+ rows.forEach(function(r){if(r.prop)prop++;if(r.inv)inv++;if(r.src==="Personal network")net++;
+  if(r.src==="Broker referral"||r.src==="Accountant referral")part++;if(rung(r)>=5)r5++});
+ var pct=n?Math.round(net/n*100):0;
+ var warn=(n>=4&&pct>50)?' <span style="color:var(--amber)">more than half from your own network</span>':'';
+ document.getElementById("srcSum").innerHTML='<span><b>'+n+'</b> logged</span><span><b>'+prop+'</b> added a property</span>'
+  +'<span><b>'+inv+'</b> sent an invite</span><span><b>'+r5+'</b> at rung 5 or higher</span><span><b>'+part+'</b> via partners</span><span><b>'+pct+'%</b> from personal network'+warn+'</span>';
+}
+document.getElementById("addRow").addEventListener("click",function(){
+ var rows=getArr("log");rows.push({name:"",src:"",code:"",ladder:"",prop:0,inv:0});S.log=rows;save();buildLog();
+});
+
+/* ---------- essentials page ---------- */
+function ladderCounts(){
+ var rows=getArr("log"),exact=[0,0,0,0,0,0,0],above=[0,0,0,0,0,0,0];
+ rows.forEach(function(r){var n=rung(r);if(n>0){exact[n-1]++;for(var k=0;k<n;k++)above[k]++}});
+ return {exact:exact,above:above,total:rows.length};
+}
+function renderLadder(){
+ var c=ladderCounts(),max=Math.max(c.total,1),h="";
+ LADDER.forEach(function(l,k){
+  var key=(k===4||k===5);
+  h+='<div class="lad'+(key?' key':'')+'"><span class="n">'+(k+1)+'</span>'
+   +'<span class="nm">'+esc(l[0])+'<span>'+esc(l[1])+'</span></span>'
+   +'<span class="bar" title="'+c.above[k]+' at this rung or higher, '+c.exact[k]+' exactly here"><i style="width:'+Math.round(c.above[k]/max*100)+'%"></i></span>'
+   +'<span class="c">'+c.above[k]+'</span></div>';
+ });
+ h+='<p class="hint" style="margin-top:10px">Counts are landlords at that rung or higher, out of '+c.total+' in the account log. Hover a bar to see how many are exactly at that rung.</p>';
+ document.getElementById("ladder").innerHTML=h;
+ renderSnaps();
+}
+function renderSnaps(){
+ var sn=getArr("snaps");
+ if(!sn.length){document.getElementById("snaps").innerHTML='<p class="hint" style="margin-top:12px">No snapshots yet.</p>';return}
+ var h='<table class="mini-table"><thead><tr><th>Saved</th>'+LADDER.map(function(l,k){return '<th class="num">'+(k+1)+'. '+esc(l[0])+'</th>'}).join("")+'<th></th></tr></thead><tbody>';
+ sn.forEach(function(s,i){
+  h+='<tr><td>'+esc(s.d)+'</td>'+s.c.map(function(v){return '<td class="num">'+v+'</td>'}).join("")
+   +'<td><button class="del" data-snapdel="'+i+'" aria-label="Remove snapshot">&times;</button></td></tr>';
+ });
+ document.getElementById("snaps").innerHTML=h+'</tbody></table>';
+ document.querySelectorAll("[data-snapdel]").forEach(function(b){
+  b.addEventListener("click",function(){var sn=getArr("snaps");sn.splice(+b.dataset.snapdel,1);S.snaps=sn;save();renderSnaps()});
+ });
+}
+document.getElementById("snapBtn").addEventListener("click",function(){
+ var c=ladderCounts(),d=new Date(),sn=getArr("snaps");
+ sn.push({d:d.toLocaleDateString("en-GB",{day:"numeric",month:"short"}),c:c.above});S.snaps=sn;save();renderSnaps();
+});
+
+function renderScore(){
+ var rows=getArr("log"),sc=S.score||{},h='<table class="mini-table"><thead><tr><th>How they arrived</th><th class="num">Contacted</th><th class="num">Replied</th><th class="num">Landlords</th><th class="num">Activated (3+)</th><th class="num">Came back (5+)</th><th class="num">Brought someone (6+)</th></tr></thead><tbody>';
+ SOURCES.forEach(function(s){
+  var n=0,a=0,b=0,c=0;
+  rows.forEach(function(r){if(r.src===s){n++;var g=rung(r);if(g>=3)a++;if(g>=5)b++;if(g>=6)c++}});
+  var v=sc[s]||{};
+  h+='<tr><td style="font-weight:600">'+esc(s)+'</td>'
+   +'<td class="num"><input type="number" min="0" data-score="'+esc(s)+'|c" value="'+esc(v.c)+'" aria-label="Contacted via '+esc(s)+'"></td>'
+   +'<td class="num"><input type="number" min="0" data-score="'+esc(s)+'|r" value="'+esc(v.r)+'" aria-label="Replied via '+esc(s)+'"></td>'
+   +'<td class="num">'+n+'</td><td class="num">'+a+'</td><td class="num">'+b+'</td><td class="num">'+c+'</td></tr>';
+ });
+ document.getElementById("scorecard").innerHTML=h+'</tbody></table>';
+ document.querySelectorAll("[data-score]").forEach(function(el){
+  el.addEventListener("input",function(){var p=el.dataset.score.split("|");S.score=S.score||{};S.score[p[0]]=S.score[p[0]]||{};S.score[p[0]][p[1]]=el.value;save()});
+ });
+}
+
+function getBanned(){return S.banned?S.banned:DEFAULT_BANNED.slice()}
+function renderBanned(){
+ var b=getBanned(),h="";
+ b.forEach(function(p,i){h+='<span class="chip">'+esc(p)+'<button data-ban="'+i+'" aria-label="Remove '+esc(p)+'">&times;</button></span>'});
+ if(!b.length)h='<span class="hint">Nothing blocked.</span>';
+ document.getElementById("banned").innerHTML=h;
+ document.querySelectorAll("[data-ban]").forEach(function(btn){
+  btn.addEventListener("click",function(){var b=getBanned();b.splice(+btn.dataset.ban,1);S.banned=b;save();renderBanned();renderComms()});
+ });
+}
+document.getElementById("banAdd").addEventListener("click",function(){
+ var inp=document.getElementById("banInput"),v=inp.value.trim();if(!v)return;
+ var b=getBanned();if(b.indexOf(v)<0)b.push(v);S.banned=b;save();inp.value="";renderBanned();renderComms();
+});
+document.getElementById("banInput").addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("banAdd").click()});
+
+function recEditor(key,specs,elId,opts){
+ var rows=getArr(key),list=rows.map(function(r,i){return {r:r,i:i}}),h="";
+ if(opts.filter)list=list.filter(function(x){return opts.filter(x.r)});
+ if(opts.sort)list.sort(opts.sort);
+ if(!list.length)h='<p class="hint" style="padding:12px 0">'+opts.empty+'</p>';
+ list.forEach(function(x){
+  var r=x.r,i=x.i;
+  h+='<div class="rec" style="grid-template-columns:'+opts.cols+'">';
+  specs.forEach(function(s){
+   var v=r[s.f],id=key+'|'+i+'|'+s.f;
+   h+='<div'+(s.span?' style="grid-column:'+s.span+'"':'')+'><label>'+esc(s.l)+'</label>';
+   if(s.t==="textarea")h+='<textarea data-r="'+id+'" placeholder="'+esc(s.p||"")+'">'+esc(v)+'</textarea>';
+   else if(s.t==="select")h+='<select data-r="'+id+'"><option value="">--</option>'+s.o.map(function(o){
+     var ov=Array.isArray(o)?o[0]:o,ol=Array.isArray(o)?o[1]:o;
+     return '<option value="'+esc(ov)+'"'+(String(v)===String(ov)?' selected':'')+'>'+esc(ol)+'</option>'}).join("")+'</select>';
+   else if(s.t==="check")h+='<input type="checkbox" data-r="'+id+'"'+(v?' checked':'')+' aria-label="'+esc(s.l)+'">';
+   else h+='<input type="'+(s.t==="number"?"number":"text")+'" data-r="'+id+'" value="'+esc(v)+'" placeholder="'+esc(s.p||"")+'">';
+   h+='</div>';
+  });
+  h+='<div class="recact'+(opts.actFull?' full':'')+'">'+(opts.extra?opts.extra(r,i):'')+'<button class="del" data-rdel="'+key+'|'+i+'" aria-label="Remove">&times;</button></div></div>';
+ });
+ var el=document.getElementById(elId);el.innerHTML=h;
+ el.querySelectorAll("[data-r]").forEach(function(inp){
+  var p=inp.dataset.r.split("|"),k=p[0],i=+p[1],f=p[2];
+  var ev=(inp.type==="checkbox"||inp.tagName==="SELECT")?"change":"input";
+  inp.addEventListener(ev,function(){
+   var rows=getArr(k);if(!rows[i])return;
+   rows[i][f]=inp.type==="checkbox"?(inp.checked?1:0):inp.value;S[k]=rows;save();
+   if(opts.onChange)opts.onChange(i,f,inp);
+  });
+ });
+ el.querySelectorAll("[data-rdel]").forEach(function(b){
+  b.addEventListener("click",function(){var p=b.dataset.rdel.split("|"),rows=getArr(p[0]);rows.splice(+p[1],1);S[p[0]]=rows;save();opts.rerender()});
+ });
+ if(opts.after)opts.after(el);
+}
+
+var COMMS_SPECS=[
+ {f:"date",l:"Date",t:"text",p:"e.g. 12 Nov"},
+ {f:"channel",l:"Channel",t:"select",o:CHANNELS},
+ {f:"audience",l:"Audience",t:"select",o:AUDIENCES},
+ {f:"owner",l:"Owner",t:"select",o:[["ceo","CEO"],["eng","Head of Eng"],["pm","PM / FE"],["ux","UI/UX"]]},
+ {f:"status",l:"Status",t:"select",o:["Draft","Approved","Posted"]},
+ {f:"copy",l:"Copy, exactly as it goes out",t:"textarea",span:"1 / -1",p:"The exact words"},
+ {f:"code",l:"Link code",t:"text",p:"e.g. fb-group-02"},
+ {f:"checked",l:"Pre-post check done",t:"check"},
+ {f:"replies",l:"Replies",t:"number"},
+ {f:"signups",l:"Sign-ups",t:"number"},
+ {f:"url",l:"Link to the post",t:"text",p:"Once posted"}
+];
+function commsWarn(r){
+ var w=[],copy=(r.copy||"").toLowerCase();
+ getBanned().forEach(function(b){if(b&&copy.indexOf(b.toLowerCase())>-1)w.push('contains blocked claim “'+b+'”')});
+ if(r.status==="Posted"&&!r.checked)w.push("marked posted without the pre-post check");
+ if(r.status==="Posted"&&!r.code)w.push("posted without a link code");
+ return w.join(", ");
+}
+function renderCommsFilter(){
+ var cur=S.commsFilter||"All",h="";
+ ["All","Draft","Approved","Posted"].forEach(function(f){
+  var n=f==="All"?getArr("comms").length:getArr("comms").filter(function(r){return r.status===f}).length;
+  h+='<button data-cf="'+f+'"'+(cur===f?' class="on"':'')+'>'+f+' ('+n+')</button>';
+ });
+ var el=document.getElementById("commsFilter");el.innerHTML=h;
+ el.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){S.commsFilter=b.dataset.cf;save();renderComms()})});
+}
+function renderComms(){
+ var cur=S.commsFilter||"All";
+ recEditor("comms",COMMS_SPECS,"comms",{
+  cols:"110px 1fr 1fr 1fr 120px",actFull:true,
+  empty:cur==="All"?"Nothing logged yet. Every post, group message and partner explainer goes here before it goes out.":"Nothing with this status.",
+  filter:cur==="All"?null:function(r){return r.status===cur},
+  extra:function(r,i){return '<span class="flag" data-warn="'+i+'">'+esc(commsWarn(r))+'</span>'},
+  onChange:function(i,f){
+   var rows=getArr("comms");
+   if(f==="status"&&rows[i].status==="Posted"&&!rows[i].postedAt){rows[i].postedAt=Date.now();S.comms=rows;save()}
+   var w=document.querySelector('[data-warn="'+i+'"]');if(w)w.textContent=commsWarn(rows[i]);
+   if(f==="status")renderCommsFilter();
+   renderStats();
+  },
+  rerender:renderComms
+ });
+ renderCommsFilter();renderStats();
+}
+document.getElementById("addComms").addEventListener("click",function(){
+ var rows=getArr("comms");rows.unshift({date:"",channel:"",audience:"Landlords",owner:"pm",status:"Draft",copy:"",code:"",checked:0,replies:"",signups:"",url:""});
+ S.comms=rows;S.commsFilter="All";save();renderComms();
+});
+
+function renderLang(){
+ recEditor("lang",[
+  {f:"phrase",l:"What they said, word for word",t:"textarea"},
+  {f:"who",l:"Who",t:"text",p:"Name or type"},
+  {f:"where",l:"Where",t:"text",p:"Call, group, email"},
+  {f:"used",l:"Used in copy",t:"check"}
+ ],"lang",{cols:"2fr 1fr 1fr 90px auto",empty:"No phrases yet. The first onboarding call will give you several.",rerender:renderLang});
+}
+document.getElementById("addLang").addEventListener("click",function(){var rows=getArr("lang");rows.unshift({phrase:"",who:"",where:"",used:0});S.lang=rows;save();renderLang()});
+
+function renderObjs(){
+ recEditor("objs",[
+  {f:"text",l:"Objection",t:"text",p:"In their words"},
+  {f:"count",l:"Heard",t:"number"},
+  {f:"answer",l:"Best answer so far",t:"textarea"},
+  {f:"where",l:"Usually from",t:"text",p:"Type of landlord or partner"}
+ ],"objs",{cols:"1.3fr 70px 1.7fr 1fr auto",empty:"No objections logged yet.",
+  sort:function(a,b){return (parseInt(b.r.count,10)||0)-(parseInt(a.r.count,10)||0)},
+  extra:function(r,i){return '<button class="plus" data-plus="'+i+'">Heard again</button>'},
+  after:function(el){el.querySelectorAll("[data-plus]").forEach(function(b){b.addEventListener("click",function(){
+   var rows=getArr("objs"),i=+b.dataset.plus;rows[i].count=(parseInt(rows[i].count,10)||0)+1;S.objs=rows;save();renderObjs();renderStats()})})},
+  onChange:function(){renderStats()},
+  rerender:renderObjs});
+}
+document.getElementById("addObj").addEventListener("click",function(){var rows=getArr("objs");rows.push({text:"",count:1,answer:"",where:""});S.objs=rows;save();renderObjs();renderStats()});
+
+function renderLearn(){
+ recEditor("learn",[
+  {f:"date",l:"Date",t:"text",p:"e.g. 14 Nov"},
+  {f:"belief",l:"We believed",t:"textarea"},
+  {f:"did",l:"So we",t:"textarea"},
+  {f:"saw",l:"What happened",t:"textarea"},
+  {f:"next",l:"Now we will",t:"textarea"}
+ ],"learn",{cols:"100px 1fr 1fr 1fr 1fr auto",empty:"Nothing yet. Add an entry whenever something you expected turned out differently.",onChange:function(){renderStats()},rerender:function(){renderLearn();renderStats()}});
+}
+document.getElementById("addLearn").addEventListener("click",function(){var rows=getArr("learn");rows.unshift({date:"",belief:"",did:"",saw:"",next:""});S.learn=rows;save();renderLearn();renderStats()});
+
+function renderStats(){
+ var c=ladderCounts(),week=Date.now()-7*864e5,posted=0,heard=0;
+ getArr("comms").forEach(function(r){if(r.status==="Posted"&&r.postedAt&&r.postedAt>=week)posted++});
+ getArr("objs").forEach(function(r){heard+=parseInt(r.count,10)||0});
+ var items=[[c.above[4],"landlords came back unprompted"],[c.above[5],"brought someone in"],[posted,"posts in the last 7 days"],[getArr("learn").length,"learnings logged"]];
+ document.getElementById("essStats").innerHTML=items.map(function(x){return '<div class="stat"><div class="v">'+x[0]+'</div><div class="l">'+x[1]+'</div></div>'}).join("");
+}
+function renderEssentials(){renderLadder();renderScore();renderBanned();renderComms();renderLang();renderObjs();renderLearn();renderStats()}
+
+/* ---------- navigation and views ---------- */
+var PLAN_SECTIONS=[
+ ["objective","The objective",0],["team","The team",0],["rhythm","The working week",0],
+ ["thresholds","Thresholds",0],["dashboard","Daily dashboard",0],["partners","Design partners",0],["accounts","Account log",0],
+ ["week-0","Week 0 Ready",1],["week-1","Week 1 Foundation",1],["week-2","Week 2 Acquisition",1],
+ ["week-3","Week 3 Activation",1],["week-4","Week 4 Optimisation",1],
+ ["automation","Automation",2],["deferred","Deferred",0],["repeatable","Repeatable test",1],["risks","Risks",1],["decisions","Decisions",0]
+];
+var ESS_SECTIONS=[
+ ["e-ladder","Traction ladder","Measure"],["e-score","Channel scorecard","Measure"],
+ ["e-comms","Comms log","Say"],["e-messaging","Messaging","Say"],["e-language","Language bank","Say"],
+ ["e-objections","Objections","Learn"],["e-calls","Call guide","Learn"],["e-learning","Learning log","Learn"]
+];
+function planGrp(id){
+ if(id.indexOf("week-")===0)return "The five weeks";
+ if(["objective","team","rhythm"].indexOf(id)>-1)return "The plan";
+ if(["thresholds","dashboard","partners","accounts"].indexOf(id)>-1)return "Tracking";
+ return "Build and review";
+}
+var currentView=null;
+function buildNav(view){
+ var h="",last=null;
+ if(view==="deck"){
+  h+='<li class="grp">Briefing</li>';
+  slides.forEach(function(sl,i){h+='<li><a href="#'+(i===0?'briefing':'slide-'+(i+1))+'" data-slide="'+i+'">'+(i+1)+'. '+esc(sl.dataset.title)+'</a></li>'});
+  document.getElementById("nav").innerHTML=h;return;
+ }
+ if(view==="ess"){
+  ESS_SECTIONS.forEach(function(s){if(s[2]!==last){h+='<li class="grp">'+s[2]+'</li>';last=s[2]}
+   h+='<li><a href="#'+s[0]+'">'+s[1]+'</a></li>'});
+ }else{
+  PLAN_SECTIONS.forEach(function(s){var g=planGrp(s[0]);if(g!==last){h+='<li class="grp">'+g+'</li>';last=g}
+   h+='<li><a href="#'+s[0]+'">'+s[1]+(s[2]?'<span class="mini" data-nav="'+s[0]+'"></span>':'')+'</a></li>'});
+ }
+ document.getElementById("nav").innerHTML=h;
+}
+function showView(view){
+ if(view!==currentView){
+  currentView=view;
+  document.getElementById("view-deck").hidden=view!=="deck";
+  document.getElementById("view-plan").hidden=view!=="plan";
+  document.getElementById("view-ess").hidden=view!=="ess";
+  document.getElementById("whoBox").hidden=view!=="plan";
+  document.querySelectorAll(".viewsw a").forEach(function(a){var on=a.dataset.view===view;a.classList.toggle("on",on);a.setAttribute("aria-selected",on?"true":"false")});
+  buildNav(view);
+  if(view==="ess")renderEssentials();else if(view==="plan"){buildLog();refresh()}
+  if(view!=="deck")stopPresent();
+ }
+}
+function route(){
+ var h=location.hash.slice(1),view="plan";
+ if(h===""||h==="briefing"||/^slide-\d+$/.test(h))view="deck";
+ else if(h==="essentials"||h.indexOf("e-")===0)view="ess";
+ var wasView=currentView;showView(view);
+ if(view==="deck"){goSlide(h.indexOf("slide-")===0?parseInt(h.slice(6),10)-1:0);if(wasView!=="deck")window.scrollTo(0,0);return}
+ if(wasView!==currentView){var el=h?document.getElementById(h):null;if(el)el.scrollIntoView();else window.scrollTo(0,0)}
+}
+window.addEventListener("hashchange",route);
+
+function buildWeekCards(){
+ var h="";
+ WEEKS.forEach(function(w){
+  h+='<a class="wkcard'+(w.n===curWeek()?' zero':'')+'" href="#week-'+w.n+'"><h4>Week '+w.n+' · '+w.name+'</h4><div class="wkd">'+w.short+'</div>'
+   +'<div class="big" data-card="'+w.n+'">0%</div><div class="track"><i data-cardbar="'+w.n+'" style="width:0%"></i></div></a>';
+ });
+ document.getElementById("weekCards").innerHTML=h;
+}
+function buildFilter(){
+ var opts=[["all","Everyone"],["ceo","CEO"],["eng","Head of Eng"],["pm","PM / FE"],["ux","UI/UX"]];
+ var cur=S.filter||"all",h="";
+ opts.forEach(function(o){h+='<button data-f="'+o[0]+'"'+(cur===o[0]?' class="on"':'')+'>'+o[1]+'</button>'});
+ var el=document.getElementById("ownerFilter");el.innerHTML=h;
+ el.querySelectorAll("button").forEach(function(b){
+  b.addEventListener("click",function(){S.filter=b.dataset.f;save();
+   el.querySelectorAll("button").forEach(function(x){x.classList.toggle("on",x===b)});applyFilter()});
+ });
+}
+function applyFilter(){
+ var f=S.filter||"all";
+ document.querySelectorAll("li[data-owner]").forEach(function(li){li.classList.toggle("hid",f!=="all"&&li.dataset.owner.split(" ").indexOf(f)<0)});
+}
+
+function refresh(){
+ var boxes=document.querySelectorAll('input[type=checkbox][data-k]');
+ var total=boxes.length,done=0;
+ boxes.forEach(function(b){if(b.checked)done++;var li=b.closest("li");if(li)li.classList.toggle("done",b.checked)});
+ var pct=total?Math.round(done/total*100):0;
+ document.getElementById("ringPct").textContent=pct+"%";
+ document.getElementById("ringCap").textContent=done+" of "+total+" done";
+ document.getElementById("ringArc").setAttribute("stroke-dashoffset",(119.4*(1-pct/100)).toFixed(1));
+ WEEKS.forEach(function(w){
+  var bs=document.getElementById("week-"+w.n).querySelectorAll('input[type=checkbox][data-k]'),d=0;
+  bs.forEach(function(b){if(b.checked)d++});
+  var p=bs.length?Math.round(d/bs.length*100):0;
+  var c=document.querySelector('[data-card="'+w.n+'"]');if(c)c.textContent=p+"%";
+  var bar=document.querySelector('[data-cardbar="'+w.n+'"]');if(bar)bar.style.width=p+"%";
+  var nv=document.querySelector('[data-nav="week-'+w.n+'"]');if(nv)nv.textContent=d+"/"+bs.length;
+ });
+ ["risks","repeatable"].forEach(function(id){
+  var bs=document.querySelectorAll("#"+id+" input[type=checkbox]"),d=0;bs.forEach(function(b){if(b.checked)d++});
+  var nv=document.querySelector('[data-nav="'+id+'"]');if(nv)nv.textContent=d+"/"+bs.length;
+ });
+ var live=0;AUTO.forEach(function(a){if((S.auto||{})[a.k]==="Live")live++});
+ var an=document.querySelector('[data-nav="automation"]');if(an)an.textContent=live+"/"+AUTO.length;
+ document.querySelectorAll("[data-ct]").forEach(function(el){
+  var items=document.querySelectorAll('li[data-grp="'+el.dataset.ct.replace(/"/g,'\\"')+'"] input'),d=0;
+  items.forEach(function(b){if(b.checked)d++});el.textContent=d+" of "+items.length;
+ });
+ Object.keys(OWNERS).forEach(function(o){
+  var items=document.querySelectorAll('li[data-owner~="'+o+'"] input[type=checkbox]'),d=0;
+  items.forEach(function(b){if(b.checked)d++});
+  var c=document.querySelector('[data-pcount="'+o+'"]');if(c)c.textContent=d+" of "+items.length+" tasks";
+  var bar=document.querySelector('[data-pbar="'+o+'"]');if(bar)bar.style.width=(items.length?Math.round(d/items.length*100):0)+"%";
+ });
+ OBJ.forEach(function(o){
+  var v=parseFloat(S["n_"+o[1]]||0)||0,bar=document.querySelector('[data-objbar="'+o[1]+'"]');
+  if(bar)bar.style.width=Math.min(100,Math.round(v/o[2]*100))+"%";
+ });
+}
+
+/* ---------- briefing ---------- */
+var GANTT=[
+ {g:"Supply and partners"},
+ {t:"30 conversations, 5 design partners",o:"ceo",s:0,e:4},
+ {t:"Onboard design partners",o:"ceo",s:5,e:8},
+ {t:"Partner calls and referral agreements",o:"ceo",s:6,e:12},
+ {t:"Onboard referred landlords",o:"ceo",s:10,e:19},
+ {t:"Interview stalled landlords",o:"ceo",s:15,e:18},
+ {g:"Product and loop"},
+ {t:"Journey check and fixes",o:"eng",s:0,e:2},
+ {t:"Sign-up links and call recording",o:"eng",s:1,e:4},
+ {t:"Invites work without an account",o:"eng",s:5,e:7},
+ {t:"Referral codes and nudges",o:"eng",s:10,e:12},
+ {t:"Contract invites and reminders",o:"eng",s:15,e:17},
+ {g:"Activation and comms"},
+ {t:"Messaging and comms log",o:"shared",s:2,e:4},
+ {t:"Dashboard and daily digest",o:"pm",s:3,e:7},
+ {t:"Friction reviews, Tue and Thu",o:"ux",dots:[6,8,11,13,16,18,21,23]},
+ {t:"GTM comms",o:"shared",s:5,e:23},
+ {t:"Feedback and failure alerts",o:"eng",s:6,e:12},
+ {t:"CRM and content automation",o:"pm",s:10,e:16},
+ {t:"Creative and comms automation",o:"ux",s:5,e:13},
+ {t:"Activation fixes",o:"pm",s:15,e:19},
+ {t:"Self-serve sign-up",o:"pm",s:19,e:23},
+ {g:"Decisions"},
+ {t:"Friday gates",gate:[4,9,14,19,24]},
+ {t:"Channel write-up and month 2 decision",o:"ceo",s:21,e:24}
+];
+var slides=[],slideIdx=0;
+function dayDate(d){var w=Math.floor(d/5),k=d%5;return new Date(2026,10,9+w*7+k)}
+function todayIdx(){
+ var t=new Date();t.setHours(0,0,0,0);var st=new Date(2026,10,9);
+ var diff=Math.round((t-st)/864e5);if(diff<0)return -1;
+ var w=Math.floor(diff/7),k=diff%7;if(k>4||w>4)return -1;return w*5+k;
+}
+function curWeek(){var t=todayIdx();return t<0?-1:Math.floor(t/5)}
+function renderGantt(){
+ var rows=GANTT.length+2,h="",ti=todayIdx(),L=["M","T","W","T","F"];
+ for(var w=0;w<5;w++){
+  if(w%2===1)h+='<div class="gshade" style="grid-column:'+(2+w*5)+'/'+(7+w*5)+';grid-row:1/-1"></div>';
+  h+='<div class="gwk" style="grid-column:'+(2+w*5)+'/'+(7+w*5)+';grid-row:1">Week '+w+' · '+esc(WEEKS[w].name)+'<span>'+esc(WEEKS[w].short)+'</span></div>';
+ }
+ h+='<div class="gwk" style="grid-column:1;grid-row:1"></div><div class="gday" style="grid-column:1;grid-row:2"></div>';
+ for(var d=0;d<25;d++)h+='<div class="gday'+(d===ti?' today':'')+'" style="grid-column:'+(2+d)+';grid-row:2">'+L[d%5]+' '+dayDate(d).getDate()+'</div>';
+ GANTT.forEach(function(r,i){
+  var row=i+3;
+  if(r.g){h+='<div class="glab ggrp" style="grid-column:1/-1;grid-row:'+row+'">'+esc(r.g)+'</div>';return}
+  h+='<div class="glab" style="grid-column:1;grid-row:'+row+'" title="'+esc(r.t)+'">'+esc(r.t)+'</div>';
+  if(r.dots)r.dots.forEach(function(d){h+='<div class="gdot o-'+r.o+'" style="grid-column:'+(2+d)+';grid-row:'+row+'"></div>'});
+  else if(r.gate)r.gate.forEach(function(d){h+='<div class="ggate" style="grid-column:'+(2+d)+';grid-row:'+row+'" title="Gate, '+dayDate(d).toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"})+'"></div>'});
+  else h+='<div class="gbar o-'+r.o+'" style="grid-column:'+(2+r.s)+'/'+(3+r.e)+';grid-row:'+row+'" title="'+esc(OWNERS[r.o]||"PM and UI/UX")+'"></div>';
+ });
+ if(ti>=0)h+='<div class="gtoday" style="grid-column:'+(2+ti)+';grid-row:2/-1"></div>';
+ var el=document.getElementById("gantt");el.style.gridTemplateRows="repeat("+rows+",auto)";el.innerHTML=h;
+}
+function renderStair(){
+ document.getElementById("stair").innerHTML=LADDER.map(function(l,k){
+  return '<div class="'+((k===4||k===5)?'key':'')+'" style="min-height:'+(9+k*3.4).toFixed(1)+'cqw"><span class="n">'+(k+1)+'</span><b>'+esc(l[0])+'</b><span>'+esc(l[1])+'</span></div>';
+ }).join("");
+}
+function renderGlance(){
+ var h='<table class="stable"><thead><tr><th>Week</th><th>Dates</th><th>The question</th><th>If we fall short</th></tr></thead><tbody>';
+ WEEKS.forEach(function(w){h+='<tr'+(w.n===curWeek()?' style="background:var(--action-soft)"':'')+'><td><b>'+w.n+'. '+esc(w.name)+'</b></td><td style="white-space:nowrap">'+esc(w.short)+'</td><td>'+esc(w.q)+'</td><td>'+esc(w.rule)+'</td></tr>'});
+ document.getElementById("glance").innerHTML=h+'</tbody></table>';
+}
+function renderWeek0(){
+ var w=WEEKS[0],tot=0,done=0;
+ w.groups.forEach(function(g){g.items.forEach(function(it){tot++;if(S[it.k])done++})});
+ var h='<div class="w0nums"><div><b>'+done+' of '+tot+'</b><span>week 0 tasks done</span></div><div><b>'+getArr("dp").length+' of 5</b><span>design partners committed</span></div></div>';
+ h+='<h3>Friday’s gate</h3><ul class="w0gate">'+w.gate.map(function(g,i){var ok=!!S["g0-"+i];
+  return '<li><span class="st '+(ok?'done':'open')+'">'+(ok?'Done':'Open')+'</span>'+esc(g)+'</li>'}).join("")+'</ul>';
+ document.getElementById("w0live").innerHTML=h;
+}
+function goSlide(i){
+ if(isNaN(i))i=0;i=Math.max(0,Math.min(slides.length-1,i));slideIdx=i;
+ slides.forEach(function(sl,k){sl.classList.toggle("on",k===i)});
+ document.getElementById("slideCount").textContent=(i+1)+" / "+slides.length;
+ document.getElementById("prevSlide").disabled=i===0;
+ document.getElementById("nextSlide").disabled=i===slides.length-1;
+ var live=slides[i].dataset.live;if(live==="w0")renderWeek0();if(live==="gantt")renderGantt();
+ document.querySelectorAll("nav a[data-slide]").forEach(function(a){a.classList.toggle("on",+a.dataset.slide===i)});
+}
+function setSlide(i){
+ i=Math.max(0,Math.min(slides.length-1,i));
+ var h=i===0?"briefing":"slide-"+(i+1);
+ if(location.hash.slice(1)===h)goSlide(i);else location.hash=h;
+}
+function startPresent(){
+ document.body.classList.add("presenting");
+ try{var r=document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();if(r&&r.catch)r.catch(function(){})}catch(e){}
+}
+function stopPresent(){
+ document.body.classList.remove("presenting");
+ try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen()}catch(e){}
+}
+function initDeck(){
+ slides=[].slice.call(document.querySelectorAll("#slides .slide"));
+ slides.forEach(function(sl,i){sl.insertAdjacentHTML("beforeend",'<div class="sfoot"><span>Proptii · 30-day landlord motion</span><span>'+(i+1)+' / '+slides.length+'</span></div>')});
+ renderStair();renderGlance();renderGantt();
+ document.getElementById("prevSlide").addEventListener("click",function(){setSlide(slideIdx-1)});
+ document.getElementById("nextSlide").addEventListener("click",function(){setSlide(slideIdx+1)});
+ document.getElementById("presentBtn").addEventListener("click",startPresent);
+ document.getElementById("exitBtn").addEventListener("click",stopPresent);
+ document.addEventListener("fullscreenchange",function(){if(!document.fullscreenElement)document.body.classList.remove("presenting")});
+ document.addEventListener("keydown",function(e){
+  if(currentView!=="deck")return;
+  var t=e.target,tag=t&&t.tagName;
+  if(tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT")return;
+  if(e.key===" "&&tag==="BUTTON")return;
+  if(e.key==="ArrowRight"||e.key==="PageDown"||e.key===" "){e.preventDefault();setSlide(slideIdx+1)}
+  else if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();setSlide(slideIdx-1)}
+  else if(e.key==="Home"){e.preventDefault();setSlide(0)}
+  else if(e.key==="End"){e.preventDefault();setSlide(slides.length-1)}
+  else if(e.key==="Escape"){stopPresent()}
+ });
+}
+
+/* ---------- init ---------- */
+document.querySelectorAll("section[data-week]").forEach(buildWeek);
+buildObj();buildPeople();buildThresh();buildMetrics();
+buildList("riskList",RISKS);buildRepeat();buildDecisions();buildAuto();buildDp();buildLog();
+buildWeekCards();buildFilter();applyFilter();
+
+document.querySelectorAll('input[type=checkbox][data-k]').forEach(function(b){
+ if(S[b.dataset.k])b.checked=true;
+ b.addEventListener("change",function(){if(b.checked)S[b.dataset.k]=1;else delete S[b.dataset.k];save();refresh()});
+});
+document.querySelectorAll("[data-note]").forEach(function(el){
+ var k="n_"+el.dataset.note;if(S[k])el.value=S[k];
+ el.addEventListener("input",function(){
+  if(el.value)S[k]=el.value;else delete S[k];save();
+  document.querySelectorAll('[data-note="'+el.dataset.note+'"]').forEach(function(o){if(o!==el)o.value=el.value});
+ });
+});
+document.querySelectorAll("[data-obj]").forEach(function(el){
+ var k="n_"+el.dataset.obj;if(S[k])el.value=S[k];
+ el.addEventListener("input",function(){if(el.value)S[k]=el.value;else delete S[k];save();refresh()});
+});
+document.querySelectorAll("[data-verdict]").forEach(function(wrap){
+ var k="v_"+wrap.dataset.verdict;
+ wrap.querySelectorAll("button").forEach(function(btn){
+  if(S[k]===btn.dataset.v)btn.classList.add("on");
+  btn.addEventListener("click",function(){
+   if(S[k]===btn.dataset.v)delete S[k];else S[k]=btn.dataset.v;
+   wrap.querySelectorAll("button").forEach(function(b2){b2.classList.toggle("on",S[k]===b2.dataset.v)});save();
+  });
+ });
+});
+
+var tb=document.getElementById("themeBtn");
+function isDark(){var t=document.documentElement.getAttribute("data-theme");
+ return t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)}
+function applyTheme(){if(S.theme)document.documentElement.setAttribute("data-theme",S.theme);
+ else document.documentElement.removeAttribute("data-theme");tb.textContent=isDark()?"Light":"Dark"}
+tb.addEventListener("click",function(){S.theme=isDark()?"light":"dark";save();applyTheme()});
+applyTheme();
+
+document.getElementById("copyBtn").addEventListener("click",function(){
+ var L=["Proptii 30-day plan, version 2 — status"];
+ OBJ.forEach(function(o){L.push(o[0]+": "+(S["n_"+o[1]]||0)+" of "+o[2])});
+ WEEKS.forEach(function(w){
+  var bs=document.getElementById("week-"+w.n).querySelectorAll("input[type=checkbox]"),d=0;bs.forEach(function(b){if(b.checked)d++});
+  L.push("Week "+w.n+" ("+w.name+"): "+d+"/"+bs.length+(S["v_"+w.n]?" - "+S["v_"+w.n]:""));
+ });
+ THRESH.forEach(function(t){if(S["v_"+t.k])L.push(t.when+" threshold: "+S["v_"+t.k])});
+ L.push("Design partners: "+getArr("dp").length+" of 5");
+ var rows=getArr("log"),net=0;rows.forEach(function(r){if(r.src==="Personal network")net++});
+ L.push("Landlords logged: "+rows.length+(rows.length?", "+Math.round(net/rows.length*100)+"% from personal network":""));
+ var c=ladderCounts();
+ L.push("Ladder, at each rung or higher: "+LADDER.map(function(l,k){return l[0]+" "+c.above[k]}).join(", "));
+ var cm=getArr("comms"),posted=cm.filter(function(r){return r.status==="Posted"}).length;
+ L.push("Comms: "+posted+" posted, "+(cm.length-posted)+" in draft or approved");
+ var live=0;AUTO.forEach(function(a){if((S.auto||{})[a.k]==="Live")live++});
+ L.push("Automations live: "+live+" of "+AUTO.length);
+ if(navigator.clipboard)navigator.clipboard.writeText(L.join("\n")).then(function(){
+  var b=document.getElementById("copyBtn");b.textContent="Copied";setTimeout(function(){b.textContent="Copy status"},1400)});
+});
+
+document.getElementById("resetBtn").addEventListener("click",function(){
+ if(!confirm("Clear every tick, number, note and log on all three pages?"))return;
+ var t=S.theme;S={};if(t)S.theme=t;save();location.reload();
+});
+
+var obs=new IntersectionObserver(function(es){
+ es.forEach(function(e){if(e.isIntersecting)
+  document.querySelectorAll("nav a").forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id)})});
+},{rootMargin:"-10% 0px -75% 0px"});
+document.querySelectorAll("section[id]").forEach(function(s){obs.observe(s)});
+
+initDeck();
+route();
+refresh();
+</script>
+</body>
+</html>
