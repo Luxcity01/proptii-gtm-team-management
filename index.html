@@ -2028,12 +2028,12 @@ function showLogin(msg){
 }
 function needsPassword(session){
  var u=session.user||{};
- return AUTH_LINK.type==="recovery"||(!!u.invited_at&&!(u.user_metadata&&u.user_metadata.password_set));
+ return AUTH_LINK.type==="recovery"||!(u.user_metadata&&u.user_metadata.password_set);
 }
 function askPassword(session){
  document.getElementById("app").hidden=true;document.getElementById("login").hidden=false;
  document.getElementById("loginForm").hidden=true;document.getElementById("pwForm").hidden=false;
- document.getElementById("pwFor").textContent="Signed in as "+session.user.email+". Choose a password so you can sign in again on any device.";
+ document.getElementById("pwFor").textContent="Signed in as "+session.user.email+". Choose your own password. You’ll use it to sign in from now on, on any device.";
  document.getElementById("pwNew").focus();
 }
 document.getElementById("pwForm").addEventListener("submit",function(e){
