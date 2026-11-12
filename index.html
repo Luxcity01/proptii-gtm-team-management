@@ -393,6 +393,15 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
     <button class="b p" type="submit" id="loginBtn">Sign in</button>
     <p class="loginerr" id="loginErr" role="alert"></p>
   </form>
+  <form class="loginbox" id="pwForm" hidden>
+    <div class="brand"><b>proptii</b><span>30-day plan</span></div>
+    <h1>Choose your password</h1>
+    <p class="hint" id="pwFor"></p>
+    <label>New password<input type="password" id="pwNew" autocomplete="new-password" minlength="8" required></label>
+    <label>Type it again<input type="password" id="pwAgain" autocomplete="new-password" minlength="8" required></label>
+    <button class="b p" type="submit" id="pwBtn">Save password and continue</button>
+    <p class="loginerr" id="pwErr" role="alert"></p>
+  </form>
 </div>
 <div class="shell" id="app" hidden>
 
@@ -1143,6 +1152,7 @@ var DEFAULT_BANNED=["41%","£2,700","2,700","2700"];
 
 /* ---------- storage: Supabase database, with per-device view preferences ---------- */
 var SB_URL="https://rvlnlkltorclmjupjwel.supabase.co",SB_KEY="sb_publishable_2-0uwJoz-rKrd9O1qOdTYA_NwFh8PIA";
+var AUTH_LINK=(function(){var q=new URLSearchParams(location.hash.slice(1));return {type:q.get("type"),error:q.get("error_description")}})();
 var sb=supabase.createClient(SB_URL,SB_KEY);
 var KEY="proptii-gtm-v3",PREFS_KEY="proptii-gtm-prefs",LOCAL=["theme","filter","commsFilter"];
 var S={},synced={},online=false,busy=false,again=false,timer=null,liveOk=true,deferred={},token="",ownDeletes={};
@@ -2010,10 +2020,35 @@ refresh();
 /* ---------- sign in ---------- */
 try{var pf=JSON.parse(localStorage.getItem(PREFS_KEY)||"{}");if(pf&&pf.theme)document.documentElement.setAttribute("data-theme",pf.theme)}catch(e){}
 var started=false;
-function showLogin(){
+function showLogin(msg){
  document.getElementById("app").hidden=true;document.getElementById("login").hidden=false;
+ document.getElementById("pwForm").hidden=true;document.getElementById("loginForm").hidden=false;
+ document.getElementById("loginErr").textContent=msg||"";
  document.getElementById("loginEmail").focus();
 }
+function needsPassword(session){
+ var u=session.user||{};
+ return AUTH_LINK.type==="recovery"||(!!u.invited_at&&!(u.user_metadata&&u.user_metadata.password_set));
+}
+function askPassword(session){
+ document.getElementById("app").hidden=true;document.getElementById("login").hidden=false;
+ document.getElementById("loginForm").hidden=true;document.getElementById("pwForm").hidden=false;
+ document.getElementById("pwFor").textContent="Signed in as "+session.user.email+". Choose a password so you can sign in again on any device.";
+ document.getElementById("pwNew").focus();
+}
+document.getElementById("pwForm").addEventListener("submit",function(e){
+ e.preventDefault();
+ var a=document.getElementById("pwNew").value,b=document.getElementById("pwAgain").value,err=document.getElementById("pwErr"),btn=document.getElementById("pwBtn");
+ if(a.length<8){err.textContent="Use at least 8 characters.";return}
+ if(a!==b){err.textContent="The two passwords don’t match.";return}
+ btn.disabled=true;err.textContent="";
+ sb.auth.updateUser({password:a,data:{password_set:true}}).then(function(r){
+  btn.disabled=false;
+  if(r.error){err.textContent=r.error.message;return}
+  AUTH_LINK.type=null;
+  sb.auth.getSession().then(function(s){if(s.data.session)start(s.data.session)});
+ }).catch(function(){btn.disabled=false;err.textContent="Can’t reach the sign-in service. Check your connection and try again."});
+});
 function start(session){
  if(started)return;started=true;token=session.access_token;
  document.getElementById("login").hidden=true;document.getElementById("app").hidden=false;
@@ -2028,7 +2063,7 @@ document.getElementById("loginForm").addEventListener("submit",function(e){
   .then(function(r){
    btn.disabled=false;btn.textContent="Sign in";
    if(r.error){err.textContent=r.error.message==="Invalid login credentials"?"That email and password don’t match an account.":r.error.message;return}
-   start(r.data.session);
+   if(needsPassword(r.data.session))askPassword(r.data.session);else start(r.data.session);
   })
   .catch(function(){btn.disabled=false;btn.textContent="Sign in";err.textContent="Can’t reach the sign-in service. Check your connection and try again."});
 });
@@ -2040,7 +2075,13 @@ sb.auth.onAuthStateChange(function(event,session){
  if(session)token=session.access_token;
  if(event==="SIGNED_OUT"&&started)location.reload();
 });
-sb.auth.getSession().then(function(r){if(r.data.session)start(r.data.session);else showLogin()});
+sb.auth.getSession().then(function(r){
+ var s=r.data.session;
+ if(AUTH_LINK.type||AUTH_LINK.error)history.replaceState(null,"",location.pathname+location.search);
+ if(s&&needsPassword(s))askPassword(s);
+ else if(s)start(s);
+ else showLogin(AUTH_LINK.error?"That link has expired or was already used. Ask for a new invite, or sign in with your password.":"");
+});
 </script>
 </body>
 </html>
