@@ -4,9 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Proptii — 30-day landlord motion</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=Nunito+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="fonts/fonts.css" rel="stylesheet">
 <style>
 :root{
   --paper:#F2F5F8; --surface:#FFFFFF; --surface-2:#E9EEF4;
@@ -88,6 +86,8 @@ nav a.on{background:var(--surface);color:var(--ink);border-left-color:var(--acti
 nav .mini{font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums;padding-top:2px}
 nav .grp{font-size:11px;color:var(--ink-3);padding:14px 10px 4px;letter-spacing:.04em}
 .railbtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.sync{font-size:12px;color:var(--ink-3);margin-top:10px}
+.sync.err{color:var(--red);font-weight:600}
 
 main{padding:28px 0 0;min-width:0}
 .hero{padding:34px 0 28px;border-bottom:1px solid var(--line)}
@@ -371,11 +371,30 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
   .lad{grid-template-columns:24px 1fr 40px}
   .lad .bar{grid-column:2/4}
 }
-@media print{.rail,.railbtns,.verdict{display:none}body{background:#fff}ul.tasks li.hid{display:flex}[hidden]{display:block!important}}
+.login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper);padding:24px;z-index:50}
+.loginbox{width:100%;max-width:360px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.loginbox h1{font-size:24px;margin:4px 0 6px}
+.loginbox label{display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin-top:14px}
+.loginbox input{display:block;width:100%;margin-top:4px;padding:9px 11px;border:1px solid var(--line);border-radius:7px;
+  background:var(--surface);color:var(--ink);font:inherit;font-size:15px}
+.loginbox button.b{width:100%;margin-top:18px;padding:9px}
+.loginerr{color:var(--red);font-size:13.5px;margin:10px 0 0;min-height:1em}
+@media print{.rail,.railbtns,.verdict,.login{display:none!important}body{background:#fff}ul.tasks li.hid{display:flex}[hidden]{display:block!important}}
 </style>
 </head>
 <body>
-<div class="shell">
+<div class="login" id="login" hidden>
+  <form class="loginbox" id="loginForm">
+    <div class="brand"><b>proptii</b><span>30-day plan</span></div>
+    <h1>Sign in</h1>
+    <p class="hint">For the Proptii team. Ask the CEO for an account.</p>
+    <label>Email<input type="email" id="loginEmail" autocomplete="username" required></label>
+    <label>Password<input type="password" id="loginPass" autocomplete="current-password" required></label>
+    <button class="b p" type="submit" id="loginBtn">Sign in</button>
+    <p class="loginerr" id="loginErr" role="alert"></p>
+  </form>
+</div>
+<div class="shell" id="app" hidden>
 
 <aside class="rail">
   <div class="brand"><b>proptii</b><span>30-day plan <span class="ver">v2</span></span></div>
@@ -401,7 +420,10 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
     <button class="b" id="themeBtn">Dark</button>
     <button class="b" id="copyBtn">Copy status</button>
     <button class="b" id="resetBtn">Reset</button>
+    <button class="b" id="signOutBtn">Sign out</button>
   </div>
+  <div class="sync" id="syncStatus" role="status" aria-live="polite">Connecting to the database…</div>
+  <div class="sync" id="whoami"></div>
 </aside>
 
 <main>
@@ -893,8 +915,9 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
 </main>
 </div>
 
-<footer>Proptii 30-day landlord motion. Everything you enter is stored in this browser only.</footer>
+<footer>Proptii 30-day landlord motion. Everything you enter is saved to the team’s shared database.</footer>
 
+<script src="vendor/supabase.js"></script>
 <script>
 var OWNERS={ceo:"CEO",eng:"Head of Eng",pm:"PM / FE",ux:"UI/UX"};
 var TAGS={ai:["AI-led","t-ai"],send:["AI-drafted, you send","t-send"],assist:["AI-assisted","t-assist"],
@@ -1118,9 +1141,166 @@ var CHANNELS=["LinkedIn","Facebook landlord group","Reddit","Landlord forum","X"
 var AUDIENCES=["Landlords","Partners","Tenants","General"];
 var DEFAULT_BANNED=["41%","£2,700","2,700","2700"];
 
-var KEY="proptii-gtm-v3",S={};
-try{var raw=localStorage.getItem(KEY);if(raw)S=JSON.parse(raw)||{}}catch(e){S={}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+/* ---------- storage: Supabase database, with per-device view preferences ---------- */
+var SB_URL="https://rvlnlkltorclmjupjwel.supabase.co",SB_KEY="sb_publishable_2-0uwJoz-rKrd9O1qOdTYA_NwFh8PIA";
+var sb=supabase.createClient(SB_URL,SB_KEY);
+var KEY="proptii-gtm-v3",PREFS_KEY="proptii-gtm-prefs",LOCAL=["theme","filter","commsFilter"];
+var S={},synced={},online=false,busy=false,again=false,timer=null,liveOk=true,deferred={},token="",ownDeletes={};
+var CLIENT=Math.random().toString(36).slice(2)+Date.now().toString(36);
+function freshToken(){
+ return sb.auth.getSession().then(function(r){if(r.data.session)token=r.data.session.access_token});
+}
+function rest(method,path,body,opts){
+ opts=opts||{};
+ var h={"apikey":SB_KEY,"Authorization":"Bearer "+token,"Content-Type":"application/json"};
+ if(opts.prefer)h.Prefer=opts.prefer;
+ return fetch(SB_URL+"/rest/v1/"+path,{method:method,headers:h,body:body?JSON.stringify(body):undefined,keepalive:!!opts.keepalive,cache:"no-store"})
+  .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return method==="GET"?r.json():null});
+}
+function push(p,keepalive){
+ var jobs=[],rows=Object.keys(p.set).map(function(k){return {key:k,value:p.set[k],client:CLIENT}});
+ if(rows.length)jobs.push(rest("POST","state?on_conflict=key",rows,{keepalive:keepalive,prefer:"resolution=merge-duplicates,return=minimal"}));
+ if(p.del.length){
+  var now=Date.now();p.del.forEach(function(k){ownDeletes[k]=now});
+  var list="("+p.del.map(function(k){return '"'+k.replace(/\\/g,"\\\\").replace(/"/g,'\\"')+'"'}).join(",")+")";
+  jobs.push(rest("DELETE","state?key=in."+encodeURIComponent(list),null,{keepalive:keepalive,prefer:"return=minimal"}));
+ }
+ return Promise.all(jobs);
+}
+function setSync(state){
+ var el=document.getElementById("syncStatus");
+ if(state==="saved"&&!liveOk)state="nolive";
+ var txt={saving:"Saving…",saved:"All changes saved to the database",error:"Not saved: can’t reach the database. Retrying…",
+  offline:"Not connected to the database. Changes will not be saved. Reload to try again.",
+  nolive:"Saved, but live updates from the team are paused. Reconnecting…"}[state];
+ el.textContent=txt;el.classList.toggle("err",state==="error"||state==="offline"||state==="nolive");
+}
+function savePrefs(){
+ var p={};LOCAL.forEach(function(k){if(S[k]!=null)p[k]=S[k]});
+ try{localStorage.setItem(PREFS_KEY,JSON.stringify(p))}catch(e){}
+}
+function diff(){
+ var set={},del=[],n=0;
+ Object.keys(S).forEach(function(k){if(LOCAL.indexOf(k)>-1)return;if(synced[k]!==JSON.stringify(S[k])){set[k]=S[k];n++}});
+ Object.keys(synced).forEach(function(k){if(!(k in S)){del.push(k);n++}});
+ return n?{set:set,del:del}:null;
+}
+function flush(keepalive){
+ clearTimeout(timer);
+ if(!online)return;
+ if(busy&&!keepalive){again=true;return}
+ var p=diff();if(!p){setSync("saved");return}
+ var sent={};Object.keys(p.set).forEach(function(k){sent[k]=JSON.stringify(p.set[k])});
+ function mark(){Object.keys(sent).forEach(function(k){synced[k]=sent[k]});p.del.forEach(function(k){delete synced[k]})}
+ if(keepalive){push(p,true).then(mark).catch(function(){});return}
+ busy=true;setSync("saving");
+ freshToken().then(function(){return push(p)})
+  .then(function(){
+   mark();
+   busy=false;if(again||diff()){again=false;flush()}else setSync("saved");
+  })
+  .catch(function(){busy=false;again=false;setSync("error");timer=setTimeout(flush,5000)});
+}
+function save(){savePrefs();if(!online)return;clearTimeout(timer);if(diff())setSync("saving");timer=setTimeout(flush,200)}
+function loadState(){
+ var prefs={};try{prefs=JSON.parse(localStorage.getItem(PREFS_KEY)||"{}")||{}}catch(e){}
+ return rest("GET","state?select=key,value").then(function(rows){
+  S={};rows.forEach(function(r){S[r.key]=r.value});online=true;
+  Object.keys(S).forEach(function(k){synced[k]=JSON.stringify(S[k])});
+  var old=null;try{old=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){}
+  if(old&&typeof old==="object"&&!Object.keys(synced).length){
+   S=old;LOCAL.forEach(function(k){if(prefs[k]==null&&old[k]!=null)prefs[k]=old[k]});
+   var p=diff();
+   if(p)push(p).then(function(){
+    Object.keys(p.set).forEach(function(k){synced[k]=JSON.stringify(p.set[k])});
+    try{localStorage.removeItem(KEY)}catch(e){}
+   }).catch(function(){});
+  }
+  LOCAL.forEach(function(k){delete S[k];if(prefs[k]!=null)S[k]=prefs[k]});
+  savePrefs();setSync("saved");
+ }).catch(function(){
+  S={};LOCAL.forEach(function(k){if(prefs[k]!=null)S[k]=prefs[k]});setSync("offline");
+ });
+}
+/* ---------- live updates from the rest of the team ---------- */
+function applyRemote(set,del){
+ var changed=[];
+ Object.keys(set||{}).forEach(function(k){
+  if(LOCAL.indexOf(k)>-1||synced[k]!==JSON.stringify(S[k]))return;
+  var v=JSON.stringify(set[k]);synced[k]=v;
+  if(JSON.stringify(S[k])!==v){S[k]=JSON.parse(v);changed.push(k)}
+ });
+ (del||[]).forEach(function(k){
+  if(!(k in synced)||synced[k]!==JSON.stringify(S[k]))return;
+  delete synced[k];if(k in S){delete S[k];changed.push(k)}
+ });
+ if(changed.length)redraw(changed);
+}
+function guard(id,fn){
+ var el=document.getElementById(id);
+ if(el&&el.contains(document.activeElement)){deferred[id]=fn;return}
+ delete deferred[id];fn();
+}
+function syncFields(){
+ var a=document.activeElement;
+ document.querySelectorAll("input[type=checkbox][data-k]").forEach(function(b){b.checked=!!S[b.dataset.k]});
+ document.querySelectorAll("[data-note]").forEach(function(el){if(el!==a)el.value=S["n_"+el.dataset.note]||""});
+ document.querySelectorAll("[data-obj]").forEach(function(el){if(el!==a)el.value=S["n_"+el.dataset.obj]||""});
+ document.querySelectorAll("[data-verdict]").forEach(function(w){var v=S["v_"+w.dataset.verdict];
+  w.querySelectorAll("button").forEach(function(b){b.classList.toggle("on",v===b.dataset.v)})});
+}
+function redraw(keys){
+ function has(){for(var i=0;i<arguments.length;i++)if(keys.indexOf(arguments[i])>-1)return true;return false}
+ syncFields();
+ if(has("auto"))guard("autoTable",buildAuto);
+ if(has("dp"))guard("dpTable",buildDp);
+ if(has("log"))guard("logTable",buildLog);
+ if(currentView==="ess"){
+  if(has("log","snaps"))renderLadder();
+  if(has("log","score"))guard("scorecard",renderScore);
+  if(has("banned"))renderBanned();
+  if(has("banned","comms"))guard("comms",renderComms);
+  if(has("lang"))guard("lang",renderLang);
+  if(has("objs"))guard("objs",renderObjs);
+  if(has("learn"))guard("learn",renderLearn);
+  renderStats();
+ }
+ refresh();
+ if(currentView==="deck")goSlide(slideIdx);
+}
+document.addEventListener("focusout",function(){
+ setTimeout(function(){syncFields();Object.keys(deferred).forEach(function(id){guard(id,deferred[id])})},0);
+});
+function resync(){
+ return freshToken().then(function(){return rest("GET","state?select=key,value")}).then(function(rows){
+  var remote={};rows.forEach(function(r){remote[r.key]=r.value});
+  applyRemote(remote,Object.keys(synced).filter(function(k){return !(k in remote)}));
+ }).catch(function(){});
+}
+var incoming={set:{},del:{}},incomingTimer=null;
+function queueRemote(k,v,isDel){
+ if(isDel){delete incoming.set[k];incoming.del[k]=1}else{delete incoming.del[k];incoming.set[k]=v}
+ clearTimeout(incomingTimer);
+ incomingTimer=setTimeout(function(){
+  var b=incoming;incoming={set:{},del:{}};applyRemote(b.set,Object.keys(b.del));
+ },30);
+}
+function listen(){
+ sb.channel("state-changes")
+  .on("postgres_changes",{event:"*",schema:"public",table:"state"},function(p){
+   if(p.eventType==="DELETE"){
+    var k=p.old&&p.old.key;if(!k)return;
+    if(ownDeletes[k]&&Date.now()-ownDeletes[k]<10000){delete ownDeletes[k];return}
+    queueRemote(k,null,true);
+   }else if(p.new&&p.new.client!==CLIENT)queueRemote(p.new.key,p.new.value,false);
+  })
+  .subscribe(function(status){
+   if(status==="SUBSCRIBED"){liveOk=true;resync().then(function(){if(!busy)setSync(diff()?"saving":"saved")})}
+   else if(status==="CHANNEL_ERROR"||status==="TIMED_OUT"||status==="CLOSED"){liveOk=false;if(!busy)setSync("saved")}
+  });
+}
+window.addEventListener("pagehide",function(){flush(true)});
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")flush(true)});
 function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
 function getArr(k){return (S[k]&&S[k].length)?S[k]:[]}
 function rung(r){var n=parseInt(r&&r.ladder,10);return isNaN(n)?0:n}
@@ -1746,6 +1926,7 @@ function initDeck(){
 }
 
 /* ---------- init ---------- */
+function boot(){
 document.querySelectorAll("section[data-week]").forEach(buildWeek);
 buildObj();buildPeople();buildThresh();buildMetrics();
 buildList("riskList",RISKS);buildRepeat();buildDecisions();buildAuto();buildDp();buildLog();
@@ -1807,8 +1988,12 @@ document.getElementById("copyBtn").addEventListener("click",function(){
 });
 
 document.getElementById("resetBtn").addEventListener("click",function(){
- if(!confirm("Clear every tick, number, note and log on all three pages?"))return;
- var t=S.theme;S={};if(t)S.theme=t;save();location.reload();
+ if(!confirm("Clear every tick, number, note and log on all three pages? This deletes them from the shared database for the whole team."))return;
+ if(!online){alert("Not connected to the database, so there is nothing to clear.");return}
+ clearTimeout(timer);
+ freshToken().then(function(){return rest("DELETE","state?key=not.is.null",null,{prefer:"return=minimal"})})
+  .then(function(){location.reload()})
+  .catch(function(){alert("Could not reach the database. Nothing was cleared.");location.reload()});
 });
 
 var obs=new IntersectionObserver(function(es){
@@ -1820,6 +2005,42 @@ document.querySelectorAll("section[id]").forEach(function(s){obs.observe(s)});
 initDeck();
 route();
 refresh();
+}
+
+/* ---------- sign in ---------- */
+try{var pf=JSON.parse(localStorage.getItem(PREFS_KEY)||"{}");if(pf&&pf.theme)document.documentElement.setAttribute("data-theme",pf.theme)}catch(e){}
+var started=false;
+function showLogin(){
+ document.getElementById("app").hidden=true;document.getElementById("login").hidden=false;
+ document.getElementById("loginEmail").focus();
+}
+function start(session){
+ if(started)return;started=true;token=session.access_token;
+ document.getElementById("login").hidden=true;document.getElementById("app").hidden=false;
+ document.getElementById("whoami").textContent="Signed in as "+session.user.email;
+ loadState().then(function(){boot();if(online)listen()});
+}
+document.getElementById("loginForm").addEventListener("submit",function(e){
+ e.preventDefault();
+ var btn=document.getElementById("loginBtn"),err=document.getElementById("loginErr");
+ btn.disabled=true;btn.textContent="Signing in…";err.textContent="";
+ sb.auth.signInWithPassword({email:document.getElementById("loginEmail").value.trim(),password:document.getElementById("loginPass").value})
+  .then(function(r){
+   btn.disabled=false;btn.textContent="Sign in";
+   if(r.error){err.textContent=r.error.message==="Invalid login credentials"?"That email and password don’t match an account.":r.error.message;return}
+   start(r.data.session);
+  })
+  .catch(function(){btn.disabled=false;btn.textContent="Sign in";err.textContent="Can’t reach the sign-in service. Check your connection and try again."});
+});
+document.getElementById("signOutBtn").addEventListener("click",function(){
+ clearTimeout(timer);var p=online&&diff();
+ (p?push(p):Promise.resolve()).catch(function(){}).then(function(){return sb.auth.signOut()}).then(function(){location.reload()});
+});
+sb.auth.onAuthStateChange(function(event,session){
+ if(session)token=session.access_token;
+ if(event==="SIGNED_OUT"&&started)location.reload();
+});
+sb.auth.getSession().then(function(r){if(r.data.session)start(r.data.session);else showLogin()});
 </script>
 </body>
 </html>
