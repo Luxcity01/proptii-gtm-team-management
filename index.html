@@ -65,6 +65,8 @@ a{color:var(--blue)}
 .brand{display:flex;align-items:baseline;gap:8px;margin-bottom:16px}
 .brand b{font-family:"Archivo";font-size:19px;font-weight:600;color:var(--action);letter-spacing:-.01em}
 .brand span{font-size:12px;color:var(--ink-3)}
+.nowwk{background:var(--action-soft);border-radius:var(--radius);padding:9px 11px;margin:-4px 0 16px;font-size:13px;line-height:1.35;color:var(--ink-2)}
+.nowwk b{display:block;font-family:"Archivo";font-size:14.5px;font-weight:600;color:var(--ink)}
 .ver{display:inline-block;font-size:11px;font-weight:600;color:var(--teal);background:var(--teal-soft);padding:1px 7px;border-radius:20px;margin-left:2px}
 .viewsw{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:4px;margin-bottom:14px}
 .viewsw a{flex:1;text-align:center;font-size:12.5px;padding:6px 3px;border-radius:7px;text-decoration:none;color:var(--ink-2);font-weight:600}
@@ -237,6 +239,13 @@ button.p:hover{color:#fff}
 .recact{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding-top:16px}
 .recact.full{grid-column:1/-1;justify-content:space-between;padding-top:0}
 .flag{font-size:13px;color:var(--red);font-weight:600}
+.sheet{font-size:13.5px}
+.sheet th,.sheet td{white-space:nowrap}
+.sheet td:first-child{font-weight:400}
+.sheet input[type=text]{min-width:110px}
+.sheet td.copy{min-width:320px}
+.sheet td.copy-ro{white-space:pre-wrap;min-width:320px}
+.sheet textarea{margin-top:0;min-height:58px;font-size:13.5px;padding:6px 8px}
 .plus{font:inherit;font-size:12.5px;padding:2px 9px;border-radius:20px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);cursor:pointer;white-space:nowrap}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
 .chip{display:inline-flex;gap:4px;align-items:center;background:var(--red-soft);color:var(--red);padding:3px 4px 3px 11px;border-radius:20px;font-size:13px;font-weight:600}
@@ -286,7 +295,7 @@ button.b:disabled{opacity:.45;cursor:default}
 .steps{display:flex;gap:1cqw;align-items:center;flex-wrap:wrap;margin:1.6cqw 0}
 .steps span{background:var(--paper);border:1px solid var(--line-2);border-radius:999px;padding:.6cqw 1.6cqw;font-weight:600;font-size:clamp(13px,1.55cqw,23px)}
 .steps i{font-style:normal;color:var(--ink-3);font-size:clamp(13px,1.55cqw,23px)}
-.stair{display:grid;grid-template-columns:repeat(7,1fr);gap:.8cqw;align-items:end;margin-top:.6cqw}
+.stair{display:grid;grid-template-columns:repeat(8,1fr);gap:.8cqw;align-items:end;margin-top:.6cqw}
 .stair div{background:var(--teal-soft);border-top:3px solid var(--teal);border-radius:6px 6px 0 0;padding:1cqw;display:flex;flex-direction:column;gap:.3cqw}
 .stair div.key{background:var(--action-soft);border-top-color:var(--action)}
 .stair .n{font-family:"Archivo";font-size:clamp(16px,2.3cqw,34px);color:var(--ink-3);font-weight:600;line-height:1}
@@ -407,6 +416,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
 
 <aside class="rail">
   <div class="brand"><b>proptii</b><span>30-day plan <span class="ver">v2</span></span></div>
+  <div class="nowwk" id="nowWeek"></div>
   <div class="viewsw" role="tablist" aria-label="Pages">
     <a href="#briefing" data-view="deck" role="tab">Briefing</a>
     <a href="#objective" data-view="plan" role="tab">Plan</a>
@@ -514,7 +524,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
         </div>
       </div>
       <p style="margin-top:1.6cqw">Creating an account proves little on its own. Adding a property means they engaged. Sending an invite means the loop turned, and that’s the part that grows by itself.</p>
-      <p>This is rung 3 of the traction ladder. It is the target, and the rungs above it are the evidence.</p>
+      <p>This is rung 4 of the traction ladder. It is the target, and the rungs above it are the evidence.</p>
     </article>
 
     <article class="slide" data-title="Desired outcomes">
@@ -533,7 +543,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
     <article class="slide" data-title="The traction ladder">
       <div class="kicker">Measuring traction</div>
       <h2>The traction ladder</h2>
-      <p>Each landlord sits at the highest rung they’ve reached. Each rung is harder to fake than the one below. Five landlords at rung 5 would tell us more than twenty at rung 3.</p>
+      <p>Each landlord sits at the highest rung they’ve reached. Each rung is harder to fake than the one below. Five landlords at rung 6 would tell us more than twenty at rung 4.</p>
       <div class="stair" id="stair"></div>
     </article>
 
@@ -555,8 +565,8 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
       <div class="kicker">Definitions</div>
       <h2>Terms we use: progress and process</h2>
       <div class="terms">
-        <div><b>Activated</b><span>A landlord who has added at least one property. Rung 3 on the ladder.</span></div>
-        <div><b>Traction ladder</b><span>Seven rungs, from interested to would pay. Each landlord sits at the highest rung they’ve reached.</span></div>
+        <div><b>Activated</b><span>A landlord who has added at least one property. Rung 4 on the ladder.</span></div>
+        <div><b>Traction ladder</b><span>Eight rungs, from outreached to would pay. Each landlord sits at the highest rung they’ve reached.</span></div>
         <div><b>Stalled</b><span>A landlord who has done nothing for three working days. The CEO gets an alert.</span></div>
         <div><b>Friction</b><span>Anything that slows a landlord down or confuses them. Logged from every onboarding call, reviewed on Tuesdays and Thursdays.</span></div>
         <div><b>Threshold</b><span>A rule written in week 0 that says what we do if a number falls short. Written before the results, so we don’t argue about it afterwards.</span></div>
@@ -670,7 +680,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
     <h2>The objective</h2>
     <p class="lede">One customer, one area, one number.</p>
     <p><strong>By the end of day 30, twenty self-managing landlords in South East London and North Kent have created an account, added at least one property, and sent at least one invite.</strong></p>
-    <p>That sits at rung 3 of the traction ladder on the GTM essentials page. It is the target. The rungs above it are the evidence. Five landlords who come back unprompted would say more about the product than twenty who stopped at rung 3.</p>
+    <p>That sits at rung 4 of the traction ladder on the GTM essentials page. It is the target. The rungs above it are the evidence. Five landlords who come back unprompted would say more about the product than twenty who stopped at rung 4.</p>
 
     <h3>Why landlords rather than agents</h3>
     <div class="scroll"><table>
@@ -808,10 +818,10 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
   <section id="e-ladder">
     <h2>Traction ladder</h2>
     <p class="lede">Each landlord sits at the highest rung they have reached. Set it in the account log on the plan page.</p>
-    <p>Each rung is harder to fake than the one below it. The objective sits at rung 3. The two orange rows matter most this month: using Proptii again without a prompt, and bringing someone else in. A landlord who does either is telling you more than any survey would.</p>
+    <p>Each rung is harder to fake than the one below it. The objective sits at rung 4. The two orange rows matter most this month: using Proptii again without a prompt, and bringing someone else in. A landlord who does either is telling you more than any survey would.</p>
     <div id="ladder"></div>
     <h3>Weekly snapshots</h3>
-    <p>Save one every Friday before the gate. The movement between snapshots is the traction. A count that stays flat at rung 3 while sign-ups rise means acquisition is working and the product is not yet holding people.</p>
+    <p>Save one every Friday before the gate. It saves the ladder and the channel scorecard together. The movement between snapshots is the traction. A count that stays flat at rung 4 while sign-ups rise means acquisition is working and the product is not yet holding people.</p>
     <button class="b p" id="snapBtn">Save this week’s snapshot</button>
     <div class="scroll" id="snaps"></div>
   </section>
@@ -819,7 +829,10 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
   <section id="e-score">
     <h2>Channel scorecard</h2>
     <p class="lede">Which routes produce landlords who get somewhere, not just landlords who sign up.</p>
-    <p>Landlords and rungs are counted from the account log by how each one arrived. Enter contacted and replied by hand. A channel whose landlords stall at rung 3 is worth less than a smaller one whose landlords come back.</p>
+    <p>Landlords and rungs are counted from the account log by how each one arrived. Enter contacted and replied by hand, as running totals for the month. A channel whose landlords stall at rung 4 is worth less than a smaller one whose landlords come back.</p>
+    <p class="hint">Each Friday snapshot saves the scorecard. Pick a week to see it as it stood then, or switch to “Change from the previous week” to see what that week added.</p>
+    <div class="filt" id="scoreWeeks" style="margin-top:14px"></div>
+    <div class="filt" id="scoreMode" style="margin-top:8px"></div>
     <div class="scroll" id="scorecard"></div>
   </section>
 
@@ -834,9 +847,13 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
       <li>The link carries a code, so any sign-up it produces shows up in the scorecard.</li>
     </ul>
     <p class="hint">Tick the pre-post check on each item once these are done. Anything marked posted without it is flagged.</p>
-    <div class="filt" id="commsFilter" style="margin-top:18px"></div>
-    <div id="comms"></div>
-    <div style="margin-top:12px"><button class="b p" id="addComms">Add a post or message</button></div>
+    <div class="filt" id="commsWeeks" style="margin-top:18px"></div>
+    <div class="filt" id="commsFilter" style="margin-top:8px"></div>
+    <div class="filt" id="commsMode" style="margin-top:8px">
+      <button data-cm="sheet">Spreadsheet view</button><button data-cm="cards">Card view</button><button id="commsEdit">Edit</button><button id="commsCsv">Download as spreadsheet (CSV)</button>
+    </div>
+    <div id="commsWrap"><div id="comms"></div><div class="scroll" id="commsSheet" hidden></div></div>
+    <div style="margin-top:12px"><button class="b p" id="addComms">Add a post or message</button> <button class="b" id="loadCal">Load the posting calendar, weeks 1 to 4</button></div>
   </section>
 
   <section id="e-messaging">
@@ -933,6 +950,7 @@ var TAGS={ai:["AI-led","t-ai"],send:["AI-drafted, you send","t-send"],assist:["A
   build:["Build once","t-build"],human:["You do it","t-human"]};
 
 var LADDER=[
+ ["Outreached","We contacted them: a message, an introduction or a reply to a post"],
  ["Interested","Agreed to a call"],
  ["Committed","Agreed to onboard, or became a design partner"],
  ["Activated","Added a property"],
@@ -1154,7 +1172,7 @@ var DEFAULT_BANNED=["41%","£2,700","2,700","2700"];
 var SB_URL="https://rvlnlkltorclmjupjwel.supabase.co",SB_KEY="sb_publishable_2-0uwJoz-rKrd9O1qOdTYA_NwFh8PIA";
 var AUTH_LINK=(function(){var q=new URLSearchParams(location.hash.slice(1));return {type:q.get("type"),error:q.get("error_description")}})();
 var sb=supabase.createClient(SB_URL,SB_KEY);
-var KEY="proptii-gtm-v3",PREFS_KEY="proptii-gtm-prefs",LOCAL=["theme","filter","commsFilter"];
+var KEY="proptii-gtm-v3",PREFS_KEY="proptii-gtm-prefs",LOCAL=["theme","filter","commsFilter","commsView","commsWeek"];
 var S={},synced={},online=false,busy=false,again=false,timer=null,liveOk=true,deferred={},token="",ownDeletes={};
 var CLIENT=Math.random().toString(36).slice(2)+Date.now().toString(36);
 function freshToken(){
@@ -1266,10 +1284,10 @@ function redraw(keys){
  if(has("dp"))guard("dpTable",buildDp);
  if(has("log"))guard("logTable",buildLog);
  if(currentView==="ess"){
-  if(has("log","snaps"))renderLadder();
-  if(has("log","score"))guard("scorecard",renderScore);
+  if(has("log","snaps","score"))renderLadder();
+  if(has("log","score","snaps"))guard("scorecard",renderScore);
   if(has("banned"))renderBanned();
-  if(has("banned","comms"))guard("comms",renderComms);
+  if(has("banned","comms"))guard("commsWrap",renderComms);
   if(has("lang"))guard("lang",renderLang);
   if(has("objs"))guard("objs",renderObjs);
   if(has("learn"))guard("learn",renderLearn);
@@ -1483,11 +1501,11 @@ function buildLog(){
 function sumLog(){
  var rows=getArr("log"),n=rows.length,prop=0,inv=0,net=0,part=0,r5=0;
  rows.forEach(function(r){if(r.prop)prop++;if(r.inv)inv++;if(r.src==="Personal network")net++;
-  if(r.src==="Broker referral"||r.src==="Accountant referral")part++;if(rung(r)>=5)r5++});
+  if(r.src==="Broker referral"||r.src==="Accountant referral")part++;if(rung(r)>=6)r5++});
  var pct=n?Math.round(net/n*100):0;
  var warn=(n>=4&&pct>50)?' <span style="color:var(--amber)">more than half from your own network</span>':'';
  document.getElementById("srcSum").innerHTML='<span><b>'+n+'</b> logged</span><span><b>'+prop+'</b> added a property</span>'
-  +'<span><b>'+inv+'</b> sent an invite</span><span><b>'+r5+'</b> at rung 5 or higher</span><span><b>'+part+'</b> via partners</span><span><b>'+pct+'%</b> from personal network'+warn+'</span>';
+  +'<span><b>'+inv+'</b> sent an invite</span><span><b>'+r5+'</b> at rung 6 or higher</span><span><b>'+part+'</b> via partners</span><span><b>'+pct+'%</b> from personal network'+warn+'</span>';
 }
 document.getElementById("addRow").addEventListener("click",function(){
  var rows=getArr("log");rows.push({name:"",src:"",code:"",ladder:"",prop:0,inv:0});S.log=rows;save();buildLog();
@@ -1495,20 +1513,25 @@ document.getElementById("addRow").addEventListener("click",function(){
 
 /* ---------- essentials page ---------- */
 function ladderCounts(){
- var rows=getArr("log"),exact=[0,0,0,0,0,0,0],above=[0,0,0,0,0,0,0];
- rows.forEach(function(r){var n=rung(r);if(n>0){exact[n-1]++;for(var k=0;k<n;k++)above[k]++}});
- return {exact:exact,above:above,total:rows.length};
+ var rows=getArr("log"),exact=LADDER.map(function(){return 0}),above=LADDER.map(function(){return 0});
+ rows.forEach(function(r){var n=rung(r);if(n>1){exact[n-1]++;for(var k=1;k<n;k++)above[k]++}});
+ var sc=S.score||{},contacted=0;
+ SOURCES.forEach(function(s){contacted+=parseInt(sc[s]&&sc[s].c,10)||0});
+ above[0]=contacted;exact[0]=Math.max(contacted-above[1],0);
+ return {exact:exact,above:above,total:rows.length,contacted:contacted};
 }
 function renderLadder(){
- var c=ladderCounts(),max=Math.max(c.total,1),h="";
+ var c=ladderCounts(),max=Math.max(c.total,c.contacted,1),h="";
  LADDER.forEach(function(l,k){
-  var key=(k===4||k===5);
+  var key=(k===5||k===6);
+  var tip=k===0?c.contacted+' contacted, from the channel scorecard':c.above[k]+' at this rung or higher, '+c.exact[k]+' exactly here';
   h+='<div class="lad'+(key?' key':'')+'"><span class="n">'+(k+1)+'</span>'
    +'<span class="nm">'+esc(l[0])+'<span>'+esc(l[1])+'</span></span>'
-   +'<span class="bar" title="'+c.above[k]+' at this rung or higher, '+c.exact[k]+' exactly here"><i style="width:'+Math.round(c.above[k]/max*100)+'%"></i></span>'
+   +'<span class="bar" title="'+tip+'"><i style="width:'+Math.min(100,Math.round(c.above[k]/max*100))+'%"></i></span>'
    +'<span class="c">'+c.above[k]+'</span></div>';
  });
- h+='<p class="hint" style="margin-top:10px">Counts are landlords at that rung or higher, out of '+c.total+' in the account log. Hover a bar to see how many are exactly at that rung.</p>';
+ h+='<p class="hint" style="margin-top:10px">Outreached is the total of the Contacted column on the channel scorecard. Every other rung counts landlords at that rung or higher, out of '+c.total+' in the account log. Hover a bar to see how many are exactly at that rung.</p>';
+ if(c.above[1]>c.contacted)h+='<p class="hint flag" style="margin-top:4px">More landlords are at Interested or higher than the scorecard says were contacted. Update the Contacted column.</p>';
  document.getElementById("ladder").innerHTML=h;
  renderSnaps();
 }
@@ -1517,33 +1540,75 @@ function renderSnaps(){
  if(!sn.length){document.getElementById("snaps").innerHTML='<p class="hint" style="margin-top:12px">No snapshots yet.</p>';return}
  var h='<table class="mini-table"><thead><tr><th>Saved</th>'+LADDER.map(function(l,k){return '<th class="num">'+(k+1)+'. '+esc(l[0])+'</th>'}).join("")+'<th></th></tr></thead><tbody>';
  sn.forEach(function(s,i){
-  h+='<tr><td>'+esc(s.d)+'</td>'+s.c.map(function(v){return '<td class="num">'+v+'</td>'}).join("")
+  h+='<tr><td>'+esc(snapLabel(s))+'</td>'+s.c.map(function(v){return '<td class="num">'+(v==null?'–':v)+'</td>'}).join("")
    +'<td><button class="del" data-snapdel="'+i+'" aria-label="Remove snapshot">&times;</button></td></tr>';
  });
  document.getElementById("snaps").innerHTML=h+'</tbody></table>';
  document.querySelectorAll("[data-snapdel]").forEach(function(b){
-  b.addEventListener("click",function(){var sn=getArr("snaps");sn.splice(+b.dataset.snapdel,1);S.snaps=sn;save();renderSnaps()});
+  b.addEventListener("click",function(){var sn=getArr("snaps");sn.splice(+b.dataset.snapdel,1);S.snaps=sn;save();scoreSel="live";renderSnaps();renderScore()});
  });
 }
+function weekNo(d){var t=new Date(d);t.setHours(0,0,0,0);return Math.floor(Math.round((t-new Date(2026,10,9))/864e5)/7)}
+function snapLabel(s){return (s.w!=null&&s.w>=0?"Week "+s.w+" · ":"")+s.d}
 document.getElementById("snapBtn").addEventListener("click",function(){
  var c=ladderCounts(),d=new Date(),sn=getArr("snaps");
- sn.push({d:d.toLocaleDateString("en-GB",{day:"numeric",month:"short"}),c:c.above});S.snaps=sn;save();renderSnaps();
+ sn.push({d:d.toLocaleDateString("en-GB",{day:"numeric",month:"short"}),w:weekNo(d),c:c.above,sc:scoreNow()});S.snaps=sn;save();renderSnaps();renderScore();
 });
 
-function renderScore(){
- var rows=getArr("log"),sc=S.score||{},h='<table class="mini-table"><thead><tr><th>How they arrived</th><th class="num">Contacted</th><th class="num">Replied</th><th class="num">Landlords</th><th class="num">Activated (3+)</th><th class="num">Came back (5+)</th><th class="num">Brought someone (6+)</th></tr></thead><tbody>';
+var SCORE_COLS=["Contacted","Replied","Landlords","Activated (4+)","Came back (6+)","Brought someone (7+)"];
+var scoreSel="live",scoreDelta=false;
+function scoreNow(){
+ var rows=getArr("log"),sc=S.score||{},out={};
  SOURCES.forEach(function(s){
-  var n=0,a=0,b=0,c=0;
-  rows.forEach(function(r){if(r.src===s){n++;var g=rung(r);if(g>=3)a++;if(g>=5)b++;if(g>=6)c++}});
-  var v=sc[s]||{};
-  h+='<tr><td style="font-weight:600">'+esc(s)+'</td>'
-   +'<td class="num"><input type="number" min="0" data-score="'+esc(s)+'|c" value="'+esc(v.c)+'" aria-label="Contacted via '+esc(s)+'"></td>'
-   +'<td class="num"><input type="number" min="0" data-score="'+esc(s)+'|r" value="'+esc(v.r)+'" aria-label="Replied via '+esc(s)+'"></td>'
-   +'<td class="num">'+n+'</td><td class="num">'+a+'</td><td class="num">'+b+'</td><td class="num">'+c+'</td></tr>';
+  var v=sc[s]||{},n=0,a=0,b=0,c=0;
+  rows.forEach(function(r){if(r.src===s){n++;var g=rung(r);if(g>=4)a++;if(g>=6)b++;if(g>=7)c++}});
+  out[s]=[parseInt(v.c,10)||0,parseInt(v.r,10)||0,n,a,b,c];
  });
- document.getElementById("scorecard").innerHTML=h+'</tbody></table>';
+ return out;
+}
+function prevScoreSnap(before){
+ var sn=getArr("snaps");
+ for(var i=before-1;i>=0;i--)if(sn[i].sc)return sn[i];
+ return null;
+}
+function renderScoreControls(){
+ var sn=getArr("snaps"),h='<button data-ss="live"'+(scoreSel==="live"?' class="on"':'')+'>This week, live</button>';
+ sn.forEach(function(s,i){if(s.sc)h+='<button data-ss="'+i+'"'+(scoreSel===i?' class="on"':'')+'>'+esc(snapLabel(s))+'</button>'});
+ var w=document.getElementById("scoreWeeks");w.innerHTML=h;
+ w.querySelectorAll("[data-ss]").forEach(function(b){b.addEventListener("click",function(){scoreSel=b.dataset.ss==="live"?"live":+b.dataset.ss;renderScore()})});
+ var m=document.getElementById("scoreMode");
+ m.innerHTML='<button data-sd="0"'+(!scoreDelta?' class="on"':'')+'>Running totals</button><button data-sd="1"'+(scoreDelta?' class="on"':'')+'>Change from the previous week</button>';
+ m.querySelectorAll("[data-sd]").forEach(function(b){b.addEventListener("click",function(){scoreDelta=b.dataset.sd==="1";renderScore()})});
+}
+function renderScore(){
+ var sn=getArr("snaps");
+ if(scoreSel!=="live"&&!(sn[scoreSel]&&sn[scoreSel].sc))scoreSel="live";
+ renderScoreControls();
+ var live=scoreSel==="live",cur=live?scoreNow():sn[scoreSel].sc;
+ var base=scoreDelta?prevScoreSnap(live?sn.length:scoreSel):null;
+ var h='<table class="mini-table"><thead><tr><th>How they arrived</th>'+SCORE_COLS.map(function(c){return '<th class="num">'+c+'</th>'}).join("")+'</tr></thead><tbody>';
+ var tot=SCORE_COLS.map(function(){return 0});
+ SOURCES.forEach(function(s){
+  var v=cur[s]||[0,0,0,0,0,0],b=base&&base.sc[s]||[0,0,0,0,0,0],sc=S.score||{},raw=sc[s]||{};
+  h+='<tr><td style="font-weight:600">'+esc(s)+'</td>';
+  v.forEach(function(x,k){
+   var d=x-(scoreDelta?b[k]:0);tot[k]+=d;
+   if(live&&!scoreDelta&&k<2)h+='<td class="num"><input type="number" min="0" data-score="'+esc(s)+'|'+(k?'r':'c')+'" value="'+esc(k?raw.r:raw.c)+'" aria-label="'+SCORE_COLS[k]+' via '+esc(s)+'"></td>';
+   else h+='<td class="num">'+(scoreDelta&&d>0?'+':'')+d+'</td>';
+  });
+  h+='</tr>';
+ });
+ h+='<tr><td style="font-weight:600">Total</td>'+tot.map(function(x,k){return '<td class="num" style="font-weight:600" data-tot="'+k+'">'+(scoreDelta&&x>0?'+':'')+x+'</td>'}).join("")+'</tr>';
+ var note='';
+ if(scoreDelta)note=base?'Change since '+esc(snapLabel(base))+'.':'No earlier snapshot to compare with, so these are the full totals.';
+ else if(!live)note='As saved on '+esc(snapLabel(sn[scoreSel]))+'. Read-only.';
+ document.getElementById("scorecard").innerHTML=h+'</tbody></table>'+(note?'<p class="hint">'+note+'</p>':'');
  document.querySelectorAll("[data-score]").forEach(function(el){
-  el.addEventListener("input",function(){var p=el.dataset.score.split("|");S.score=S.score||{};S.score[p[0]]=S.score[p[0]]||{};S.score[p[0]][p[1]]=el.value;save()});
+  el.addEventListener("input",function(){var p=el.dataset.score.split("|");S.score=S.score||{};S.score[p[0]]=S.score[p[0]]||{};S.score[p[0]][p[1]]=el.value;save();if(p[1]==="c")renderLadder();
+   var k=p[1]==="c"?0:1,sum=0;
+   document.querySelectorAll('[data-score$="|'+p[1]+'"]').forEach(function(x){sum+=parseInt(x.value,10)||0});
+   var t=document.querySelector('[data-tot="'+k+'"]');if(t)t.textContent=sum;
+  });
  });
 }
 
@@ -1607,7 +1672,7 @@ var COMMS_SPECS=[
  {f:"owner",l:"Owner",t:"select",o:[["ceo","CEO"],["eng","Head of Eng"],["pm","PM / FE"],["ux","UI/UX"]]},
  {f:"status",l:"Status",t:"select",o:["Draft","Approved","Posted"]},
  {f:"copy",l:"Copy, exactly as it goes out",t:"textarea",span:"1 / -1",p:"The exact words"},
- {f:"code",l:"Link code",t:"text",p:"e.g. fb-group-02"},
+ {f:"code",l:"Link code",t:"text",p:"e.g. fbgroup-02-w2a"},
  {f:"checked",l:"Pre-post check done",t:"check"},
  {f:"replies",l:"Replies",t:"number"},
  {f:"signups",l:"Sign-ups",t:"number"},
@@ -1620,21 +1685,128 @@ function commsWarn(r){
  if(r.status==="Posted"&&!r.code)w.push("posted without a link code");
  return w.join(", ");
 }
+var MONTHS=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+function commsWeekOf(r){
+ var s=String(r.date||"").trim().toLowerCase(),m=s.match(/(\d{1,2})(?:st|nd|rd|th)?\s*([a-z]{3})/),d,mo;
+ if(m){d=+m[1];mo=MONTHS.indexOf(m[2])}
+ else{m=s.match(/^(\d{1,2})[\/.-](\d{1,2})/);if(m){d=+m[1];mo=+m[2]-1}}
+ if(!m||mo<0)return null;
+ var w=weekNo(new Date(2026,mo,d));
+ return (w>=0&&w<WEEKS.length)?w:null;
+}
+function commsWeekSel(){
+ if(S.commsWeek!=null)return S.commsWeek;
+ var w=weekNo(new Date());return (w>=0&&w<WEEKS.length)?String(w):"all";
+}
+function commsInWeek(r){
+ var sel=commsWeekSel();if(sel==="all")return true;
+ var w=commsWeekOf(r);return sel==="none"?w===null:w===+sel;
+}
+function commsShow(r){var cur=S.commsFilter||"All";return commsInWeek(r)&&(cur==="All"||r.status===cur)}
 function renderCommsFilter(){
- var cur=S.commsFilter||"All",h="";
+ var cur=S.commsFilter||"All",sel=commsWeekSel(),all=getArr("comms"),h="",now=weekNo(new Date());
+ var wh='<button data-cw="all"'+(sel==="all"?' class="on"':'')+'>All weeks ('+all.length+')</button>';
+ WEEKS.forEach(function(w){
+  var n=all.filter(function(r){return commsWeekOf(r)===w.n}).length;
+  wh+='<button data-cw="'+w.n+'"'+(sel===String(w.n)?' class="on"':'')+'>Week '+w.n+(w.n===now?', this week':'')+' · '+esc(w.short)+' ('+n+')</button>';
+ });
+ var nd=all.filter(function(r){return commsWeekOf(r)===null}).length;
+ if(nd)wh+='<button data-cw="none"'+(sel==="none"?' class="on"':'')+'>No date ('+nd+')</button>';
+ var we=document.getElementById("commsWeeks");we.innerHTML=wh;
+ we.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){S.commsWeek=b.dataset.cw;save();renderComms()})});
+ var inWeek=all.filter(commsInWeek);
  ["All","Draft","Approved","Posted"].forEach(function(f){
-  var n=f==="All"?getArr("comms").length:getArr("comms").filter(function(r){return r.status===f}).length;
+  var n=f==="All"?inWeek.length:inWeek.filter(function(r){return r.status===f}).length;
   h+='<button data-cf="'+f+'"'+(cur===f?' class="on"':'')+'>'+f+' ('+n+')</button>';
  });
  var el=document.getElementById("commsFilter");el.innerHTML=h;
  el.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){S.commsFilter=b.dataset.cf;save();renderComms()})});
 }
+var COMMS_COLS=[["Date","date"],["Channel","channel"],["Audience","audience"],["Owner","owner"],["Status","status"],["Copy","copy"],["Link code","code"],["Pre-post check","checked"],["Replies","replies"],["Sign-ups","signups"],["Link to the post","url"],["Posted at","postedAt"],["Warnings",""]];
+function commsCell(r,f){
+ if(!f)return commsWarn(r);
+ if(f==="owner")return OWNERS[r.owner]||r.owner||"";
+ if(f==="checked")return r.checked?"Yes":"No";
+ if(f==="postedAt")return r.postedAt?new Date(r.postedAt).toLocaleString("en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):"";
+ return r[f]==null?"":String(r[f]);
+}
+function commsInput(s,r,i){
+ var v=r[s.f],id=i+'|'+s.f,lab=' aria-label="'+esc(s.l)+'"';
+ if(s.t==="textarea")return '<textarea data-sc="'+id+'"'+lab+'>'+esc(v)+'</textarea>';
+ if(s.t==="select")return '<select data-sc="'+id+'"'+lab+'><option value="">--</option>'+s.o.map(function(o){
+  var ov=Array.isArray(o)?o[0]:o,ol=Array.isArray(o)?o[1]:o;
+  return '<option value="'+esc(ov)+'"'+(String(v)===String(ov)?' selected':'')+'>'+esc(ol)+'</option>'}).join("")+'</select>';
+ if(s.t==="check")return '<input type="checkbox" data-sc="'+id+'"'+(v?' checked':'')+lab+'>';
+ return '<input type="'+(s.t==="number"?"number":"text")+'" data-sc="'+id+'" value="'+esc(v)+'" placeholder="'+esc(s.p||"")+'"'+lab+'>';
+}
+var sheetEdit=false;
+function renderCommsSheet(){
+ var cur=S.commsFilter||"All",el=document.getElementById("commsSheet");
+ var list=getArr("comms").map(function(r,i){return {r:r,i:i}}).filter(function(x){return commsShow(x.r)});
+ if(!list.length){el.innerHTML='<p class="hint" style="padding:12px 0">Nothing to show.</p>';return}
+ if(!sheetEdit){
+  var t='<table class="sheet"><thead><tr>'+COMMS_COLS.map(function(c){return '<th>'+c[0]+'</th>'}).join("")+'</tr></thead><tbody>';
+  list.forEach(function(x){
+   t+='<tr>'+COMMS_COLS.map(function(c){
+    var cls=c[1]==="copy"?' class="copy-ro"':(c[1]==="replies"||c[1]==="signups")?' class="num"':!c[1]?' class="flag"':'';
+    return '<td'+cls+'>'+esc(commsCell(x.r,c[1]))+'</td>';
+   }).join("")+'</tr>';
+  });
+  el.innerHTML=t+'</tbody></table>';
+  return;
+ }
+ var h='<table class="mini-table sheet"><thead><tr>'+COMMS_COLS.map(function(c){return '<th>'+c[0]+'</th>'}).join("")+'<th></th></tr></thead><tbody>';
+ list.forEach(function(x){
+  h+='<tr>'+COMMS_SPECS.map(function(s){return '<td'+(s.f==="copy"?' class="copy"':'')+'>'+commsInput(s,x.r,x.i)+'</td>'}).join("")
+   +'<td data-posted="'+x.i+'">'+esc(commsCell(x.r,"postedAt"))+'</td>'
+   +'<td class="flag" data-sheetwarn="'+x.i+'">'+esc(commsWarn(x.r))+'</td>'
+   +'<td><button class="del" data-sdel="'+x.i+'" aria-label="Remove">&times;</button></td></tr>';
+ });
+ el.innerHTML=h+'</tbody></table>';
+ el.querySelectorAll("[data-sc]").forEach(function(inp){
+  var p=inp.dataset.sc.split("|"),i=+p[0],f=p[1];
+  inp.addEventListener((inp.type==="checkbox"||inp.tagName==="SELECT")?"change":"input",function(){
+   var rows=getArr("comms");if(!rows[i])return;
+   rows[i][f]=inp.type==="checkbox"?(inp.checked?1:0):inp.value;
+   if(f==="status"&&rows[i].status==="Posted"&&!rows[i].postedAt)rows[i].postedAt=Date.now();
+   S.comms=rows;save();
+   var w=el.querySelector('[data-sheetwarn="'+i+'"]');if(w)w.textContent=commsWarn(rows[i]);
+   var pa=el.querySelector('[data-posted="'+i+'"]');if(pa)pa.textContent=commsCell(rows[i],"postedAt");
+   if(f==="status"){renderCommsFilter();if(cur!=="All")renderCommsSheet()}
+   renderStats();
+  });
+ });
+ el.querySelectorAll("[data-sdel]").forEach(function(b){
+  b.addEventListener("click",function(){var rows=getArr("comms");rows.splice(+b.dataset.sdel,1);S.comms=rows;save();renderComms()});
+ });
+}
+function renderCommsMode(){
+ var sheet=S.commsView!=="cards",eb=document.getElementById("commsEdit");
+ document.querySelectorAll("#commsMode [data-cm]").forEach(function(b){b.classList.toggle("on",(b.dataset.cm==="sheet")===sheet)});
+ document.getElementById("comms").hidden=sheet;
+ document.getElementById("commsSheet").hidden=!sheet;
+ eb.hidden=!sheet;eb.textContent=sheetEdit?"Done editing":"Edit";eb.classList.toggle("on",sheetEdit);
+ if(sheet)renderCommsSheet();
+}
+document.querySelectorAll("#commsMode [data-cm]").forEach(function(b){
+ b.addEventListener("click",function(){S.commsView=b.dataset.cm;sheetEdit=false;save();renderCommsMode()});
+});
+document.getElementById("commsEdit").addEventListener("click",function(){sheetEdit=!sheetEdit;renderCommsMode()});
+document.getElementById("commsCsv").addEventListener("click",function(){
+ function cell(v){v=String(v);return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+ var lines=[COMMS_COLS.map(function(c){return cell(c[0])}).join(",")];
+ getArr("comms").forEach(function(r){lines.push(COMMS_COLS.map(function(c){return cell(commsCell(r,c[1]))}).join(","))});
+ var blob=new Blob(["\ufeff"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"});
+ var a=document.createElement("a");a.href=URL.createObjectURL(blob);
+ a.download="comms-log-"+new Date().toISOString().slice(0,10)+".csv";
+ document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1000);
+});
 function renderComms(){
  var cur=S.commsFilter||"All";
  recEditor("comms",COMMS_SPECS,"comms",{
   cols:"110px 1fr 1fr 1fr 120px",actFull:true,
-  empty:cur==="All"?"Nothing logged yet. Every post, group message and partner explainer goes here before it goes out.":"Nothing with this status.",
-  filter:cur==="All"?null:function(r){return r.status===cur},
+  empty:!getArr("comms").length?"Nothing logged yet. Every post, group message and partner explainer goes here before it goes out.":"Nothing in this week with this status.",
+  filter:commsShow,
   extra:function(r,i){return '<span class="flag" data-warn="'+i+'">'+esc(commsWarn(r))+'</span>'},
   onChange:function(i,f){
    var rows=getArr("comms");
@@ -1646,10 +1818,47 @@ function renderComms(){
   rerender:renderComms
  });
  renderCommsFilter();renderStats();
+ document.getElementById("loadCal").hidden=!calMissing().length;
+ renderCommsMode();
 }
 document.getElementById("addComms").addEventListener("click",function(){
- var rows=getArr("comms");rows.unshift({date:"",channel:"",audience:"Landlords",owner:"pm",status:"Draft",copy:"",code:"",checked:0,replies:"",signups:"",url:""});
- S.comms=rows;S.commsFilter="All";save();renderComms();
+ var sel=commsWeekSel(),date="";
+ if(sel!=="all"&&sel!=="none"){var t=new Date(),w=+sel,dd=(weekNo(t)===w&&t.getDay()>=1&&t.getDay()<=5)?t:dayDate(w*5);date=dd.getDate()+" "+dd.toLocaleDateString("en-GB",{month:"short"})}
+ var rows=getArr("comms");rows.unshift({date:date,channel:"",audience:"Landlords",owner:"pm",status:"Draft",copy:"",code:"",checked:0,replies:"",signups:"",url:""});
+ S.comms=rows;S.commsFilter="All";sheetEdit=true;save();renderComms();
+});
+
+var CALENDAR=[
+ ["16 Nov","LinkedIn","Landlords","pm","li-01-w1a","Who Proptii is for: letting one property means four tools. Introduce the month and the area."],
+ ["17 Nov","Facebook landlord group","Landlords","ceo","fbgroup-01-w1a","CEO introduces themself as a local landlord. No link unless the group allows it."],
+ ["18 Nov","Facebook landlord group","Landlords","ceo","fbgroup-02-w1a","Same introduction, adapted to the group."],
+ ["19 Nov","Landlord forum","Landlords","ceo","forum-01-w1a","Same introduction, adapted to the forum or a third group."],
+ ["20 Nov","LinkedIn","General","pm","li-01-w1b","What we learned onboarding our first design partners. Facts only, no names without permission."],
+ ["23 Nov","LinkedIn","Partners","pm","li-01-w2a","For brokers and accountants: what your landlord clients complain about apart from finance."],
+ ["24 Nov","Facebook landlord group","Landlords","ceo","fbgroup-01-w2a","Question post: how do you handle referencing today?"],
+ ["25 Nov","Partner explainer","Partners","ux","broker-nn","One-page explainer with the partner's own link, sent the day they agree. One entry per partner, with their code."],
+ ["26 Nov","Facebook landlord group","Landlords","ceo","fbgroup-02-w2a","A post built from a phrase in the language bank."],
+ ["27 Nov","LinkedIn","Landlords","pm","li-01-w2b","A landlord problem post, in the words of a landlord from week 1 calls."],
+ ["30 Nov","LinkedIn","Landlords","pm","li-01-w3a","The most common objection so far, and our honest answer."],
+ ["1 Dec","Facebook landlord group","Landlords","ceo","fbgroup-01-w3a","The objection post, adapted for the group."],
+ ["2 Dec","LinkedIn","Landlords","pm","li-01-w3b","First case study, only if the design partner has cleared it. Otherwise a language bank post. PM and UI/UX."],
+ ["3 Dec","Email","Partners","pm","broker-nn","Partner update: how their introductions are doing, plus the case study. One entry per partner, with their code."],
+ ["4 Dec","Landlord forum","Landlords","ceo","forum-01-w3a","The case study or language bank post, adapted for the forum."],
+ ["7 Dec","LinkedIn","Landlords","pm","li-01-w4a","A landlord story from the month, in their words."],
+ ["9 Dec","LinkedIn","Landlords","pm","li-01-w4b","Sign up yourself: only once self-serve sign-up works with nobody on a call. PM and UI/UX."],
+ ["10 Dec","Facebook landlord group","Landlords","ceo","fbgroup-nn-w4a","The self-serve post, adapted to each group where the rules allow it. One entry per group."],
+ ["10 Dec","Email","Partners","pm","broker-nn","Partner update with the self-serve link carrying their own code. One entry per partner."]
+];
+function calMissing(){
+ var have={};getArr("comms").forEach(function(r){have[r.date+"|"+r.code]=1});
+ return CALENDAR.filter(function(c){return !have[c[0]+"|"+c[4]]});
+}
+document.getElementById("loadCal").addEventListener("click",function(){
+ var rows=getArr("comms");
+ calMissing().forEach(function(c){
+  rows.push({date:c[0],channel:c[1],audience:c[2],owner:c[3],status:"Draft",copy:"BRIEF: "+c[5],code:c[4],checked:0,replies:"",signups:"",url:""});
+ });
+ S.comms=rows;S.commsFilter="All";S.commsWeek="all";S.commsView="sheet";save();renderComms();
 });
 
 function renderLang(){
@@ -1693,7 +1902,7 @@ function renderStats(){
  var c=ladderCounts(),week=Date.now()-7*864e5,posted=0,heard=0;
  getArr("comms").forEach(function(r){if(r.status==="Posted"&&r.postedAt&&r.postedAt>=week)posted++});
  getArr("objs").forEach(function(r){heard+=parseInt(r.count,10)||0});
- var items=[[c.above[4],"landlords came back unprompted"],[c.above[5],"brought someone in"],[posted,"posts in the last 7 days"],[getArr("learn").length,"learnings logged"]];
+ var items=[[c.above[5],"landlords came back unprompted"],[c.above[6],"brought someone in"],[posted,"posts in the last 7 days"],[getArr("learn").length,"learnings logged"]];
  document.getElementById("essStats").innerHTML=items.map(function(x){return '<div class="stat"><div class="v">'+x[0]+'</div><div class="l">'+x[1]+'</div></div>'}).join("");
 }
 function renderEssentials(){renderLadder();renderScore();renderBanned();renderComms();renderLang();renderObjs();renderLearn();renderStats()}
@@ -1854,6 +2063,18 @@ function todayIdx(){
  var w=Math.floor(diff/7),k=diff%7;if(k>4||w>4)return -1;return w*5+k;
 }
 function curWeek(){var t=todayIdx();return t<0?-1:Math.floor(t/5)}
+function ordinal(n){var s=["th","st","nd","rd"],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0])}
+function renderNowWeek(){
+ var t=new Date();t.setHours(0,0,0,0);
+ var w=Math.floor(Math.round((t-new Date(2026,10,9))/864e5)/7),el=document.getElementById("nowWeek");
+ if(w<0){el.innerHTML='<b>Not started</b>Week 0 begins Monday 9th November';return}
+ if(w>=WEEKS.length){el.innerHTML='<b>Plan complete</b>Week 4 ended Friday 11th December';return}
+ var mon=dayDate(w*5),fri=dayDate(w*5+4),M=function(d){return d.toLocaleDateString("en-GB",{month:"long"})};
+ var range=M(mon)===M(fri)?ordinal(mon.getDate())+" to "+ordinal(fri.getDate())+" "+M(fri):ordinal(mon.getDate())+" "+M(mon)+" to "+ordinal(fri.getDate())+" "+M(fri);
+ var day=t.getDay(),when=(day===0||day===6)?"Weekend, ":"";
+ el.innerHTML='<b>Week '+w+' · '+esc(WEEKS[w].name)+'</b>'+when+'Week of '+range;
+}
+renderNowWeek();
 function renderGantt(){
  var rows=GANTT.length+2,h="",ti=todayIdx(),L=["M","T","W","T","F"];
  for(var w=0;w<5;w++){
@@ -1875,7 +2096,7 @@ function renderGantt(){
 }
 function renderStair(){
  document.getElementById("stair").innerHTML=LADDER.map(function(l,k){
-  return '<div class="'+((k===4||k===5)?'key':'')+'" style="min-height:'+(9+k*3.4).toFixed(1)+'cqw"><span class="n">'+(k+1)+'</span><b>'+esc(l[0])+'</b><span>'+esc(l[1])+'</span></div>';
+  return '<div class="'+((k===5||k===6)?'key':'')+'" style="min-height:'+(9+k*3).toFixed(1)+'cqw"><span class="n">'+(k+1)+'</span><b>'+esc(l[0])+'</b><span>'+esc(l[1])+'</span></div>';
  }).join("");
 }
 function renderGlance(){
@@ -2053,7 +2274,17 @@ function start(session){
  if(started)return;started=true;token=session.access_token;
  document.getElementById("login").hidden=true;document.getElementById("app").hidden=false;
  document.getElementById("whoami").textContent="Signed in as "+session.user.email;
- loadState().then(function(){boot();if(online)listen()});
+ loadState().then(function(){migrateLadder();boot();if(online)listen()});
+}
+function migrateLadder(){
+ if(!online||S.ladderV>=2)return;
+ var log=getArr("log");
+ log.forEach(function(r){var n=rung(r);if(n>0)r.ladder=String(n+1)});
+ if(log.length)S.log=log;
+ var sn=getArr("snaps");
+ sn.forEach(function(s){if(s.c&&s.c.length===7)s.c=[null].concat(s.c)});
+ if(sn.length)S.snaps=sn;
+ S.ladderV=2;save();
 }
 document.getElementById("loginForm").addEventListener("submit",function(e){
  e.preventDefault();
