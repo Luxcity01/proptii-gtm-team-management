@@ -1,0 +1,5 @@
+# Local Supabase CLI config for Edge Functions.
+# Project: rvlnlkltorclmjupjwel (set via `supabase link`)
+
+[functions.digest]
+verify_jwt = false
