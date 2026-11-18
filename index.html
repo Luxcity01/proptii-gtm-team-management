@@ -75,6 +75,15 @@ a{color:var(--blue)}
 .ring svg{flex:none}
 .ring .pct{font-family:"Archivo";font-size:21px;font-weight:600;line-height:1}
 .ring .cap{font-size:12px;color:var(--ink-2);line-height:1.35}
+.fixprog{display:grid;grid-template-columns:auto 1fr;gap:16px 20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin:18px 0 8px}
+.fixprog .ring{margin:0;padding:0;border:0;background:transparent}
+.fixprog .break{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fixprog .break div{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.fixprog .break b{display:block;font-family:"Archivo";font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.fixprog .break span{font-size:12.5px;color:var(--ink-2)}
+.fixprog .barwrap{grid-column:1 / -1}
+.fixprog .barwrap .track{height:8px;margin-top:6px}
+@media(max-width:720px){.fixprog{grid-template-columns:1fr}.fixprog .break{grid-template-columns:1fr}}
 .who{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 10px 8px;margin-bottom:14px}
 .who h4{font-size:12px;font-weight:500;color:var(--ink-3);margin:0 0 6px}
 .who .fb,.filt{display:flex;flex-wrap:wrap;gap:5px}
@@ -586,10 +595,10 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
           <div class="tcols"><div><p class="tl">Week 0</p><ul><li>One journey working end to end</li><li>Sign-up link per channel</li><li>Call recording</li></ul></div>
           <div><p class="tl">Weeks 1 to 4</p><ul><li>Invites without an account</li><li>Stall and failure alerts</li><li>Design partner feedback reminders</li><li>Referral codes, contract invites</li></ul></div></div></div>
         <div class="scard"><h3>PM / Frontend</h3><p class="role">Owns activation, plus CRM and content automation</p>
-          <div class="tcols"><div><p class="tl">Week 0</p><ul><li>Booking link</li><li>Metric definitions</li><li>Messaging and comms log, with UI/UX</li></ul></div>
+          <div class="tcols"><div><p class="tl">Week 0</p><ul><li>Booking link</li><li>Metric definitions</li><li>Messaging and comms log</li></ul></div>
           <div><p class="tl">Weeks 1 to 4</p><ul><li>Dashboard and 09:30 digest</li><li>CRM pipeline and partner referrals</li><li>Content drafts for posts</li><li>GTM comms, shared with UI/UX</li><li>Self-serve sign-up</li></ul></div></div></div>
         <div class="scard"><h3>UI/UX</h3><p class="role">Owns onboarding friction, plus creative and communications automation</p>
-          <div class="tcols"><div><p class="tl">Week 0</p><ul><li>Design partner one-pager</li><li>Onboarding checklist</li><li>Messaging and comms log, with PM</li></ul></div>
+          <div class="tcols"><div><p class="tl">Week 0</p><ul><li>Design partner one-pager</li><li>Onboarding checklist</li></ul></div>
           <div><p class="tl">Weeks 1 to 4</p><ul><li>Sits in on onboarding calls</li><li>Fixes friction in two working days</li><li>Post templates and scheduling</li><li>GTM comms, shared with PM</li></ul></div></div></div>
       </div>
       <p style="margin-top:1.6cqw">GTM comms is shared by the PM and the UI/UX engineer: the messaging, the comms log, the posting calendar, landlord group posts and partner materials.</p>
@@ -650,7 +659,7 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
           <h3>Next</h3>
           <ul>
             <li><b>Friday 13 November:</b> week 0 gate. If fewer than three design partners have committed, we rework the offer before Monday.</li>
-            <li><b>Before Friday:</b> the PM and UI/UX engineer write the messaging section and set up the comms log on the Essentials page.</li>
+            <li><b>Before Friday:</b> the PM writes the messaging section and sets up the comms log on the Essentials page.</li>
             <li><b>Monday 16 November, 11:00:</b> first stand-up and the week 1 kick-off.</li>
             <li><b>Everyone:</b> open the Plan page and filter by your name to see your tasks.</li>
           </ul>
@@ -739,6 +748,17 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
     <p class="lede">Five minutes in the morning. The three orange rows are the objective. The rest are instruments.</p>
     <div class="scroll" id="metricTable"></div>
     <div class="note warn"><strong>Once the live dashboard is running,</strong> these numbers should come from the event store rather than being typed in. Until then, enter them here each morning.</div>
+    <h3>09:30 Google Chat digest</h3>
+    <p>Built from the account log, the channel scorecard’s Contacted total, the traction ladder, and the friction note below. Cron posts Mon–Fri at 09:30 London once you finish <code>docs/digest-setup.md</code>. Use Send now to test.</p>
+    <h4 class="sub">Friction for the digest</h4>
+    <p class="hint">Paste short bullets from the UI/UX friction log. Cleared or updated by you when the notes are used. Empty means the digest says none are on the Plan page yet.</p>
+    <textarea data-note="friction_log" placeholder="e.g.&#10;- Couldn’t find the invite button on mobile&#10;- Referencing form asked for a company number"></textarea>
+    <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <button class="b p" id="digestBtn" type="button">Send digest now</button>
+      <button class="b" id="digestDryBtn" type="button">Preview only (no Chat)</button>
+      <span class="hint" id="digestStatus" role="status"></span>
+    </div>
+    <pre id="digestPreview" class="hint" hidden style="margin-top:14px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);white-space:pre-wrap;font-family:inherit;font-size:14px;line-height:1.45;color:var(--ink)"></pre>
   </section>
 
   <section id="partners">
@@ -753,11 +773,143 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
 
   <section id="accounts">
     <h2>Account log</h2>
-    <p class="lede">Every landlord and how they arrived. The ladder stage is the highest rung they have reached, and it feeds the ladder and channel scorecard on GTM essentials.</p>
+    <p class="lede">Every landlord and how they arrived. The ladder stage is the highest rung they have reached, and it feeds the ladder and channel scorecard on GTM essentials. Tick Stalled or set Last active so the 09:30 digest can name idle landlords.</p>
     <p>If more than half of the twenty came through people you already know, the number is real and the channel is not.</p>
     <div class="scroll"><table class="mini-table" id="logTable"></table></div>
     <div style="margin-top:10px"><button class="b p" id="addRow">Add landlord</button></div>
     <div class="srcsum" id="srcSum"></div>
+  </section>
+
+  <section id="fixes">
+    <h2>Proptii Fixes</h2>
+    <p class="wkdates">This week · 16 to 20 November</p>
+    <p class="lede">Product fixes for the week, tracked here so they sit beside the GTM plan without changing the week 1 GTM task list.</p>
+    <div class="fixprog" aria-label="Proptii Fixes progress">
+      <div class="ring">
+        <svg width="56" height="56" viewBox="0 0 46 46" aria-hidden="true">
+          <circle cx="23" cy="23" r="19" fill="none" stroke="var(--surface-2)" stroke-width="5"/>
+          <circle id="fixArc" cx="23" cy="23" r="19" fill="none" stroke="var(--teal)" stroke-width="5"
+            stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="119.4" transform="rotate(-90 23 23)"/>
+        </svg>
+        <div><div class="pct" id="fixPct">0%</div><div class="cap" id="fixCap">0 of 0 done</div></div>
+      </div>
+      <div class="break">
+        <div><b id="fixTasks">0/7</b><span>Tasks ready</span></div>
+        <div><b id="fixAc">0/46</b><span>Acceptance criteria</span></div>
+        <div><b id="fixEng">0/3</b><span>Eng sign-offs</span></div>
+      </div>
+      <div class="barwrap">
+        <div class="hint">Overall Fixes progress (tasks, criteria and Eng sign-offs)</div>
+        <div class="track"><i id="fixBar" style="width:0%;background:var(--teal)"></i></div>
+      </div>
+    </div>
+    <h3>At a glance</h3>
+    <p>Seven Critical and High tasks are split between the UI/UX engineer and the PM/frontend engineer, with the Head of Engineering approving the data model, reviewing the risky pull requests and signing off the release. Delivery order: C2, H1 and H2 first, then C1 and C3, then H3 and H4, then test and release. H1 is a thin fix on existing role handling, so the net-new logic, and most of the effort, sits in C1, C2 and H4.</p>
+    <div class="note new"><strong>Delivery order.</strong> Ship C2 → H1 → H2 first. Then C1 and C3. Then H3 and H4. Then test and release. Eng approves the data model, reviews the risky PRs and signs off the release.</div>
+    <div class="scroll"><table class="mini-table">
+      <thead><tr><th>Task</th><th>Priority</th><th>UI/UX engineer</th><th>PM / frontend engineer</th></tr></thead>
+      <tbody>
+        <tr><td><b>C1</b> Landlord verification gate (soft check, five items)</td><td>Critical</td><td>Checklist, typed upload and status messages</td><td>Statuses, storage and the publish gate</td></tr>
+        <tr><td><b>C2</b> Private by default, explicit publish</td><td>Critical</td><td>Availability step, button wording, private/public indicators</td><td>Visibility state, search exclusion, backfill</td></tr>
+        <tr><td><b>C3</b> Authentic photos only</td><td>Critical</td><td>Upload declaration, report-listing UI</td><td>Remove AI editing, metadata screening, enforce the rule, terms update</td></tr>
+        <tr><td><b>H1</b> Signup routing by role</td><td>High</td><td>Landlord dashboard shell, role question screen</td><td>Thin fix: find where roleIntent is dropped, close it, confirm route guards</td></tr>
+        <tr><td><b>H2</b> Restore listing title and description</td><td>High</td><td>Fields and labels in add and edit flows</td><td>Find the cause, confirm saved data</td></tr>
+        <tr><td><b>H3</b> First step for new landlords</td><td>High</td><td>Prompt, empty state, “Welcome” copy</td><td>First-time detection</td></tr>
+        <tr><td><b>H4</b> Duplicate claims</td><td>High</td><td>Claimant messages, deeper-check request screens</td><td>Detection, publishing hold, request flow</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Progress and acceptance criteria</h3>
+    <p class="hint">Tick each acceptance criterion when it is verified. Tick the task itself when it is ready for Eng review or release. Delivery order below. Sidebar owner filter applies to these rows.</p>
+
+    <div class="grp-h"><h4>C2 Private by default, explicit publish · Critical · first</h4><span class="ct" data-ct="fx-c2-ac"></span></div>
+    <ul class="tasks">
+      <li data-grp="fx-c2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c2" aria-label="C2 task done"><span class="txt">Task ready for Eng / release<span class="why">Visibility state, search exclusion, backfill · Availability step and indicators</span></span><span class="tags"><span class="own">PM / FE + UI/UX</span><span class="tag t-build">Build once</span></span></li>
+      <li data-grp="fx-c2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c2-a1" aria-label="C2: private by default"><span class="txt">A property saved without choosing anything is private.</span></li>
+      <li data-grp="fx-c2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c2-a2" aria-label="C2: private not public"><span class="txt">A private property does not appear in search, on any public page, in any feed, or at its direct link for a tenant or a logged-out visitor.</span></li>
+      <li data-grp="fx-c2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c2-a3" aria-label="C2: button label"><span class="txt">The button label always matches the outcome.</span></li>
+      <li data-grp="fx-c2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c2-a4" aria-label="C2: dashboard state"><span class="txt">A landlord can see and change each property’s state from the dashboard.</span></li>
+      <li data-grp="fx-c2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c2-a5" aria-label="C2: unpublish"><span class="txt">Unpublishing removes the property from search straight away.</span></li>
+      <li data-grp="fx-c2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c2-a6" aria-label="C2: backfill dry run"><span class="txt">The backfill dry run lists every existing property and its proposed state before it is applied.</span></li>
+      <li data-grp="fx-c2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c2-a7" aria-label="C2: address search"><span class="txt">Searching for the exact address of a private property finds nothing.</span></li>
+    </ul>
+
+    <div class="grp-h"><h4>H1 Signup routing by role · High · with C2</h4><span class="ct" data-ct="fx-h1-ac"></span></div>
+    <ul class="tasks">
+      <li data-grp="fx-h1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h1" aria-label="H1 task done"><span class="txt">Task ready for Eng / release<span class="why">Thin fix on roleIntent and route guards · Landlord dashboard shell and role question screen</span></span><span class="tags"><span class="own">PM / FE + UI/UX</span><span class="tag t-build">Build once</span></span></li>
+      <li data-grp="fx-h1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h1-a1" aria-label="H1: landlord path"><span class="txt">Landlord button, then signup, then landlord dashboard, with no tenant options anywhere in the navigation.</span></li>
+      <li data-grp="fx-h1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h1-a2" aria-label="H1: tenant path"><span class="txt">Tenant button, then signup, then tenant dashboard.</span></li>
+      <li data-grp="fx-h1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h1-a3" aria-label="H1: existing sign-in"><span class="txt">Signing in as an existing landlord or tenant lands on the right dashboard.</span></li>
+      <li data-grp="fx-h1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h1-a4" aria-label="H1: wrong-role redirect"><span class="txt">Opening a wrong-role page by link redirects to the user’s own dashboard.</span></li>
+      <li data-grp="fx-h1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h1-a5" aria-label="H1: ask once"><span class="txt">A user who arrives with no role is asked once and never again.</span></li>
+      <li data-grp="fx-h1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h1-a6" aria-label="H1: role survives"><span class="txt">The role survives email verification, a page refresh and a new device.</span></li>
+      <li data-grp="fx-h1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h1-a7" aria-label="H1: wrong role corrected"><span class="txt">Existing accounts with a wrong role are listed and corrected.</span></li>
+    </ul>
+
+    <div class="grp-h"><h4>H2 Restore listing title and description · High · with C2</h4><span class="ct" data-ct="fx-h2-ac"></span></div>
+    <ul class="tasks">
+      <li data-grp="fx-h2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h2" aria-label="H2 task done"><span class="txt">Task ready for Eng / release<span class="why">Find the cause, confirm saved data · Fields and labels in add and edit flows</span></span><span class="tags"><span class="own">PM / FE + UI/UX</span><span class="tag t-build">Build once</span></span></li>
+      <li data-grp="fx-h2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h2-a1" aria-label="H2: enter and edit"><span class="txt">Title, description and key features can be entered in the add flow and edited later.</span></li>
+      <li data-grp="fx-h2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h2-a2" aria-label="H2: persist public"><span class="txt">Saved values persist and appear on the public listing page.</span></li>
+      <li data-grp="fx-h2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h2-a3" aria-label="H2: previous values"><span class="txt">Any previously saved values are visible again.</span></li>
+      <li data-grp="fx-h2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h2-a4" aria-label="H2: separate labels"><span class="txt">The edit screens label property details and listing content separately.</span></li>
+      <li data-grp="fx-h2-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h2-a5" aria-label="H2: cannot publish empty"><span class="txt">A property without a title and description cannot be made public.</span></li>
+    </ul>
+
+    <div class="grp-h"><h4>C1 Landlord verification gate · Critical · next</h4><span class="ct" data-ct="fx-c1-ac"></span></div>
+    <ul class="tasks">
+      <li data-grp="fx-c1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c1" aria-label="C1 task done"><span class="txt">Task ready for Eng / release<span class="why">Statuses, storage and publish gate · Checklist, typed upload and status messages</span></span><span class="tags"><span class="own">PM / FE + UI/UX</span><span class="tag t-build">Build once</span></span></li>
+      <li data-grp="fx-c1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c1-a1" aria-label="C1: draft no docs"><span class="txt">A new landlord can create and save a property draft with no documents.</span></li>
+      <li data-grp="fx-c1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c1-a2" aria-label="C1: available blocked"><span class="txt">Making a property available is blocked until all five items are submitted, and the message names what is missing.</span></li>
+      <li data-grp="fx-c1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c1-a3" aria-label="C1: skip refused"><span class="txt">A direct request that skips the screen is also refused.</span></li>
+      <li data-grp="fx-c1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c1-a4" aria-label="C1: id reused"><span class="txt">Photo ID and proof of address are asked once and reused for every property.</span></li>
+      <li data-grp="fx-c1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c1-a5" aria-label="C1: files private"><span class="txt">A logged-out visitor and a tenant account cannot open any uploaded file.</span></li>
+      <li data-grp="fx-c1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c1-a6" aria-label="C1: type and date"><span class="txt">Each upload has a type and a date, and the landlord can replace it.</span></li>
+      <li data-grp="fx-c1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c1-a7" aria-label="C1: file errors"><span class="txt">Oversize and wrong-type files give a readable error.</span></li>
+      <li data-grp="fx-c1-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c1-a8" aria-label="C1: EPC stored"><span class="txt">The EPC rating is stored.</span></li>
+    </ul>
+
+    <div class="grp-h"><h4>C3 Authentic photos only · Critical · with C1</h4><span class="ct" data-ct="fx-c3-ac"></span></div>
+    <ul class="tasks">
+      <li data-grp="fx-c3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c3" aria-label="C3 task done"><span class="txt">Task ready for Eng / release<span class="why">Remove AI editing, metadata screening, enforce the rule, terms · Upload declaration and report-listing UI</span></span><span class="tags"><span class="own">PM / FE + UI/UX</span><span class="tag t-build">Build once</span></span></li>
+      <li data-grp="fx-c3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c3-a1" aria-label="C3: no AI controls"><span class="txt">No AI edit control or reference remains in the photo flow or the dashboard.</span></li>
+      <li data-grp="fx-c3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c3-a2" aria-label="C3: declaration"><span class="txt">A landlord cannot save photos or publish without ticking the declaration, and the tick is stored with a date.</span></li>
+      <li data-grp="fx-c3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c3-a3" aria-label="C3: terms"><span class="txt">The terms state the rule and the declaration links to it.</span></li>
+      <li data-grp="fx-c3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c3-a4" aria-label="C3: report listing"><span class="txt">A visitor can report a listing, and staff can see the report with its reason and date.</span></li>
+      <li data-grp="fx-c3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c3-a5" aria-label="C3: report a11y"><span class="txt">The report control works on mobile and by keyboard.</span></li>
+      <li data-grp="fx-c3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-c3-a6" aria-label="C3: metadata screen"><span class="txt">Every uploaded photo is screened for metadata at upload and the result is stored. A photo with editing-software tags or a mismatched location is flagged for staff, and a photo with no metadata is still accepted.</span></li>
+    </ul>
+
+    <div class="grp-h"><h4>H3 First step for new landlords · High · after Critical</h4><span class="ct" data-ct="fx-h3-ac"></span></div>
+    <ul class="tasks">
+      <li data-grp="fx-h3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h3" aria-label="H3 task done"><span class="txt">Task ready for Eng / release<span class="why">First-time detection · Prompt, empty state and Welcome copy</span></span><span class="tags"><span class="own">PM / FE + UI/UX</span><span class="tag t-build">Build once</span></span></li>
+      <li data-grp="fx-h3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h3-a1" aria-label="H3: empty state"><span class="txt">A landlord with no properties sees one primary action and a short checklist.</span></li>
+      <li data-grp="fx-h3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h3-a2" aria-label="H3: after first property"><span class="txt">After the first property is added, the dashboard returns to its normal layout.</span></li>
+      <li data-grp="fx-h3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h3-a3" aria-label="H3: welcome copy"><span class="txt">“Welcome” shows on the first visit and “Welcome back” afterwards.</span></li>
+      <li data-grp="fx-h3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h3-a4" aria-label="H3: add button"><span class="txt">The add-properties button looks and works as before.</span></li>
+      <li data-grp="fx-h3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h3-a5" aria-label="H3: checklist C1 C2"><span class="txt">Checklist ticks follow the real C1 and C2 states.</span></li>
+      <li data-grp="fx-h3-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h3-a6" aria-label="H3: mobile keyboard"><span class="txt">The screen works on mobile and by keyboard.</span></li>
+    </ul>
+
+    <div class="grp-h"><h4>H4 Duplicate claims · High · after Critical</h4><span class="ct" data-ct="fx-h4-ac"></span></div>
+    <ul class="tasks">
+      <li data-grp="fx-h4-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h4" aria-label="H4 task done"><span class="txt">Task ready for Eng / release<span class="why">Detection, publishing hold, request flow · Claimant messages and deeper-check screens</span></span><span class="tags"><span class="own">PM / FE + UI/UX</span><span class="tag t-build">Build once</span></span></li>
+      <li data-grp="fx-h4-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h4-a1" aria-label="H4: second claim held"><span class="txt">A second account adding the same address is flagged, and its publishing is held.</span></li>
+      <li data-grp="fx-h4-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h4-a2" aria-label="H4: fuzzy match"><span class="txt">Case, spacing and punctuation differences in the address still match.</span></li>
+      <li data-grp="fx-h4-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h4-a3" aria-label="H4: different flats"><span class="txt">Two different flats in one building do not match.</span></li>
+      <li data-grp="fx-h4-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h4-a4" aria-label="H4: live stays live"><span class="txt">An already-live listing stays live while a claim is reviewed.</span></li>
+      <li data-grp="fx-h4-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h4-a5" aria-label="H4: privacy"><span class="txt">No claimant can see the other claimant’s identity, documents or account.</span></li>
+      <li data-grp="fx-h4-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h4-a6" aria-label="H4: staff flow"><span class="txt">Staff can request chosen documents and record an outcome, and the landlord sees the status and gets emails.</span></li>
+      <li data-grp="fx-h4-ac" data-owner="pm ux"><input type="checkbox" data-k="fx-h4-a7" aria-label="H4: close case"><span class="txt">Closing a case clears the hold for the accepted claimant.</span></li>
+    </ul>
+
+    <div class="grp-h"><h4>Head of Engineering</h4><span class="ct" data-ct="fx-eng"></span></div>
+    <ul class="tasks">
+      <li data-grp="fx-eng" data-owner="eng"><input type="checkbox" data-k="fx-eng-model" aria-label="Approve the data model"><span class="txt">Approve the data model<span class="why">Especially C1, C2 and H4</span></span><span class="tags"><span class="own">Head of Eng</span><span class="tag t-human">You do it</span></span></li>
+      <li data-grp="fx-eng" data-owner="eng"><input type="checkbox" data-k="fx-eng-prs" aria-label="Review the risky pull requests"><span class="txt">Review the risky pull requests</span><span class="tags"><span class="own">Head of Eng</span><span class="tag t-human">You do it</span></span></li>
+      <li data-grp="fx-eng" data-owner="eng"><input type="checkbox" data-k="fx-eng-release" aria-label="Sign off the release"><span class="txt">Sign off the release<span class="why">After test</span></span><span class="tags"><span class="own">Head of Eng</span><span class="tag t-human">You do it</span></span></li>
+    </ul>
+    <h4 class="sub">Notes for this week’s fixes</h4>
+    <textarea data-note="fixes_week" placeholder="Blockers, PR links, what Eng asked for, and what is left before release."></textarea>
   </section>
 
   <section id="week-0" data-week="0"></section>
@@ -983,8 +1135,8 @@ var WEEKS=[
   {k:"w0k",t:"Write the decision thresholds for weeks 1 to 4",o:"ceo",m:"human"},
   {k:"w0l",t:"Agree metric definitions so week 1 numbers mean something",o:"pm",m:"human"}]},
  {t:"Comms",items:[
-  {k:"w0m",t:"Write the messaging section on GTM essentials",o:"pm ux",m:"assist"},
-  {k:"w0n",t:"Set up the comms log, posting calendar and link codes for posts",o:"pm ux",m:"build"}]}]},
+  {k:"w0m",t:"Write the messaging section on GTM essentials",o:"pm",m:"assist"},
+  {k:"w0n",t:"Set up the comms log, posting calendar and link codes for posts",o:"pm",m:"build"}]}]},
 
 {n:1,name:"Foundation",dates:"Monday 16 to Friday 20 November",short:"16 to 20 Nov",q:"Do the design partners get going, and can we see it happening?",
  goal:"Onboard the five design partners, watch what they struggle with, and get the dashboard and alerts running.",
@@ -1131,8 +1283,8 @@ var AUTO=[
 var PEOPLE=[
  {o:"ceo",name:"CEO",role:"Owns the objective and every conversation",now:"Thirty conversations and five design partners in week 0",then:"Calls, onboarding sessions, partner meetings and gate decisions."},
  {o:"eng",name:"Head of Engineering",role:"Owns the machine, plus feedback and operations automation",now:"One landlord journey working end to end, sign-up links and call recording",then:"The invite loop, referencing and contract reliability, feedback automation from calls and design partners, and operations automation: links, alerts and referral codes."},
- {o:"pm",name:"PM / Frontend Engineer",role:"Owns activation, plus CRM and content automation",now:"Booking link, metric definitions, and the messaging and comms log with UI/UX",then:"The activation funnel, self-serve sign-up, the CRM pipeline and partner referrals, content drafts, the daily review and gate pack, and GTM comms shared with UI/UX."},
- {o:"ux",name:"UI/UX Engineer",role:"Owns onboarding friction, plus creative and communications automation",now:"Design partner materials, and the messaging and comms log with the PM",then:"Fixes what they see on calls within two working days, post templates and comms scheduling, the language bank, and GTM comms shared with the PM."}
+ {o:"pm",name:"PM / Frontend Engineer",role:"Owns activation, plus CRM and content automation",now:"Booking link, metric definitions, messaging and the comms log",then:"The activation funnel, self-serve sign-up, the CRM pipeline and partner referrals, content drafts, the daily review and gate pack, and GTM comms shared with UI/UX."},
+ {o:"ux",name:"UI/UX Engineer",role:"Owns onboarding friction, plus creative and communications automation",now:"Design partner materials and onboarding checklist",then:"Fixes what they see on calls within two working days, post templates and comms scheduling, the language bank, and GTM comms shared with the PM."}
 ];
 
 var REPEAT=[
@@ -1471,8 +1623,8 @@ document.getElementById("addDp").addEventListener("click",function(){
 });
 
 function buildLog(){
- var rows=getArr("log"),h='<thead><tr><th style="width:22%">Name</th><th style="width:20%">How they arrived</th><th style="width:14%">Link or code</th><th style="width:20%">Ladder stage</th><th>Property</th><th>Invite</th><th></th></tr></thead><tbody>';
- if(!rows.length)h+='<tr><td colspan="7" style="color:var(--ink-3)">Nothing logged yet. Add a row as each landlord lands.</td></tr>';
+ var rows=getArr("log"),h='<thead><tr><th style="width:16%">Name</th><th style="width:14%">How they arrived</th><th style="width:10%">Link or code</th><th style="width:14%">Ladder stage</th><th>Property</th><th>Invite</th><th>Stalled</th><th style="width:12%">Last active</th><th></th></tr></thead><tbody>';
+ if(!rows.length)h+='<tr><td colspan="9" style="color:var(--ink-3)">Nothing logged yet. Add a row as each landlord lands. Tick Stalled or set Last active so the 09:30 digest can name idle landlords.</td></tr>';
  rows.forEach(function(r,i){
   h+='<tr><td><input type="text" data-log="'+i+'-name" value="'+esc(r.name)+'" placeholder="Name"></td>'
    +'<td><select data-log="'+i+'-src" aria-label="How they arrived"><option value="">--</option>'
@@ -1482,6 +1634,8 @@ function buildLog(){
    +LADDER.map(function(l,k){var v=String(k+1);return '<option value="'+v+'"'+(String(r.ladder)===v?' selected':'')+'>'+v+'. '+l[0]+'</option>'}).join("")+'</select></td>'
    +'<td style="text-align:center"><input type="checkbox" data-log="'+i+'-prop"'+(r.prop?' checked':'')+' aria-label="Added a property"></td>'
    +'<td style="text-align:center"><input type="checkbox" data-log="'+i+'-inv"'+(r.inv?' checked':'')+' aria-label="Sent an invite"></td>'
+   +'<td style="text-align:center"><input type="checkbox" data-log="'+i+'-stalled"'+(r.stalled?' checked':'')+' aria-label="Stalled"></td>'
+   +'<td><input type="text" data-log="'+i+'-lastActive" value="'+esc(r.lastActive)+'" placeholder="e.g. 14 Nov"></td>'
    +'<td><button class="del" data-logdel="'+i+'" aria-label="Remove row">&times;</button></td></tr>';
  });
  document.getElementById("logTable").innerHTML=h+'</tbody>';
@@ -1508,8 +1662,74 @@ function sumLog(){
   +'<span><b>'+inv+'</b> sent an invite</span><span><b>'+r5+'</b> at rung 6 or higher</span><span><b>'+part+'</b> via partners</span><span><b>'+pct+'%</b> from personal network'+warn+'</span>';
 }
 document.getElementById("addRow").addEventListener("click",function(){
- var rows=getArr("log");rows.push({name:"",src:"",code:"",ladder:"",prop:0,inv:0});S.log=rows;save();buildLog();
+ var rows=getArr("log");rows.push({name:"",src:"",code:"",ladder:"",prop:0,inv:0,stalled:0,lastActive:""});S.log=rows;save();buildLog();
 });
+
+function digestDelta(cur,prev,weekend){
+ if(prev==null)return " (no prior digest)";
+ var d=cur-prev,label=weekend?" since Friday":" since yesterday";
+ return d===0?"  (±0"+label+")":"  ("+(d>0?"+":"")+d+label+")";
+}
+function buildDigestMessage(){
+ var log=getArr("log"),c=ladderCounts(),prev=S.digest_last||null;
+ var accounts=log.length,property=0,invite=0,stalled=[];
+ log.forEach(function(r){if(r.prop)property++;if(r.inv)invite++;if(r.stalled)stalled.push(r.name||"(unnamed)")});
+ var now=new Date(),isMon=now.toLocaleDateString("en-GB",{timeZone:"Europe/London",weekday:"long"})==="Monday";
+ var weekday=now.toLocaleDateString("en-GB",{timeZone:"Europe/London",weekday:"long"});
+ var day=now.toLocaleDateString("en-GB",{timeZone:"Europe/London",day:"numeric",month:"short"});
+ var friction=String(S.n_friction_log||"").trim(),lines=[];
+ lines.push("Proptii digest · "+weekday+" "+day);
+ lines.push("");
+ lines.push("Objective");
+ lines.push("• Landlord accounts: "+accounts+digestDelta(accounts,prev&&prev.accounts,isMon));
+ lines.push("• With a property: "+property+digestDelta(property,prev&&prev.property,isMon));
+ lines.push("• Sent an invite: "+invite+digestDelta(invite,prev&&prev.invite,isMon));
+ lines.push("");
+ lines.push("Funnel and ladder");
+ lines.push("• Outreached (Contacted on scorecard): "+c.contacted+digestDelta(c.contacted,prev&&prev.contacted,isMon));
+ lines.push("• Activated or higher: "+(c.above[3]||0));
+ lines.push("• Came back or higher: "+(c.above[5]||0));
+ lines.push("• Brought someone or higher: "+(c.above[6]||0));
+ lines.push("");
+ lines.push("Stalled (3+ working days)");
+ if(stalled.length)stalled.forEach(function(n){lines.push("• "+n)});
+ else lines.push("• None flagged. Tick Stalled on the account log, or set Last active, to list names here.");
+ lines.push("");
+ lines.push("New friction");
+ if(friction)friction.split(/\n+/).map(function(l){return l.trim()}).filter(Boolean).forEach(function(l){lines.push("• "+l.replace(/^[-•*]\s*/,""))});
+ else lines.push("• None on the Plan page yet. Paste UI/UX friction notes into Daily dashboard → Friction for the digest.");
+ lines.push("");
+ lines.push("Source: GTM tracker account log, scorecard and friction note. Stand-up at 11:00.");
+ return lines.join("\n");
+}
+function showDigestPreview(msg){
+ var el=document.getElementById("digestPreview");el.hidden=false;el.textContent=msg;
+}
+function sendDigest(dry){
+ var btn=document.getElementById(dry?"digestDryBtn":"digestBtn"),st=document.getElementById("digestStatus");
+ if(dry){
+  var msg=buildDigestMessage();showDigestPreview(msg);console.log(msg);
+  st.textContent="Preview from this browser (function not required). Deploy the Edge Function before Send digest now.";
+  return;
+ }
+ if(!online){st.textContent="Not connected to the database.";return}
+ btn.disabled=true;st.textContent="Sending to Google Chat…";
+ freshToken().then(function(){
+  return fetch(SB_URL+"/functions/v1/digest",{
+   method:"POST",
+   headers:{"Authorization":"Bearer "+token,"apikey":SB_KEY,"Content-Type":"application/json"},
+   body:"{}"
+  });
+ }).then(function(r){return r.text().then(function(t){var j={};try{j=JSON.parse(t)}catch(e){j={error:t||r.statusText}}return {ok:r.ok,status:r.status,j:j}})}).then(function(x){
+  btn.disabled=false;
+  if(x.status===404){st.textContent="Digest function is not deployed yet. Preview works now; follow docs/digest-setup.md to deploy, then try Send again.";showDigestPreview(buildDigestMessage());return}
+  if(!x.ok){st.textContent=(x.j&&x.j.error)||("Digest failed ("+x.status+"). Check secrets and docs/digest-setup.md.");return}
+  if(x.j.message)showDigestPreview(x.j.message);
+  st.textContent="Sent for "+(x.j.date||"today")+". Check Google Chat.";
+ }).catch(function(){btn.disabled=false;st.textContent="Couldn’t reach the digest function. Deploy it first (docs/digest-setup.md). Preview still works.";showDigestPreview(buildDigestMessage())});
+}
+document.getElementById("digestBtn").addEventListener("click",function(){sendDigest(false)});
+document.getElementById("digestDryBtn").addEventListener("click",function(){sendDigest(true)});
 
 /* ---------- essentials page ---------- */
 function ladderCounts(){
@@ -1911,6 +2131,7 @@ function renderEssentials(){renderLadder();renderScore();renderBanned();renderCo
 var PLAN_SECTIONS=[
  ["objective","The objective",0],["team","The team",0],["rhythm","The working week",0],
  ["thresholds","Thresholds",0],["dashboard","Daily dashboard",0],["partners","Design partners",0],["accounts","Account log",0],
+ ["fixes","Proptii Fixes",1],
  ["week-0","Week 0 Ready",1],["week-1","Week 1 Foundation",1],["week-2","Week 2 Acquisition",1],
  ["week-3","Week 3 Activation",1],["week-4","Week 4 Optimisation",1],
  ["automation","Automation",2],["deferred","Deferred",0],["repeatable","Repeatable test",1],["risks","Risks",1],["decisions","Decisions",0]
@@ -1921,6 +2142,7 @@ var ESS_SECTIONS=[
  ["e-objections","Objections","Learn"],["e-calls","Call guide","Learn"],["e-learning","Learning log","Learn"]
 ];
 function planGrp(id){
+ if(id==="fixes")return "This week";
  if(id.indexOf("week-")===0)return "The five weeks";
  if(["objective","team","rhythm"].indexOf(id)>-1)return "The plan";
  if(["thresholds","dashboard","partners","accounts"].indexOf(id)>-1)return "Tracking";
@@ -1991,12 +2213,28 @@ function applyFilter(){
 
 function refresh(){
  var boxes=document.querySelectorAll('input[type=checkbox][data-k]');
- var total=boxes.length,done=0;
- boxes.forEach(function(b){if(b.checked)done++;var li=b.closest("li");if(li)li.classList.toggle("done",b.checked)});
+ var total=0,done=0;
+ boxes.forEach(function(b){
+  var li=b.closest("li");if(li)li.classList.toggle("done",b.checked);
+  if(b.closest("#fixes"))return;
+  total++;if(b.checked)done++;
+ });
  var pct=total?Math.round(done/total*100):0;
  document.getElementById("ringPct").textContent=pct+"%";
  document.getElementById("ringCap").textContent=done+" of "+total+" done";
  document.getElementById("ringArc").setAttribute("stroke-dashoffset",(119.4*(1-pct/100)).toFixed(1));
+ var fx=document.querySelectorAll("#fixes input[type=checkbox][data-k]"),fxDone=0;
+ fx.forEach(function(b){if(b.checked)fxDone++});
+ var fxPct=fx.length?Math.round(fxDone/fx.length*100):0;
+ var fxPctEl=document.getElementById("fixPct"),fxCap=document.getElementById("fixCap"),fxArc=document.getElementById("fixArc"),fxBar=document.getElementById("fixBar");
+ if(fxPctEl)fxPctEl.textContent=fxPct+"%";
+ if(fxCap)fxCap.textContent=fxDone+" of "+fx.length+" done";
+ if(fxArc)fxArc.setAttribute("stroke-dashoffset",(119.4*(1-fxPct/100)).toFixed(1));
+ if(fxBar)fxBar.style.width=fxPct+"%";
+ function countKeys(re){var t=0,d=0;fx.forEach(function(b){if(!re.test(b.dataset.k||""))return;t++;if(b.checked)d++});return d+"/"+t}
+ var ft=document.getElementById("fixTasks");if(ft)ft.textContent=countKeys(/^fx-[ch]\d$/);
+ var fa=document.getElementById("fixAc");if(fa)fa.textContent=countKeys(/^fx-[ch]\d-a\d+$/);
+ var fe=document.getElementById("fixEng");if(fe)fe.textContent=countKeys(/^fx-eng-/);
  WEEKS.forEach(function(w){
   var bs=document.getElementById("week-"+w.n).querySelectorAll('input[type=checkbox][data-k]'),d=0;
   bs.forEach(function(b){if(b.checked)d++});
@@ -2005,9 +2243,9 @@ function refresh(){
   var bar=document.querySelector('[data-cardbar="'+w.n+'"]');if(bar)bar.style.width=p+"%";
   var nv=document.querySelector('[data-nav="week-'+w.n+'"]');if(nv)nv.textContent=d+"/"+bs.length;
  });
- ["risks","repeatable"].forEach(function(id){
+ ["fixes","risks","repeatable"].forEach(function(id){
   var bs=document.querySelectorAll("#"+id+" input[type=checkbox]"),d=0;bs.forEach(function(b){if(b.checked)d++});
-  var nv=document.querySelector('[data-nav="'+id+'"]');if(nv)nv.textContent=d+"/"+bs.length;
+  var nv=document.querySelector('[data-nav="'+id+'"]');if(nv)nv.textContent=(id==="fixes"?fxPct+"% · ":"")+d+"/"+bs.length;
  });
  var live=0;AUTO.forEach(function(a){if((S.auto||{})[a.k]==="Live")live++});
  var an=document.querySelector('[data-nav="automation"]');if(an)an.textContent=live+"/"+AUTO.length;
@@ -2042,7 +2280,7 @@ var GANTT=[
  {t:"Referral codes and nudges",o:"eng",s:10,e:12},
  {t:"Contract invites and reminders",o:"eng",s:15,e:17},
  {g:"Activation and comms"},
- {t:"Messaging and comms log",o:"shared",s:2,e:4},
+ {t:"Messaging and comms log",o:"pm",s:2,e:4},
  {t:"Dashboard and daily digest",o:"pm",s:3,e:7},
  {t:"Friction reviews, Tue and Thu",o:"ux",dots:[6,8,11,13,16,18,21,23]},
  {t:"GTM comms",o:"shared",s:5,e:23},
