@@ -1715,7 +1715,7 @@ function sendDigest(dry){
  if(!online){st.textContent="Not connected to the database.";return}
  btn.disabled=true;st.textContent="Sending to Google Chat…";
  freshToken().then(function(){
-  return fetch(SB_URL+"/functions/v1/digest",{
+  return fetch(SB_URL+"/functions/v1/Digest",{
    method:"POST",
    headers:{"Authorization":"Bearer "+token,"apikey":SB_KEY,"Content-Type":"application/json"},
    body:"{}"

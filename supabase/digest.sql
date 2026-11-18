@@ -26,7 +26,7 @@ select cron.schedule(
   '30 9 * * 1-5',
   $$
   select net.http_post(
-    url := 'https://rvlnlkltorclmjupjwel.supabase.co/functions/v1/digest',
+    url := 'https://rvlnlkltorclmjupjwel.supabase.co/functions/v1/Digest',
     headers := jsonb_build_object(
       'Content-Type', 'application/json',
       'x-digest-secret', 'YOUR_DIGEST_CRON_SECRET'

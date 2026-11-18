@@ -69,7 +69,7 @@ select jobid, jobname, schedule, active from cron.job where jobname = 'proptii-d
 
 ```bash
 curl -sS -X POST \
-  'https://rvlnlkltorclmjupjwel.supabase.co/functions/v1/digest?dry=1' \
+  'https://rvlnlkltorclmjupjwel.supabase.co/functions/v1/Digest?dry=1' \
   -H "x-digest-secret: YOUR_DIGEST_CRON_SECRET"
 ```
 
