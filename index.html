@@ -1976,9 +1976,39 @@ function commsHref(u){
  if(!/^https?:\/\//i.test(u))u="https://"+u;
  try{var p=new URL(u);if(p.protocol!=="http:"&&p.protocol!=="https:")return"";return p.href}catch(e){return""}
 }
-function commsLinkHtml(u,label){
+function commsLinkHtml(u,label,opts){
  var href=commsHref(u);if(!href)return esc(u||"");
- var text=label||u;return '<a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(text)+'</a>';
+ var text=label||u,dl=opts&&opts.download,name=opts&&opts.filename;
+ if(dl){
+  var file=name||(href.split("/").pop()||"image").split("?")[0]||"image";
+  return '<a href="'+esc(href)+'" class="comms-img-dl" data-comms-dl="1" data-filename="'+esc(file)+'" download="'+esc(file)+'">'+esc(text)+'</a>';
+ }
+ return '<a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(text)+'</a>';
+}
+function bindCommsImageDownloads(root){
+ if(!root)return;
+ root.querySelectorAll("a[data-comms-dl]").forEach(function(a){
+  if(a.dataset.bound)return;a.dataset.bound="1";
+  a.addEventListener("click",function(e){
+   e.preventDefault();
+   var href=a.href,file=a.dataset.filename||"image.png";
+   a.textContent="Downloading…";
+   fetch(href,{mode:"cors"}).then(function(r){
+    var ct=(r.headers.get("content-type")||"").toLowerCase();
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    if(ct.indexOf("application/json")>-1)return r.json().then(function(j){throw new Error(j.error||"Image not found")});
+    return r.blob().then(function(blob){
+     if((blob.type||"").indexOf("json")>-1)throw new Error("Image not found");
+     var url=URL.createObjectURL(blob),x=document.createElement("a");
+     x.href=url;x.download=file;document.body.appendChild(x);x.click();x.remove();
+     setTimeout(function(){URL.revokeObjectURL(url)},1000);
+    });
+   }).then(function(){a.textContent="Download image"}).catch(function(err){
+    a.textContent="Download image";
+    alert("Couldn’t download this image.\n\n"+(err&&err.message?err.message:"Request failed")+".\n\nThe link points at GTM Studio’s download API, and that file is no longer on the server (common after a Render restart). Generate the image again in GTM Studio and paste the new URL, or use a lasting host (Drive, Dropbox, Supabase Storage).");
+   });
+  });
+ });
 }
 function commsCell(r,f){
  if(!f)return commsWarn(r);
@@ -2006,18 +2036,19 @@ function renderCommsSheet(){
   list.forEach(function(x){
    t+='<tr>'+COMMS_COLS.map(function(c){
     var cls=c[1]==="copy"?' class="copy-ro"':(c[1]==="replies"||c[1]==="signups")?' class="num"':!c[1]?' class="flag"':'';
-    var cell=(c[1]==="url"||c[1]==="imageUrl")?commsLinkHtml(x.r[c[1]],c[1]==="imageUrl"?"Open image":(x.r[c[1]]?"Open post":"")):esc(commsCell(x.r,c[1]));
+    var cell=(c[1]==="url"||c[1]==="imageUrl")?commsLinkHtml(x.r[c[1]],c[1]==="imageUrl"?"Download image":(x.r[c[1]]?"Open post":""),c[1]==="imageUrl"?{download:1}:null):esc(commsCell(x.r,c[1]));
     return '<td'+cls+'>'+cell+'</td>';
    }).join("")+'</tr>';
   });
   el.innerHTML=t+'</tbody></table>';
+  bindCommsImageDownloads(el);
   return;
  }
  var h='<table class="mini-table sheet"><thead><tr>'+COMMS_COLS.map(function(c){return '<th>'+c[0]+'</th>'}).join("")+'<th></th></tr></thead><tbody>';
  list.forEach(function(x){
   h+='<tr>'+COMMS_SPECS.map(function(s){
    var inner=commsInput(s,x.r,x.i);
-   if((s.f==="url"||s.f==="imageUrl")&&commsHref(x.r[s.f]))inner+='<div class="hint" style="margin-top:4px">'+commsLinkHtml(x.r[s.f],s.f==="imageUrl"?"Open image":"Open post")+'</div>';
+   if((s.f==="url"||s.f==="imageUrl")&&commsHref(x.r[s.f]))inner+='<div class="hint" style="margin-top:4px">'+commsLinkHtml(x.r[s.f],s.f==="imageUrl"?"Download image":"Open post",s.f==="imageUrl"?{download:1}:null)+'</div>';
    return '<td'+(s.f==="copy"?' class="copy"':'')+'>'+inner+'</td>';
   }).join("")
    +'<td data-posted="'+x.i+'">'+esc(commsCell(x.r,"postedAt"))+'</td>'
@@ -2025,6 +2056,7 @@ function renderCommsSheet(){
    +'<td><button class="del" data-sdel="'+x.i+'" aria-label="Remove">&times;</button></td></tr>';
  });
  el.innerHTML=h+'</tbody></table>';
+ bindCommsImageDownloads(el);
  el.querySelectorAll("[data-sc]").forEach(function(inp){
   var p=inp.dataset.sc.split("|"),i=+p[0],f=p[1];
   inp.addEventListener((inp.type==="checkbox"||inp.tagName==="SELECT")?"change":"input",function(){
