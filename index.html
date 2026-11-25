@@ -89,6 +89,18 @@ a{color:var(--blue)}
 .who .fb,.filt{display:flex;flex-wrap:wrap;gap:5px}
 .who button,.filt button{font:inherit;font-size:12.5px;padding:3px 10px;border-radius:20px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);cursor:pointer}
 .who button.on,.filt button.on{background:var(--ink);border-color:var(--ink);color:var(--paper);font-weight:600}
+.comms-bar{display:flex;flex-wrap:nowrap;align-items:center;gap:10px 12px;margin-top:18px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto}
+.comms-bar .field{display:flex;align-items:center;gap:8px;flex:none}
+.comms-bar label{font-size:12px;font-weight:600;color:var(--ink-3);white-space:nowrap}
+.comms-bar select{font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--paper);color:var(--ink);min-width:160px;max-width:240px}
+.comms-bar .actions{display:flex;flex-wrap:nowrap;gap:6px;align-items:center;margin-left:auto;flex:none}
+.comms-bar .actions .filt{margin:0;gap:4px;flex-wrap:nowrap}
+.comms-bar #commsEdit{font:inherit;font-size:13px;font-weight:600;padding:6px 14px;border-radius:8px;border:1px solid var(--action);background:var(--action);color:var(--paper);cursor:pointer;white-space:nowrap}
+.comms-bar #commsEdit.on{background:var(--teal);border-color:var(--teal)}
+.comms-bar #commsEdit:disabled{opacity:.45;cursor:default}
+.comms-bar .actions .b{margin:0;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.comms-bar .actions .b svg{flex:none}
+@media(max-width:720px){.comms-bar{flex-wrap:wrap}.comms-bar .actions{margin-left:0}.comms-bar select{min-width:0;max-width:none}}
 nav ol{list-style:none;margin:0;padding:0}
 nav a{display:flex;justify-content:space-between;gap:8px;padding:5px 10px;border-radius:7px;
   color:var(--ink-2);text-decoration:none;font-size:14px;border-left:2px solid transparent}
@@ -999,10 +1011,23 @@ footer{max-width:1200px;margin:0 auto;padding:30px 24px 60px;color:var(--ink-3);
       <li>The link carries a code, so any sign-up it produces shows up in the scorecard.</li>
     </ul>
     <p class="hint">Tick the pre-post check on each item once these are done. Anything marked posted without it is flagged.</p>
-    <div class="filt" id="commsWeeks" style="margin-top:18px"></div>
-    <div class="filt" id="commsFilter" style="margin-top:8px"></div>
-    <div class="filt" id="commsMode" style="margin-top:8px">
-      <button data-cm="sheet">Spreadsheet view</button><button data-cm="cards">Card view</button><button id="commsEdit">Edit</button><button id="commsCsv">Download as spreadsheet (CSV)</button>
+    <div class="comms-bar" id="commsBar">
+      <div class="field">
+        <label for="commsWeekSelect">Date</label>
+        <select id="commsWeekSelect" aria-label="Filter by week"></select>
+      </div>
+      <div class="field">
+        <label for="commsStatusSelect">Status</label>
+        <select id="commsStatusSelect" aria-label="Filter by status"></select>
+      </div>
+      <div class="actions">
+        <div class="filt" id="commsMode" role="group" aria-label="View">
+          <button type="button" data-cm="sheet">Spreadsheet</button>
+          <button type="button" data-cm="cards">Cards</button>
+        </div>
+        <button type="button" id="commsEdit">Edit</button>
+        <button type="button" class="b" id="commsCsv" aria-label="Download CSV"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> CSV</button>
+      </div>
     </div>
     <div id="commsWrap"><div id="comms"></div><div class="scroll" id="commsSheet" hidden></div></div>
     <div style="margin-top:12px"><button class="b p" id="addComms">Add a post or message</button> <button class="b" id="loadCal">Load the posting calendar, weeks 1 to 4</button></div>
@@ -1896,7 +1921,8 @@ var COMMS_SPECS=[
  {f:"checked",l:"Pre-post check done",t:"check"},
  {f:"replies",l:"Replies",t:"number"},
  {f:"signups",l:"Sign-ups",t:"number"},
- {f:"url",l:"Link to the post",t:"text",p:"Once posted"}
+ {f:"url",l:"Link to the post",t:"text",p:"Once posted"},
+ {f:"imageUrl",l:"Image URL",t:"text",p:"https://…"}
 ];
 function commsWarn(r){
  var w=[],copy=(r.copy||"").toLowerCase();
@@ -1924,25 +1950,36 @@ function commsInWeek(r){
 }
 function commsShow(r){var cur=S.commsFilter||"All";return commsInWeek(r)&&(cur==="All"||r.status===cur)}
 function renderCommsFilter(){
- var cur=S.commsFilter||"All",sel=commsWeekSel(),all=getArr("comms"),h="",now=weekNo(new Date());
- var wh='<button data-cw="all"'+(sel==="all"?' class="on"':'')+'>All weeks ('+all.length+')</button>';
+ var cur=S.commsFilter||"All",sel=commsWeekSel(),all=getArr("comms");
+ var weekSel=document.getElementById("commsWeekSelect"),opts="";
+ opts+='<option value="all"'+(sel==="all"?" selected":"")+'>All weeks ('+all.length+')</option>';
  WEEKS.forEach(function(w){
   var n=all.filter(function(r){return commsWeekOf(r)===w.n}).length;
-  wh+='<button data-cw="'+w.n+'"'+(sel===String(w.n)?' class="on"':'')+'>Week '+w.n+(w.n===now?', this week':'')+' · '+esc(w.short)+' ('+n+')</button>';
+  opts+='<option value="'+w.n+'"'+(sel===String(w.n)?" selected":"")+'>Week '+w.n+' · '+esc(w.short)+' ('+n+')</option>';
  });
  var nd=all.filter(function(r){return commsWeekOf(r)===null}).length;
- if(nd)wh+='<button data-cw="none"'+(sel==="none"?' class="on"':'')+'>No date ('+nd+')</button>';
- var we=document.getElementById("commsWeeks");we.innerHTML=wh;
- we.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){S.commsWeek=b.dataset.cw;save();renderComms()})});
- var inWeek=all.filter(commsInWeek);
+ if(nd||sel==="none")opts+='<option value="none"'+(sel==="none"?" selected":"")+'>No date ('+nd+')</option>';
+ weekSel.innerHTML=opts;
+ weekSel.onchange=function(){S.commsWeek=weekSel.value;save();renderComms()};
+ var inWeek=all.filter(commsInWeek),st="";
  ["All","Draft","Approved","Posted"].forEach(function(f){
   var n=f==="All"?inWeek.length:inWeek.filter(function(r){return r.status===f}).length;
-  h+='<button data-cf="'+f+'"'+(cur===f?' class="on"':'')+'>'+f+' ('+n+')</button>';
+  st+='<option value="'+f+'"'+(cur===f?" selected":"")+'>'+f+' ('+n+')</option>';
  });
- var el=document.getElementById("commsFilter");el.innerHTML=h;
- el.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){S.commsFilter=b.dataset.cf;save();renderComms()})});
+ var statusSel=document.getElementById("commsStatusSelect");
+ statusSel.innerHTML=st;
+ statusSel.onchange=function(){S.commsFilter=statusSel.value;save();renderComms()};
 }
-var COMMS_COLS=[["Date","date"],["Channel","channel"],["Audience","audience"],["Owner","owner"],["Status","status"],["Copy","copy"],["Link code","code"],["Pre-post check","checked"],["Replies","replies"],["Sign-ups","signups"],["Link to the post","url"],["Posted at","postedAt"],["Warnings",""]];
+var COMMS_COLS=[["Date","date"],["Channel","channel"],["Audience","audience"],["Owner","owner"],["Status","status"],["Copy","copy"],["Link code","code"],["Pre-post check","checked"],["Replies","replies"],["Sign-ups","signups"],["Link to the post","url"],["Image URL","imageUrl"],["Posted at","postedAt"],["Warnings",""]];
+function commsHref(u){
+ u=String(u||"").trim();if(!u)return "";
+ if(!/^https?:\/\//i.test(u))u="https://"+u;
+ try{var p=new URL(u);if(p.protocol!=="http:"&&p.protocol!=="https:")return"";return p.href}catch(e){return""}
+}
+function commsLinkHtml(u,label){
+ var href=commsHref(u);if(!href)return esc(u||"");
+ var text=label||u;return '<a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(text)+'</a>';
+}
 function commsCell(r,f){
  if(!f)return commsWarn(r);
  if(f==="owner")return OWNERS[r.owner]||r.owner||"";
@@ -1969,7 +2006,8 @@ function renderCommsSheet(){
   list.forEach(function(x){
    t+='<tr>'+COMMS_COLS.map(function(c){
     var cls=c[1]==="copy"?' class="copy-ro"':(c[1]==="replies"||c[1]==="signups")?' class="num"':!c[1]?' class="flag"':'';
-    return '<td'+cls+'>'+esc(commsCell(x.r,c[1]))+'</td>';
+    var cell=(c[1]==="url"||c[1]==="imageUrl")?commsLinkHtml(x.r[c[1]],c[1]==="imageUrl"?"Open image":(x.r[c[1]]?"Open post":"")):esc(commsCell(x.r,c[1]));
+    return '<td'+cls+'>'+cell+'</td>';
    }).join("")+'</tr>';
   });
   el.innerHTML=t+'</tbody></table>';
@@ -1977,7 +2015,11 @@ function renderCommsSheet(){
  }
  var h='<table class="mini-table sheet"><thead><tr>'+COMMS_COLS.map(function(c){return '<th>'+c[0]+'</th>'}).join("")+'<th></th></tr></thead><tbody>';
  list.forEach(function(x){
-  h+='<tr>'+COMMS_SPECS.map(function(s){return '<td'+(s.f==="copy"?' class="copy"':'')+'>'+commsInput(s,x.r,x.i)+'</td>'}).join("")
+  h+='<tr>'+COMMS_SPECS.map(function(s){
+   var inner=commsInput(s,x.r,x.i);
+   if((s.f==="url"||s.f==="imageUrl")&&commsHref(x.r[s.f]))inner+='<div class="hint" style="margin-top:4px">'+commsLinkHtml(x.r[s.f],s.f==="imageUrl"?"Open image":"Open post")+'</div>';
+   return '<td'+(s.f==="copy"?' class="copy"':'')+'>'+inner+'</td>';
+  }).join("")
    +'<td data-posted="'+x.i+'">'+esc(commsCell(x.r,"postedAt"))+'</td>'
    +'<td class="flag" data-sheetwarn="'+x.i+'">'+esc(commsWarn(x.r))+'</td>'
    +'<td><button class="del" data-sdel="'+x.i+'" aria-label="Remove">&times;</button></td></tr>';
@@ -2005,7 +2047,8 @@ function renderCommsMode(){
  document.querySelectorAll("#commsMode [data-cm]").forEach(function(b){b.classList.toggle("on",(b.dataset.cm==="sheet")===sheet)});
  document.getElementById("comms").hidden=sheet;
  document.getElementById("commsSheet").hidden=!sheet;
- eb.hidden=!sheet;eb.textContent=sheetEdit?"Done editing":"Edit";eb.classList.toggle("on",sheetEdit);
+ eb.disabled=!sheet;eb.hidden=false;eb.textContent=sheetEdit?"Done":"Edit";eb.classList.toggle("on",sheetEdit);
+ eb.title=sheet?(sheetEdit?"Finish editing":"Edit rows"):"Switch to Spreadsheet view to edit rows";
  if(sheet)renderCommsSheet();
 }
 document.querySelectorAll("#commsMode [data-cm]").forEach(function(b){
@@ -2044,7 +2087,7 @@ function renderComms(){
 document.getElementById("addComms").addEventListener("click",function(){
  var sel=commsWeekSel(),date="";
  if(sel!=="all"&&sel!=="none"){var t=new Date(),w=+sel,dd=(weekNo(t)===w&&t.getDay()>=1&&t.getDay()<=5)?t:dayDate(w*5);date=dd.getDate()+" "+dd.toLocaleDateString("en-GB",{month:"short"})}
- var rows=getArr("comms");rows.unshift({date:date,channel:"",audience:"Landlords",owner:"pm",status:"Draft",copy:"",code:"",checked:0,replies:"",signups:"",url:""});
+ var rows=getArr("comms");rows.unshift({date:date,channel:"",audience:"Landlords",owner:"pm",status:"Draft",copy:"",code:"",checked:0,replies:"",signups:"",url:"",imageUrl:""});
  S.comms=rows;S.commsFilter="All";sheetEdit=true;save();renderComms();
 });
 
@@ -2076,7 +2119,7 @@ function calMissing(){
 document.getElementById("loadCal").addEventListener("click",function(){
  var rows=getArr("comms");
  calMissing().forEach(function(c){
-  rows.push({date:c[0],channel:c[1],audience:c[2],owner:c[3],status:"Draft",copy:"BRIEF: "+c[5],code:c[4],checked:0,replies:"",signups:"",url:""});
+  rows.push({date:c[0],channel:c[1],audience:c[2],owner:c[3],status:"Draft",copy:"BRIEF: "+c[5],code:c[4],checked:0,replies:"",signups:"",url:"",imageUrl:""});
  });
  S.comms=rows;S.commsFilter="All";S.commsWeek="all";S.commsView="sheet";save();renderComms();
 });
