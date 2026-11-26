@@ -4,7 +4,9 @@
 
 ## 1. Comms log: ready to use
 
-The comms log on the Essentials page already has the fields we need: date, channel, audience, owner, status, copy, link code, pre-post check, replies, sign-ups and link. To make it ready for Monday:
+The comms log on the Essentials page already has the fields we need: date, channel, audience, owner, status, copy, link code, pre-post check, replies, sign-ups, link and image URL. **Image URLs from GTM Studio are temporary** — run `docs/comms-images-setup.md` once, then Upload or Save permanently so links survive Render restarts.
+
+To make it ready for Monday:
 
 - [ ] Add the extra blocked claims from the messaging doc, so they're checked against every post.
 - [ ] Load the week 1 posts from the calendar below as **Draft** entries, each with its link code.

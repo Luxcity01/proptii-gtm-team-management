@@ -3,3 +3,6 @@
 
 [functions.digest]
 verify_jwt = false
+
+[functions.mirror-comms-image]
+verify_jwt = false
